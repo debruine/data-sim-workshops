@@ -6,7 +6,7 @@ author: "Lisa DeBruine"
 ```{r lib, message=FALSE}
 knitr::opts_chunk$set(error = TRUE) # lets the file knit even if there are errors
 library(tidyverse)
-# devtools::install_github("debruine/faux", build_vignettes = TRUE)
+# devtools::install_github("debruine/faux", build_vignettes = FALSE)
 library(faux) 
 library(afex) # for anova and lmer
 library(broom.mixed) # to make tidy tables of lmer output
