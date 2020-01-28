@@ -10,8 +10,8 @@ Where: Boyd Orr Room 603
 
 #### Prep
 
-  - Install R packages from CRAN: `tidyverse`, `afex`, `lme4`, `broom`,
-    `broom.mixed`, `kableExtra`
+  - Install R packages from CRAN: `tidyverse`, `afex`, `lme4`,
+    `broom.mixed`
   - Install development R package: `faux`
       - `devtools::install_github("debruine/faux")`
       - (you might need to install `devtools` first)
@@ -29,8 +29,8 @@ Where: Boyd Orr Room 603
 
 #### Prep
 
-  - Install R packages from CRAN: `tidyverse`, `afex`, `lme4`, `broom`,
-    `broom.mixed`, `kableExtra`
+  - Install R packages from CRAN: `tidyverse`, `afex`, `lme4`,
+    `broom.mixed`
   - Install development R package: `faux`
       - `devtools::install_github("debruine/faux")`
   - Download files (stub versions have instructions but only skeleton

@@ -9,7 +9,6 @@ library(tidyverse)
 library(faux) 
 library(afex) # for anova and lmer
 library(broom.mixed) # to make tidy tables of lmer output
-library(kableExtra) # to make nicer tables
 set.seed(8675309) # this makes sure your script uses the same set of random numbers each time you run the full script (never set this inside a function or loop)
 
 theme_set(theme_minimal(base_size = 14))
