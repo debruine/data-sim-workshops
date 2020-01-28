@@ -1,0 +1,591 @@
+---
+title: "Simulating Data"
+author: "Lisa DeBruine"
+---
+
+```{r lib, message=FALSE}
+library(tidyverse)
+# devtools::install_github("debruine/faux", build_vignettes = TRUE)
+library(faux) 
+library(afex) # for anova and lmer
+library(broom.mixed) # to make tidy tables of lmer output
+library(kableExtra) # to make nicer tables
+set.seed(8675309) # this makes sure your script uses the same set of random numbers each time you run the full script (never set this inside a function or loop)
+
+theme_set(theme_minimal(base_size = 14))
+```
+
+
+## Simulation functions
+
+The functions below are commonly used when you're setting up a simulated dataset.
+
+### Repeating
+
+The function `rep()` lets you repeat the first argument a number of times.
+
+Use `rep()` to create a vector of alternating `"A"` and `"B"` values of length 24.
+
+```{r rep1-times}
+rep(c("A", "B"), times = 12)
+```
+
+If the second argument is a vector that is the same length as the first argument, each element in the first vector is repeated that many times. Use `rep()` to create a vector of 11 `"A"` values followed by 3 `"B"` values.
+
+```{r rep-vector}
+rep(c("A", "B"), c(11, 3))
+```
+
+You can repeat each element of the vector a specified number of times using the `each` argument, Use `rep()` to create a vector of 12 `"A"` values followed by 12 `"B"` values.
+
+```{r rep-each}
+rep(c("A", "B"), each = 12)
+```
+
+What do you think will happen if you set `times` to 3 and `each` to 2?
+
+```{r rep-times-each}
+rep(c("A", "B"), times = 3, each = 2)
+```
+
+
+### Sequences
+
+The function `seq()` is useful for generating a sequence of numbers with some pattern.
+
+Use `seq()` to create a vector of the integers 0 to 10.
+
+```{r seq1-10}
+seq(0, 10)
+```
+
+You can set the `by` argument to count by numbers other than 1 (the default). Use `seq()` to create a vector of the numbers 0 to 100 by 10s.
+
+```{r seq-by}
+seq(0, 100, by = 10)
+```
+
+The argument `length.out` is useful if you know how many steps you want to divide something into. Use `seq()` to create a vector that starts with 0, ends with 100, and has 12 equally spaced steps (hint: how many numbers would be in a vector with 2 *steps*?).
+
+```{r seq-length-out}
+seq(0, 100, length.out = 13)
+```
+
+### Uniform Distribution
+
+The uniform distribution is the simplest distribution. All numbers in the range have an equal probability of being sampled. Use `runif()` to sample from a continuous uniform distribution.
+
+```{r runif}
+runif(n = 10, min = 0, max = 1)
+```
+
+
+Pipe the result to `hist()` to make a quick histogram of your simulated data.
+
+```{r runif-hist}
+runif(100000, min = 0, max = 1) %>% hist()
+```
+
+### Discrete Distribution
+
+You can use `sample()` to simulate events like rolling dice or choosing from a deck of cards. The code below simulates rolling a 6-sided die 10000 times. We set `replace` to `TRUE` so that each event is independent. See what happens if you set `replace` to `FALSE`.
+
+```{r sample-replace, fig.cap = "Distribution of dice rolls."}
+rolls <- sample(1:6, 10000, replace = TRUE)
+
+# plot the results
+as.factor(rolls) %>% plot()
+```
+
+You can also use sample to sample from a list of named outcomes.
+
+```{r sample-list}
+pet_types <- c("cat", "dog", "ferret", "bird", "fish")
+sample(pet_types, 10, replace = TRUE)
+```
+
+Ferrets, while the best pet, are a much less common pet than cats and dogs, so our sample isn't very realistic. You can set the probabilities of each item in the list with the `prob` argument.
+
+```{r sample-prob}
+pet_types <- c("cat", "dog", "ferret", "bird", "fish")
+pet_prob <- c(0.3, 0.4, 0.1, 0.1, 0.1)
+pet_data <- sample(pet_types, 100, replace = TRUE, prob = pet_prob) 
+
+as.factor(pet_data) %>% plot()
+```
+
+
+### Binomial Distribution
+
+The `rbinom` function will generate a random binomial distribution.
+
+* `n` = number of observations
+* `size` = number of trials
+* `prob` = probability of success on each trial
+
+Coin flips are a typical example of a binomial distribution, where we can assign heads to 1 and tails to 0.
+
+```{r rbinom-fair}
+# 20 individual coin flips of a fair coin
+rbinom(20, 1, 0.5)
+```
+
+
+```{r rbinom-bias}
+# 20 individual coin flips of a baised (0.75) coin
+rbinom(20, 1, 0.75)
+```
+
+You can generate the total number of heads in 1 set of 20 coin flips by setting `size` to 20 and `n` to 1.
+
+```{r rbinom-size}
+# 1 set of 20 fair coin flips
+rbinom(1, 20, 0.75)
+```
+
+You can generate more sets of 20 coin flips by increasing the `n`.
+
+```{r rbinom-n}
+# 10 sets of 20 fair coin flips
+rbinom(10, 20, 0.5)
+```
+
+### Normal Distribution
+
+We can simulate a normal distribution of size `n` if we know the `mean` and standard deviation (`sd`). 
+
+```{r rnorm}
+# 10 samples from a normal distribution with a mean of 0 and SD of 1
+rnorm(10, 0, 1)
+```
+
+A density plot is usually the best way to visualise this type of data.
+
+```{r rnorm-plot}
+# 100 samples from a normal distribution with a mean of 10 and SD of 2
+dv <- rnorm(100, 10, 2)
+
+# use sample to get a random colour
+fill_colour <- sample(colours(), 1)
+
+ggplot() +
+  geom_density(aes(dv), fill = fill_colour) +
+  scale_x_continuous(
+    limits = c(0,20), 
+    breaks = seq(0,20)
+  )
+```
+
+Run the simulation above several times, noting how the density plot changes. Try changing the values of `n`, `mean`, and `sd`.
+
+## Independent samples
+
+Now we're ready to start simulating some data. Let's start with a simple independent-samples design where the variables are from a normal distribution. Each subject produces one score (in condition A or B). What we need to know about these scores is:
+
+* How many subjects are in each condition?
+* What are the score means?
+* What are the score variances (or SDs)?
+
+### Parameters
+
+First, set parameters for these values. This way, you can use these variables wherever you need them in the rest of the code and you can easily change them.
+
+```{r ind-vars}
+
+A_sub_n <- 50
+B_sub_n <- 50
+A_mean  <- 10
+B_mean  <- 11
+A_sd    <- 2.5
+B_sd    <- 2.5
+
+```
+
+### Scores
+
+We can the generate the scores using the `rnorm()` function.
+
+```{r ind-dat}
+A_scores <- rnorm(A_sub_n, A_mean, A_sd)
+B_scores <- rnorm(B_sub_n, B_mean, B_sd)
+```
+
+You can stop here and just analyse your simulated data with `t.test(A_scores, B_scores)`, but usualy you want to get your simulated data into a data table that looks like what you might eventually import from a CSV file with your actual experimental data.
+
+```{r ind-tibble}
+dat <- tibble(
+  sub_condition = rep( c("A", "B"), c(A_sub_n, B_sub_n) ),
+  score = c(A_scores, B_scores)
+)
+```
+
+If you're simulating data for a script where you will eventually import data from a csv file, you can save these data to a csv file and then re-read them in, so when you get your real data, all you need to do is comment out the simulation steps.
+
+```{r}
+# make a data directory if there isn't one already
+if (!dir.exists("data")) dir.create("data")
+
+# save your simulated data
+write_csv(dat, "data/sim-data-ind-samples.csv")
+
+# start your analysis here
+dat <- read_csv("data/sim-data-ind-samples.csv")
+
+```
+
+
+### Check your data
+
+Always examine your simulated data after you generate it to make sure it looks like you want.
+
+```{r ind-check}
+dat %>%
+  group_by(sub_condition) %>%
+  summarise(n = n() ,
+            mean = mean(score),
+            sd = sd(score))
+```
+
+
+### Analysis
+
+```{r ind-test}
+t.test(score~sub_condition, dat)
+```
+
+### Function
+
+You can wrap all this in a function so you can run it many times to do a power calculation. Put all your parameters as arguments to the function.
+
+```{r ind-func}
+
+ind_sim <- function(A_sub_n, B_sub_n, 
+                    A_mean, B_mean, 
+                    A_sd, B_sd) {
+  # simulate data for groups A and B
+  A_scores <- rnorm(A_sub_n, A_mean, A_sd)
+  B_scores <- rnorm(B_sub_n, B_mean, B_sd)
+  
+  # put the data into a table
+  dat <- tibble(
+    sub_condition = rep( c("A", "B"), c(A_sub_n, B_sub_n) ),
+    score = c(A_scores, B_scores)
+  )
+  
+  # analyse the data
+  t <- t.test(score~sub_condition, dat)
+  
+  # return a list of the values you care about
+  # the double brackets ([[]]) get rid of the name of named numbers
+  list(
+    t = t$statistic[[1]],
+    ci_lower = t$conf.int[[1]],
+    ci_upper = t$conf.int[[2]],
+    p = t$p.value[[1]],
+    estimate = t$estimate[[1]] - t$estimate[[2]]
+  )
+}
+
+```
+
+Now run your new function with the values you used above.
+
+```{r}
+# str() prints the resulting list in a shorter format
+ind_sim(50, 50, 10, 11, 2.5, 2.5) %>% str()
+```
+
+Now you can use this function to run many simulations. The function `map_df` from the `purrr` package (loaded with `tidyverse`) is one of many ways to run a function many times and organise the results into a table.
+
+```{r}
+mysim <- map_df(1:1000, ~ind_sim(50, 50, 10, 11, 2.5, 2.5))
+```
+
+Now you can graph the data from your simulations.
+
+```{r sim-p-fig}
+# set boundary = 0 when plotting p-values
+ggplot(mysim, aes(p)) +
+  geom_histogram(binwidth = 0.05, boundary = 0,
+                 fill = "white", colour = "black")
+```
+
+
+```{r ind-sim-fig, fig.cap = "Distribution of results from simulated independent samples data"}
+mysim %>%
+  gather(stat, value, t:estimate) %>%
+  ggplot() + 
+  geom_density(aes(value, color = stat), show.legend = FALSE) +
+  facet_wrap(~stat, scales = "free")
+```
+
+You can calculate power as the proportion of simulations on which the p-value was less than your alpha.
+
+```{r}
+alpha <- 0.05
+power <- mean(mysim$p < alpha)
+power
+```
+
+
+
+## Paired samples
+
+Now let's try a paired-samples design where the variables are from a normal distribution. Each subject produces two scores (in conditions A and B). What we need to know about these two scores is:
+
+* How many subjects?
+* What are the score means?
+* What are the score variances (or SDs)?
+* What is the correlation between the scores?
+
+### Parameters {#paired-params}
+
+```{r paired-vars}
+
+sub_n <- 100
+A_mean <- 10
+B_mean <- 11
+A_sd <- 2.5
+B_sd <- 2.5
+AB_r <- 0.5
+
+```
+
+
+### Correlated Scores
+
+You can then use `rnorm_multi()` to generate a data table with simulated values for correlated scores:
+
+```{r sim-design}
+dat <- faux::rnorm_multi(
+    n = sub_n, 
+    vars = 2, 
+    r = AB_r, 
+    mu = c(A_mean, B_mean), 
+    sd = c(A_sd, B_sd), 
+    varnames = c("A", "B")
+  )
+```
+
+You can also do this using the `MASS::mvrnorm` function, but `faux::rnorm_multi` is easier when you have more variables to simulate.
+
+```{r}
+# make the correlation matrix
+cormat <- matrix(c(   1, AB_r,
+                   AB_r,    1), 
+             nrow = 2, byrow = TRUE)
+
+# make a corresponding matrix of the variance 
+# (multiply the SDs for each cell)
+varmat <- matrix(c(A_sd * A_sd, A_sd * B_sd,
+                   A_sd * B_sd, B_sd * B_sd), 
+             nrow = 2, byrow = TRUE) 
+
+# create correlated variables with the specified parameters
+S <- MASS::mvrnorm(n = sub_n, 
+                   mu = c(A_mean, B_mean), 
+                   Sigma = cormat * varmat)
+dat <- data.frame(
+  A = S[, 1],
+  B = S[, 2]
+)
+
+```
+
+
+### Check your data
+
+Now check your data; `faux` has a function `get_params()` that gives you the correlation table, means, and SDs for each numeric column in a data table.
+
+```{r paired-check}
+faux::get_params(dat)
+```
+
+### Analysis
+
+```{r paired-test}
+# paired-samples t-test
+t.test(dat$A, dat$B, paired = TRUE)
+```
+
+### Function
+
+```{r paired-func}
+
+paired_sim <- function(sub_n, A_mean, B_mean, A_sd, B_sd, AB_r) {
+
+  dat <- faux::rnorm_multi(
+    n = sub_n, 
+    vars = 2, 
+    r = AB_r, 
+    mu = c(A_mean, B_mean), 
+    sd = c(A_sd, B_sd), 
+    varnames = c("A", "B")
+  )
+  t <- t.test(dat$A, dat$B, paired = TRUE)
+  
+  # return just the values you care about
+  list(
+    t = t$statistic[[1]],
+    ci_lower = t$conf.int[[1]],
+    ci_upper = t$conf.int[[2]],
+    p = t$p.value[[1]],
+    estimate = t$estimate[[1]]
+  )
+}
+
+```
+
+Run 1000 simulations and graph the results.
+
+```{r}
+mysim_p <- map_df(1:1000, ~paired_sim(100, 10, 11, 2.5, 2.5, .5))
+```
+
+```{r pair-sim-fig, fig.cap = "Distribution of results from simulated paired samples data"}
+mysim_p %>%
+  gather(stat, value, t:estimate) %>%
+  ggplot() + 
+  geom_density(aes(value, color = stat), show.legend = FALSE) +
+  facet_wrap(~stat, scales = "free")
+```
+
+```{r}
+alpha <- 0.05
+power <- mean(mysim_p$p < alpha)
+power
+```
+
+
+## Intercept model
+
+Now I'm going to show you a different way to simulate the same design. This might seem excessively complicated, but you will need this pattern when you start simulating data for mixed effects models.
+
+### Parameters
+
+Remember, we used the following parameters to set up our simulation above:
+
+```{r paired-vars2}
+sub_n  <- 100
+A_mean <- 10
+B_mean <- 11
+A_sd   <- 2.5
+B_sd   <- 2.5
+AB_r   <- 0.5
+```
+
+From these, we can calculate the grand intercept (the overall mean regardless of condition), and the effect of condition (the mean of B minus A).
+
+```{r}
+grand_i   <- (A_mean + B_mean)/2
+AB_effect <- B_mean - A_mean
+```
+
+We also need to think about variance a little differently. First, calculate the pooled variance as the mean of the variances for A and B (remember, variance is SD squared).
+
+```{r}
+pooled_var <- (A_sd^2 + B_sd^2)/2
+```
+
+The variance of the subject intercepts is `r` times this pooled variance and the error variance is what is left over. We take the square root (`sqrt()`) to set the subject intercept and error SDs for simulation later.
+
+```{r}
+sub_sd   <- sqrt(pooled_var * AB_r)
+error_sd <- sqrt(pooled_var * (1-AB_r))
+```
+
+
+### Subject intercepts
+
+Now we use these variables to create a data table for our subjects. Each subject gets an ID and a **random intercept** (`sub_i`). The intercept is simulated from a random normal distribution with a mean of 0 and an SD of `sub_sd`. This represents how much higher or lower than the average score each subject tends to be (regardless of condition).
+
+```{r}
+sub <- tibble(
+  sub_id = 1:sub_n,
+  sub_i = rnorm(sub_n, 0, sub_sd)
+)
+```
+
+### Observations
+
+Next, set up a table where each row represents one observation. We'll use one of my favourite functions for simulation: `crossing()`. This creates every possible combination of the listed factors (it works the same as `expand.grid()`, but the results are in a more intuitive order). Here, we're using it to create a row for each subject in each condition, since this is a fully within-subjects design.
+
+```{r}
+obs <- crossing(
+  sub_id = 1:sub_n,
+  condition = c("A", "B")
+)
+```
+
+### Calculate the score
+
+Next, we join the subject table so each row has the information about the subject's random intercept and then calculate the score. I've done it in a few steps below for clarity. The score is just the sum of:
+
+* the overall mean (`grand_i`)
+* the subject-specific intercept (`sub_i`)
+* the effect (`effect`): the numeric code for condition (`condition.e`) multiplied by the effect of condition (`AB_effect`)
+* the error term (simulated from a normal distribution with mean of 0 and SD of `error_sd`)
+
+```{r im-data}
+dat <- obs %>%
+  left_join(sub, by = "sub_id") %>%
+  mutate(
+    condition.e = recode(condition, "A" = -0.5, "B" = 0.5),
+    effect = AB_effect * condition.e,
+    error = rnorm(nrow(.), 0, error_sd),
+    score = grand_i + sub_i + effect + error
+  )
+```
+
+Use `get_params` to check the data. With data in long format, you need to specify the columns that contain the id, dv, and within-id variables.
+
+```{r im-get-params}
+# check the data
+faux::get_params(dat, 
+                 id = "sub_id",
+                 dv = "score",
+                 within = "condition")
+```
+
+You can use the following code to put the data table into a more familiar "wide" format.
+
+```{r im-wide}
+dat_wide <- dat %>%
+  select(sub_id, condition, score) %>%
+  spread(condition, score)
+```
+
+### Analyses
+
+You can analyse the data with a paired-samples t-test from the wide format:
+
+```{r im-wide-t}
+# paired-samples t-test from dat_wide
+t.test(dat_wide$A, dat_wide$B, paired = TRUE)
+```
+
+Or in the long format:
+
+```{r im-long-t}
+# paired-samples t-test from dat (long)
+t.test(score ~ condition, dat, paired = TRUE)
+```
+
+You can analyse the data with ANOVA using the `aov_4()` function from `afex`. (Notice how the F-value is the square of the t-value above.)
+
+```{r im-afex}
+# anova using afex::aov_4
+afex::aov_4(score ~ (condition.e | sub_id), data = dat)
+```
+
+
+You can even analyse the data with a mixed effects model using the `lmer` function (the `afex` version gives you p-values, but the `lme4` version does not). 
+
+```{r im-lmer}
+# mixed effect model using afex::lmer
+lmem <- afex::lmer(score ~ condition.e + (1 | sub_id), data = dat)
+
+# displays a tidy table of the fixed effects
+broom.mixed::tidy(lmem, effects = "fixed")
+```
+

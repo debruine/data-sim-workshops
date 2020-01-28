@@ -1,0 +1,267 @@
+---
+title: "Intro to faux"
+output: html_document
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+# devtools::install_github("debruine/faux", build_vignettes = TRUE)
+library(faux)
+```
+
+## Simulate Data with faux
+
+```{r}
+dat3 <- rnorm_multi(n = 100)
+
+cor(dat3)
+```
+
+
+```{r}
+simdat <- sim_design()
+```
+
+## Paired-samples design
+
+```{r}
+
+dat <- sim_design(
+  within = list(time = c("pre", "post")),
+  n = 25,
+  mu = list(pre = 100, post = 105),
+  sd = 10,
+  r = 0.5,
+  dv = "score",
+  long = TRUE
+)
+
+```
+
+## Check the simulated data
+
+```{r}
+check_sim_stats(dat, within = c("time"))
+```
+
+## Analyse
+
+```{r}
+t.test(score ~ time, dat, paired = TRUE)
+```
+
+## Power simulation
+
+```{r}
+dat100 <- sim_design(
+  within = list(time = c("pre", "post")),
+  n = 25,
+  mu = list(pre = 100, post = 105),
+  sd = 10,
+  r = 0.5,
+  dv = "score",
+  long = TRUE,
+  rep = 100
+) %>%
+  mutate(p = map_dbl(data, ~t.test(score ~ time, ., paired = TRUE)$p.value))
+```
+
+
+```{r}
+mean(dat100$p < .05)
+```
+
+```{r}
+ggplot(dat100, aes(p)) +
+  geom_histogram(binwidth = 0.05, boundary = 0,
+                 fill = "white", colour = "black")
+```
+
+## Sensitivity
+
+```{r}
+
+nlist <- seq(25, 100, 5)
+power <- c()
+
+for (i in 1:length(nlist)) {
+  dat100 <- sim_design(
+    within = list(time = c("pre", "post")),
+    n = nlist[i],
+    mu = list(pre = 100, post = 105),
+    sd = 10,
+    r = 0.5,
+    dv = "score",
+    long = TRUE,
+    rep = 100,
+    plot = FALSE
+  )
+  p <- map_dbl(dat100$data, ~t.test(score ~ time, ., paired = TRUE)$p.value)
+  power[i] = mean(p < .05)
+}
+
+data.frame(
+  n = nlist,
+  power = power
+) %>%
+ggplot(aes(n, power)) +
+  geom_point()
+
+```
+
+
+## Exercises
+
+
+### 2b
+
+Create a dataset with a between-subject factor of "pet" having two levels, "cat", and "dog". The DV is "happiness" score. There are 20 cat-owners with a mean happiness score of 10 (SD = 3) and there are 30 dog-owners with a mean happiness score of 11 (SD = 3).
+
+```{r}
+dat2b <- sim_design(
+  between = list(pet = c("cat", "dog")),
+  dv = "happiness",
+  n = list(cat = 20, dog = 30),
+  mu = list(cat = 10, dog = 11),
+  sd = 3
+)
+
+check_sim_stats(dat2b, between = "pet")
+```
+
+### 3w
+
+Create a dataset with 1 within-subject variable ("condition") having 3 levels ("A", "B", "C") with means of 1, 2 and 3 and SD of 5. The correlations between each level have r = 0.4.  
+
+```{r}
+
+dat3w <- sim_design(
+  within = list(condition = c("A", "B", "C")),
+  mu = c(1, 2, 3),
+  sd = 5,
+  r = .4
+)
+
+check_sim_stats(dat3w)
+
+```
+
+### 2w*2w
+
+Create a dataset with 2 within-subject variables ("A" and "B") each having 2 levels. The mean for all cells is 10 and the SD is 2. The dataset should have 20 subjects. The correlations look like this:
+
+|       | A1_B1 | A1_B2 | A2_B1 | A2_B2 |
+|:------|------:|------:|------:|------:|
+| A1_B1 | 1.0   | 0.5   | 0.5   | 0.2   |
+| A1_B2 | 0.5   | 1.0   | 0.2   | 0.5   |
+| A2_B1 | 0.5   | 0.2   | 1.0   | 0.5   |
+| A2_B2 | 0.2   | 0.5   | 0.5   | 1.0   |
+
+
+```{r}
+dat2w2w <- sim_design(
+  within = c(2,2),
+  mu = 10,
+  sd = 2,
+  r = c(.5, .5, .2, 
+            .2, .5, 
+                .5)
+)
+
+check_sim_stats(dat2w2w)
+```
+
+### 2w*3b
+
+Create a dataset with a between-subject factor of "pet" having 3 levels ("cat", "dog", and "ferret") and a within-subject factor of "time" having 2 levels ("pre" and "post"). The N in each group should be 10. Means are:
+
+* cats: pre = 10, post = 12
+* dogs: pre = 14, post = 16
+* ferretts: pre = 18, post = 20
+
+SDs are all 5 and within-cell correlations are all 0.25.
+
+```{r}
+
+mu <- data.frame(
+  cat = c(10, 12),
+  dog = c(14, 16),
+  ferret = c(18, 20)
+)
+
+dat2w3b <- sim_design(
+  within = list(time = c("pre", "post")),
+  between = list(pet = c("cat", "dog", "ferret")),
+  n = 10,
+  mu = mu,
+  sd = 5,
+  r = 0.25
+)
+
+check_sim_stats(dat2w3b)
+  
+```
+
+### Replications
+
+Create 5 datasets with a 2b*2b design, 30 participants in each cell. Each cell's mean should be 0, except A1_B1, which should be 0.5. The SD should be 1. Make the resulting data in long format. Plot the data using `plot_design` (try setting the `geoms` argument, options are "pointrangeSD", "pointrangeSE", "violin", "box", "jitter").
+
+```{r}
+dat2b2b <- sim_design(
+  between = c(2,2),
+  n = 30,
+  mu = c(0.5, 0, 0, 0),
+  rep = 5,
+  long = TRUE
+)
+
+plot_design(dat2b2b, geoms = "pointrangeSD")
+```
+
+
+### Power
+
+The function `sim_aov` returns a table of results for an ANOVA. Using the design from the last question and 100 reps, calculate power. (Hint: use the `map_df` function)
+
+```{r}
+sim_aov <- function(dat) {
+  aov(y ~ A * B, dat) %>% 
+    broom::tidy()
+}
+
+sim_aov(dat2b2b$data[[1]])
+
+
+dat2b2b <- sim_design(
+  between = c(2,2),
+  n = 30,
+  mu = c(0.5, 0, 0, 0),
+  rep = 100,
+  long = TRUE
+)
+
+map_df(dat2b2b$data, sim_aov) %>%
+  filter(term != "Residuals") %>%
+  group_by(term) %>%
+  summarise(power = mean(p.value < .05))
+```
+
+### False Positives
+
+Repeat the last exercise with null results to calculate the false positive rate. Use 1000 reps.
+
+```{r}
+dat2b2bnull <- sim_design(
+  between = c(2,2),
+  n = 30,
+  mu = 0,
+  rep = 1000,
+  long = TRUE
+)
+
+map_df(dat2b2bnull$data, sim_aov) %>%
+  filter(term != "Residuals") %>%
+  group_by(term) %>%
+  summarise(power = mean(p.value < .05))
+```
+
