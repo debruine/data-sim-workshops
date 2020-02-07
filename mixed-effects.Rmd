@@ -75,7 +75,7 @@ ggplot(stim, aes(stim_i)) +
 
 ### Trials
 
-Now we put the subjects and stimuli together. In this study, all subjects respond to all stimuli in both upright and inverted versions, but subjects are in only one condition. The function `crossing` gives you a data frame with all possible combinations of the arguments. Add the data specific to each subject and stimulus by left joining the `sub` and `stim` data frames.
+Now we put the subjects and stimuli together. In this study, all subjects respond to all stimuli in both congruent and incongruent versions, but subjects are in only one condition. The function `crossing` gives you a data frame with all possible combinations of the arguments. Add the data specific to each subject and stimulus by left joining the `sub` and `stim` data frames.
 
 ```{r crossing}
 trials <- crossing(
@@ -109,7 +109,7 @@ error_sd         <- 25  # residual (error) SD
 The code chunk below effect-codes the condition and version factors (important for the analysis below), generates an error term for each trial, and generates the DV.
 
 ```{r sim-dv}
-conditions <- c("hard" = -0.5, "easy" = +0.5)
+conditions <- c("hard" = +0.5, "easy" = -0.5)
 versions   <- c("congruent" = -0.5, "incongruent" = +0.5)
 
 dat <- trials %>%
@@ -151,7 +151,7 @@ easy_congr <- -50
 easy_incon <- +50
 error_sd   <-  25
 
-conditions <- c("hard" = -0.5, "easy" = +0.5)
+conditions <- c("hard" = +0.5, "easy" = -0.5)
 versions   <- c("congruent" = -0.5, "incongruent" = +0.5)
 ```
 
@@ -313,7 +313,7 @@ sim_lmer <- function( sub_n = 200,
     stim_i = rnorm(stim_n, 0, stim_sd)
   )
   
-  conditions <- c("hard" = -0.5, "easy" = +0.5)
+  conditions <- c("hard" = +0.5, "easy" = -0.5)
   versions   <- c("congruent" = -0.5, "incongruent" = +0.5)
   
   dat <- crossing(
@@ -515,7 +515,7 @@ Now we can calculate the DV by adding together an overall intercept (mean RT for
 
 ```{r rslope-sim-dv}
 
-conditions <- c("hard" = -0.5, "easy" = +0.5)
+conditions <- c("hard" = +0.5, "easy" = -0.5)
 versions <- c("congruent" = -0.5, "incongruent" = +0.5)
 
 dat <- trials %>%
@@ -704,7 +704,7 @@ sim_lmer_slope <- function( sub_n = 200,
     left_join(sub, by = "sub_id") %>% # includes the intercept, slope, and conditin for each subject
     left_join(stim, by = "stim_id")   # includes the intercept and slopes for each stimulus
   
-  conditions <- c("hard" = -0.5, "easy" = +0.5)
+  conditions <- c("hard" = +0.5, "easy" = -0.5)
   versions   <- c("congruent" = -0.5, "incongruent" = +0.5)
   
   dat <- trials %>%
