@@ -1,16 +1,26 @@
 ---
-title: "Simulating Data"
-author: "Lisa DeBruine"
+title: "Fixed Effects"
+output: 
+  html_document:
+    df_print: kable
 ---
 
-```{r lib, message=FALSE}
-knitr::opts_chunk$set(error = TRUE) # lets the file knit even if there are errors
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  out.width = "100%",
+  fig.width = 5,
+  fig.height = 3,
+  dpi = 144
+)
+```
+
+```{r libs, message=FALSE}
 library(tidyverse)
-# devtools::install_github("debruine/faux", build_vignettes = FALSE)
-library(faux) 
+library(faux)
 library(afex) # for anova and lmer
+library(broom)
 library(broom.mixed) # to make tidy tables of lmer output
-set.seed(8675309) # this makes sure your script uses the same set of random numbers each time you run the full script (never set this inside a function or loop)
 
 theme_set(theme_minimal(base_size = 14))
 ```
@@ -210,7 +220,7 @@ A_scores <- rnorm(A_sub_n, A_mean, A_sd)
 B_scores <- rnorm(B_sub_n, B_mean, B_sd)
 ```
 
-You can stop here and just analyse your simulated data with `t.test(A_scores, B_scores)`, but usualy you want to get your simulated data into a data table that looks like what you might eventually import from a CSV file with your actual experimental data.
+You can stop here and just analyse your simulated data with `t.test(A_scores, B_scores)`, but usually you want to get your simulated data into a data table that looks like what you might eventually import from a CSV file with your actual experimental data.
 
 ```{r ind-tibble}
 dat <- tibble(
@@ -243,7 +253,8 @@ dat %>%
   group_by(sub_condition) %>%
   summarise(n = n() ,
             mean = mean(score),
-            sd = sd(score))
+            sd = sd(score),
+            .groups = "drop")
 ```
 
 
@@ -575,7 +586,9 @@ You can analyse the data with ANOVA using the `aov_4()` function from `afex`. (N
 
 ```{r im-afex}
 # anova using afex::aov_4
-afex::aov_4(score ~ (condition.e | sub_id), data = dat)
+aov <- afex::aov_4(score ~ (condition | sub_id), data = dat)
+
+aov$anova_table
 ```
 
 
@@ -587,5 +600,109 @@ lmem <- afex::lmer(score ~ condition.e + (1 | sub_id), data = dat)
 
 # displays a tidy table of the fixed effects
 broom.mixed::tidy(lmem, effects = "fixed")
+```
+
+## Simulate a dataset from an analysis
+
+Simulate a dataset from the parameters of an analysis. We'll use the built-in dataset `mtcars` to predict miles per gallon (`mpg`) from transmission type (`am`) and engine type (`vs`). 
+
+```{r}
+model <- lm(mpg ~ am * vs, data = mtcars)
+broom::tidy(model)
+```
+
+### Simulate 
+
+We can now simulate a dataset with 50 observations from each transmission type (`am`) and engine type (`vs`) combination, then use the model parameters to generate predicted values for `mpg`. 
+
+```{r}
+err_sd <- sigma(model) # SD of the error term from the model
+fx <- coefficients(model) # fixed effect coefficients
+
+sim_mtcars <- tibble(
+  am = rep(c(0, 0, 1, 1), each = 50),
+  vs = rep(c(0, 1, 0, 1), each = 50)
+) %>%
+  mutate(err = rnorm(200, 0, err_sd),
+         mpg = fx[1] + 
+               fx["am"]*am + 
+               fx["vs"]*vs +
+               fx["am:vs"]*am*vs + err)
+  
+```
+
+Analyse the simulated data with `lm()` and output the results as a table using `broom::tidy()`
+
+```{r}
+sim_model <- lm(mpg ~ am * vs, data = sim_mtcars)
+broom::tidy(sim_model)
+```
+
+### Function
+
+```{r}
+carsim <- function(n, b0, b_am, b_vs, b_am_vs, err_sd) {
+  sim_mtcars <- tibble(
+    am = rep(c(0, 0, 1, 1), each = n),
+    vs = rep(c(0, 1, 0, 1), each = n)
+  ) %>%
+    mutate(err = rnorm(n*4, 0, err_sd),
+           mpg = b0 + b_am*am + b_vs*vs + b_am_vs*am*vs + err)
+  
+  sim_model <- lm(mpg ~ am * vs, data = sim_mtcars)
+  broom::tidy(sim_model)
+}
+```
+
+
+Run the function with the values from the original model, but cut the fixed effect sizes in half.
+
+```{r}
+err_sd <- sigma(model)
+fx2 <- coefficients(model)/2
+
+carsim(50, fx2[1], fx2[2], fx2[3], fx2[4], err_sd)
+```
+
+Repeat this 100 time and calculate power for each effect.
+
+```{r}
+simstats <- map_df(1:100, ~carsim(50, fx2[1], fx2[2], fx2[3], fx2[4], err_sd))
+
+simstats %>%
+  group_by(term) %>%
+  summarise(power = mean(p.value < .05), .groups = "drop")
+```
+
+## Exercises
+
+Using the dataset below, predict `moral` disgust from the interaction between `pathogen` and `sexual` disgust using `lm()`.
+
+```{r}
+disgust <- read_csv("https://psyteachr.github.io/msc-data-skills/data/disgust_scores.csv")
+```
+
+
+```{r}
+
+```
+
+Simulate a new dataset of 100 people with a similar pathogen and sexual disgust distribution to the original dataset. Remember that these are likely to be correlated and that scores can only range from 0 to 6. (Hint: look at the help for `norm2trunc`)
+
+```{r}
+
+```
+
+Write a function to simulate data, analyse it, and return a table of results. Make sure you can vary the important parameters using arguments.
+
+```{r}
+
+```
+
+
+Calculate power for the same fixed effects as in the original analysis. Adjust the N until the dsign has around .80 power to detect a main effect of pathogen disgust.
+
+```{r}
+
 ```
 

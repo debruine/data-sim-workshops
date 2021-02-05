@@ -1,0 +1,33 @@
+Package: dsw
+Title: Data Simulation Workshops
+Version: 0.0.0.2
+Date: 2021-02-05
+Authors@R: c(
+    person(
+        given = "Lisa", 
+        family = "DeBruine", 
+        role = c("aut", "cre"), 
+        email = "debruine@gmail.com", 
+        comment = c(ORCID = "0000-0002-7523-5539")
+    ))
+Description: Materials for data simulation workshops.
+Depends:
+    R (>= 3.2.4)
+Imports:
+    lme4,
+    dplyr,
+    tidyr,
+    ggplot2 (>= 3.3.0),
+    faux,
+    lmerTest
+Suggests:
+    testthat (>= 2.1.0),
+    knitr,
+    rmarkdown
+RoxygenNote: 7.1.1
+Encoding: UTF-8
+LazyData: true
+URL: https://github.com/debruine/data-sim-workshop
+BugReports: https://github.com/debruine/data-sim-workshop/issues
+License: CC BY 4.0
+VignetteBuilder: knitr

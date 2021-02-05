@@ -3,40 +3,33 @@
 
 ## Workshops
 
-### 20/01/28 Introduction to Data Simulation in R
+### Introduction to Data Simulation in R
 
-When: Tuesday Jan 28 13:00-15:00  
-Where: Boyd Orr Room 603
+When: Friday February 5 10:00-12:00 (CET) Where: Grenoble (zoom)
 
 #### Prep
 
   - Install R packages from CRAN: `tidyverse`, `afex`, `lme4`,
-    `broom.mixed`
-  - Install development R package: `faux`
-      - `devtools::install_github("debruine/faux")`
-      - (you might need to install `devtools` first)
+    `broom.mixed`, `faux`
   - Download files (stub versions have instructions but only skeleton
     code for you to fill in during the workshop)
-      - [fixed-effects.Rmd](https://osf.io/9xghp/download)
-      - [fixed-effects-stub.Rmd](https://osf.io/efqwm/download)
       - [faux.Rmd](https://osf.io/wa58r/download)
       - [faux-stub.Rmd](https://osf.io/xwcpy/download)
+      - [fixed-effects.Rmd](https://osf.io/9xghp/download)
+      - [fixed-effects-stub.Rmd](https://osf.io/efqwm/download)
 
-### 20/02/05 Understanding Mixed-Effects Models through Data Simulation
+### Understanding Mixed-Effects Models through Data Simulation
 
-When: Wednesday Feb 5 14:00-16:00  
-Where: Boyd Orr Room 603
+When: Friday February 5 13:00-15:00 (CET) Where: Grenoble (zoom)
 
 #### Prep
 
   - Install R packages from CRAN: `tidyverse`, `afex`, `lme4`,
-    `broom.mixed`
-  - Install development R package: `faux`
-      - `devtools::install_github("debruine/faux")`
+    `broom.mixed`, `faux`
   - Download files (stub versions have instructions but only skeleton
     code for you to fill in during the workshop)
-      - \[mixed-effects.Rmd\] (<https://osf.io/vf3ca/download>)
-      - [mixed-effects-stub.Rmd]()
+      - [mixed-effects.Rmd](https://osf.io/vf3ca/download)
+      - [mixed-effects-stub.Rmd](https://osf.io/vf3ca/download)
 
 ## Resources
 
@@ -45,3 +38,8 @@ Where: Boyd Orr Room 603
     textbook introducing tidyverse for psychologists
   - [Understanding mixed effects models through data
     simulation](https://osf.io/3cz2e/) (preprint, code, and shiny apps)
+
+## Past Workshops
+
+  - University of Glasgow Institute of Neuroscience and Psychology 2020
+    Jan 28 13:00-15:00 and Feb 5 14:00-16:00

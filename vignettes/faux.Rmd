@@ -1,0 +1,449 @@
+---
+title: "Intro to Faux"
+author: "Lisa DeBruine"
+output: 
+  rmarkdown::html_vignette:
+    df_print: kable
+vignette: >
+  %\VignetteIndexEntry{intro}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  out.width = "100%",
+  fig.width = 5,
+  fig.height = 3,
+  dpi = 144
+)
+set.seed(8675309) # Jenny, I've got your number
+```
+
+```{r libs, message=FALSE}
+library(tidyverse)
+library(faux)
+library(broom)
+library(afex)
+```
+
+In this tutorial, we'll learn how to simulate data for factorial designs using {faux}. There are more extensive examples at <https://debruine.github.io/faux/>.
+
+## Multivariate normal
+
+You can create sets of correlated normally distributed values using `rnorm_multi()`.
+
+```{r}
+dat3 <- rnorm_multi(
+  n = 50,
+  vars = 3,
+  mu = c(1, 2, 3),
+  sd = c(0.5, 1, 1.5),
+  r = c(0, .25, .5),
+  varnames = c("A", "B", "C")
+)
+```
+
+The function `get_params()` gives you a quick way to see the means, SDs and correlations in the simulated data set to make sure you set the parameters correctly.
+
+```{r}
+get_params(dat3)
+```
+
+If you set `empirical` to `TRUE`, the values you set will be the **sample** parameters, not the **population** parameters. This isn't usually what you want for a simulation, but can be useful to check you set the simulation parameters correctly.
+
+```{r}
+dat3 <- rnorm_multi(
+  n = 50,
+  vars = 3,
+  mu = c(1, 2, 3),
+  sd = c(0.5, 1, 1.5),
+  r = c(0, .25, .5),
+  varnames = c("A", "B", "C"),
+  empirical = TRUE
+)
+
+get_params(dat3)
+```
+
+### Shortcuts
+
+There are a few shortcuts you can use. Run the following and see if you can guess how they work.
+
+```{r}
+guess1 <- rnorm_multi(50, mu = c(x = 1, y = 2, z = 3), empirical = TRUE)
+
+get_params(guess1)
+```
+
+```{r}
+guess2 <- rnorm_multi(50, vars = 4, r = 0.5, empirical = TRUE)
+
+get_params(guess2)
+```
+
+```{r}
+iris_r <- cor(iris[, 1:4])
+iris_mu <- summarise_all(iris[, 1:4], mean) %>% t()
+iris_sd <- summarise_all(iris[, 1:4], sd) %>% t()
+
+guess3 <- rnorm_multi(50, 
+                      mu = iris_mu, 
+                      sd = iris_sd, 
+                      r = iris_r)
+
+get_params(guess3)
+```
+
+You can set the r for correlations is a few different ways.
+
+```{r}
+# all correlations the same value
+rho_same <- rnorm_multi(50, 4, r = .5, empirical = TRUE)
+get_params(rho_same)
+```
+
+```{r}
+# upper right triangle
+rho_urt <- rnorm_multi(50, 4, 
+                      #      X2   X3   X4
+                       r = c(0.5, 0.4, 0.3, # X1
+                                  0.2, 0.1, # X2
+                                      0.0), # X3
+                       empirical = TRUE)
+get_params(rho_urt)
+```
+
+```{r}
+# full correlation matrix
+rho_cormat <- rnorm_multi(50, 4, 
+                        #      X1   X2   X3   X4
+                          r = c(1.0, 0.5, 0.4, 0.3,  # X1
+                                0.5, 1.0, 0.2, 0.1,  # X2
+                                0.4, 0.2, 1.0, 0.0,  # X3
+                                0.3, 0.1, 0.0, 1.0), # X4
+                       empirical = TRUE)
+get_params(rho_cormat)
+```
+
+
+## Factorial Designs
+
+You can just use `rnorm_multi()` to simulate data for each between-subjects cell of a factorial design and manually combine the tables, but faux has a function that better maps onto how we usually think and teach about factorial designs.
+
+The default design is 100 observations of one variable (named `y`) with a mean of 0 and SD of 1. Unless you set `plot = FALSE` or run `faux_options(plot = FALSE)`, this function will show you a plot of your design so you can check that it looks like you expect.
+
+```{r}
+simdat1 <- sim_design()
+```
+
+
+### Factors
+
+Use lists to set the names and levels of within- and between-subject factors.
+
+```{r}
+pettime <- sim_design(
+  within = list(time = c("pre", "post")),
+  between = list(pet = c("cat", "dog", "ferret"))
+)
+```
+
+You can set mu and sd with unnamed vectors, but getting the order right can be tricky.
+
+```{r}
+pettime <- sim_design(
+  within = list(time = c("pre", "post")),
+  between = list(pet = c("cat", "dog", "ferret")),
+  mu = 1:6
+)
+```
+
+You can set values with a named vector for a single type of factor. The values do not have to be in the right order if they're named.
+
+```{r}
+pettime <- sim_design(
+  within = list(time = c("pre", "post")),
+  between = list(pet = c("cat", "dog", "ferret")),
+  mu = c(cat = 1, ferret = 5, dog = 3),
+  sd = c(pre = 1, post = 2)
+)
+```
+
+Or use a data frame for within- and between-subject factors.
+
+```{r}
+pettime <- sim_design(
+  within = list(time = c("pre", "post")),
+  between = list(pet = c("cat", "dog", "ferret")),
+  mu = data.frame(
+    pre = c(1, 3, 5),
+    post = c(2, 4, 6),
+    row.names = c("cat", "dog", "ferret")
+  )
+)
+```
+
+If you have within-subject factors, set the correlations for each between-subject cell like this. You need to tell `get_params()` if you have any between-subject columns.
+
+```{r}
+pettime <- sim_design(
+  within = list(time = c("pre", "post")),
+  between = list(pet = c("cat", "dog", "ferret")),
+  r = list(cat = 0.5,
+           dog = 0.25,
+           ferret = 0),
+  empirical = TRUE,
+  plot = FALSE
+)
+
+get_params(pettime, between = "pet")
+```
+
+You can also change the name of the `dv` and `id` columns and output the data in long format. If you do this, you also need to tell `get_params()` what columns contain the between- and within-subject factors, the dv, and the id. 
+
+```{r}
+dat_long <- sim_design(
+  within = list(time = c("pre", "post")),
+  between = list(pet = c("cat", "dog", "ferret")),
+  id = "subj_id",
+  dv = "score",
+  long = TRUE,
+  plot = FALSE
+)
+
+get_params(dat_long, 
+           between = "pet", 
+           within = "time",
+           id = "subj_id",
+           dv = "score",
+           digits = 3)
+```
+
+### Anonymous Factors
+
+If you need to make a quick demo, you can set factors anonymously with integer vectors.
+
+```{r}
+dat_anon <- sim_design(
+  n = 50,
+  between = c(3, 2),
+  within = 2,
+  mu = 1:12
+)
+```
+
+Faux has a quick plotting function for visualising data made with sim_design.
+
+```{r}
+plot(dat_anon)
+```
+You can change the order of plotting and the types of geoms plotted. This takes a little trial and error, so this function will probably be refined in later versions.
+
+```{r}
+plot(dat_anon, "B", "A", "C", geoms = c("violin", "pointrangeSD"))
+```
+
+### Replications
+
+You often want to simulate data repeatedly to do things like calculate power. The `sim_design()` function has a lot of overhead for checking if a design makes sense and if the correlation matrix is possible, so you can speed up the creation of multiple datasets with the same design using the `rep` argument. This will give you a nested data from with each dataset in the `data` column. 
+
+```{r}
+dat_rep <- sim_design(
+  within = 2,
+  n = 20,
+  mu = c(0, 0.25),
+  rep = 10,
+  plot = FALSE
+)
+```
+
+You can run analyses on the nested data like this:
+
+```{r}
+map_df(dat_rep$data, ~{
+ t.test(.x$A1, .x$A2, paired = TRUE) %>% broom::tidy()
+})
+```
+
+
+## Exercises
+
+### Multivariate normal
+
+Sample 40 values of three variables named `J`, `K` and `L` from a population with means of 10, 20 and 30, and SDs of 5. `J` and `K` are correlated 0.5, `J` and `L` are correlated 0.25, and `K` and `L` are not correlated.
+
+```{r, include=FALSE}
+ex1 <- rnorm_multi(n = 40, mu = c(J = 10, K = 20, L = 30),
+                   sd = 5, r = c(0.5, 0.25, 0))
+
+get_params(ex1)
+```
+
+### From existing data
+
+Using the data from the built-in dataset `attitude`, simulate a new set of 20 observations drawn from a population with the same means, SDs and correlations for each column as the original data.
+
+```{r, include=FALSE}
+dat_r <- cor(attitude)
+dat_mu <- summarise_all(attitude, mean) %>% t()
+dat_sd <- summarise_all(attitude, sd) %>% t()
+
+ex2 <- rnorm_multi(20, mu = dat_mu, sd = dat_sd,r = dat_r)
+
+get_params(ex2)
+```
+
+
+### 2b
+
+Create a dataset with a between-subject factor of "pet" having two levels, "cat", and "dog". The DV is "happiness" score. There are 20 cat-owners with a mean happiness score of 10 (SD = 3) and there are 30 dog-owners with a mean happiness score of 11 (SD = 3).
+
+```{r, include=FALSE}
+dat2b <- sim_design(
+  between = list(pet = c("cat", "dog")),
+  dv = "happiness",
+  n = list(cat = 20, dog = 30),
+  mu = list(cat = 10, dog = 11),
+  sd = 3
+)
+
+get_params(dat2b, between = "pet")
+```
+
+### 3w
+
+Create a dataset of 20 observations with 1 within-subject variable ("condition") having 3 levels ("A", "B", "C") with means of 10, 20 and 30 and SD of 5. The correlations between each level have r = 0.4. The dataset should look like this:
+
+| id | condition | score |
+|:---|:----------|------:|
+|S01 | A         |  9.17 |
+|... | ...       |  ...  |
+|S20 | A         | 11.57 |
+|S01 | B         | 18.44 |
+|... | ...       |  ...  |
+|S20 | B         | 20.04 |
+|S01 | C         | 35.11 |
+|... | ...       |  ...  |
+|S20 | C         | 29.16 |
+
+```{r, include=FALSE}
+
+dat3w <- sim_design(
+  within = list(condition = c("A", "B", "C")),
+  n = 20,
+  mu = c(10, 20, 30),
+  sd = 5,
+  r = .4,
+  dv = "score",
+  long = TRUE
+)
+
+get_params(dat3w)
+
+```
+
+### 2w*2w
+
+Create a dataset with 50 observations of 2 within-subject variables ("A" and "B") each having 2 levels. The mean for all cells is 10 and the SD is 2. The dataset should have 20 subjects. The correlations look like this:
+
+|       | A1_B1 | A1_B2 | A2_B1 | A2_B2 |
+|:------|------:|------:|------:|------:|
+| A1_B1 | 1.0   | 0.5   | 0.5   | 0.2   |
+| A1_B2 | 0.5   | 1.0   | 0.2   | 0.5   |
+| A2_B1 | 0.5   | 0.2   | 1.0   | 0.5   |
+| A2_B2 | 0.2   | 0.5   | 0.5   | 1.0   |
+
+
+```{r, include=FALSE}
+dat2w2w <- sim_design(
+  within = c(2,2),
+  n = 50, 
+  mu = 10,
+  sd = 2,
+  r = c(.5, .5, .2, 
+            .2, .5, 
+                .5)
+)
+
+get_params(dat2w2w)
+```
+
+### 2w*3b
+
+Create a dataset with a between-subject factor of "pet" having 3 levels ("cat", "dog", and "ferret") and a within-subject factor of "time" having 2 levels ("pre" and "post"). The N in each group should be 10. Means are:
+
+* cats: pre = 10, post = 12
+* dogs: pre = 14, post = 16
+* ferrets: pre = 18, post = 20
+
+SDs are all 5 and within-cell correlations are all 0.25.
+
+```{r, include=FALSE}
+
+mu <- data.frame(
+  cat = c(10, 12),
+  dog = c(14, 16),
+  ferret = c(18, 20)
+)
+
+dat2w3b <- sim_design(
+  within = list(time = c("pre", "post")),
+  between = list(pet = c("cat", "dog", "ferret")),
+  n = 10,
+  mu = mu,
+  sd = 5,
+  r = 0.25
+)
+
+get_params(dat2w3b)
+  
+```
+
+### Replications
+
+Create 5 datasets with a 2b*2b design, 30 participants in each cell. Each cell's mean should be 0, except A1_B1, which should be 0.5. The SD should be 1. Make the resulting data in long format.
+
+```{r, include=FALSE}
+dat2b2b <- sim_design(
+  between = c(2,2),
+  n = 30,
+  mu = c(0.5, 0, 0, 0),
+  rep = 5,
+  long = TRUE
+)
+```
+
+### Power 
+
+Simulate 100 datasets like the one above and use `lm()` or `afex::aov_ez()` to look at the interaction between A and B. What is the power of this design?
+
+```{r, include=FALSE}
+dat2b2b_100 <- sim_design(
+  between = c(2, 2),
+  n = 30,
+  mu = c(0.5, 0, 0, 0),
+  rep = 100,
+  long = TRUE
+)
+
+ana_lm <- map_df(dat2b2b_100$data, ~{
+  lm(y ~ A*B, data = .x) %>% broom::tidy()
+})
+
+afex::set_sum_contrasts() # avoids annoying afex message
+ana_aov <- map_df(dat2b2b_100$data, ~{
+ afex::aov_ez(id = "id",
+              dv = "y",
+              between = c("A", "B"),
+              data = .x,
+              return = "aov") %>% broom::tidy()
+})
+
+ana_aov %>%
+  group_by(term) %>%
+  summarise(power = mean(p.value < .05),
+            .groups = "drop")
+```
+

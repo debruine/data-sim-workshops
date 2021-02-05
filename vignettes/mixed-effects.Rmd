@@ -1,7 +1,25 @@
 ---
-title: "Simulating Mixed Effects"
+title: "Fixed Effects"
 author: "Lisa DeBruine"
+output: 
+  rmarkdown::html_vignette:
+    df_print: kable
+vignette: >
+  %\VignetteIndexEntry{intro}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  out.width = "100%",
+  fig.width = 5,
+  fig.height = 3,
+  dpi = 144
+)
+set.seed(8675309) # Jenny, I've got your number
+```
 
 Generate data for a Stroop task where people (`subjects`) say the colour of  colour words (`stimuli`) shown in each of two versions (`congruent` and `incongruent`). Subjects are in one of two conditions (`hard` and `easy`). The dependent variable (`DV`) is reaction time. 
 
@@ -10,14 +28,12 @@ We expect people to have faster reaction times for congruent stimuli than incong
 ## Setup
 
 ```{r setup, message=FALSE}
-library(tidyverse) # for data wrangling, pipes, and good dataviz
-library(lmerTest)  # for mixed effect models
+library(tidyverse)   # for data wrangling, pipes, and good dataviz
+library(afex)        # for mixed effect models
 library(broom.mixed) # for getting tidy data tables from mixed models
-# devtools::install_github("debruine/faux")
-library(faux)      # for simulating correlated variables
+library(faux)        # for simulating correlated variables
 
-options("scipen"=10, "digits"=4) # control scientific notation
-set.seed(8675309) # Jenny, I've got your number
+options(digits = 4, scipen = 10)
 ```
 
 
@@ -202,8 +218,8 @@ ggplot(dat, aes(sub_cond, dv, color = stim_version)) +
 
 ```{r table-ixn}
 group_by(dat, sub_cond, stim_version) %>%
-  summarise(m = mean(dv) - grand_i %>% round(1)) %>%
-  ungroup() %>%
+  summarise(m = mean(dv) - grand_i %>% round(1),
+            .groups = "drop") %>%
   spread(stim_version, m)
 ```
 
@@ -393,7 +409,8 @@ You can also just calculate power as the proportion of p-values less than your a
 ```{r}
 my_power %>%
   group_by(term) %>%
-  summarise(power <- mean(p.value < 0.05))
+  summarise(power = mean(p.value < 0.05),
+            .groups = "drop")
 ```
 
 
@@ -429,7 +446,6 @@ sub_i_version_cor <- -0.2
 
 sub <- faux::rnorm_multi(
   n = sub_n, 
-  vars = 2, 
   r = sub_i_version_cor,
   mu = 0, # means of random intercepts and slopes are always 0
   sd = c(sub_sd, sub_version_sd),
@@ -446,7 +462,7 @@ Plot to double-check it looks sensible.
 ```{r plot-subject-slope-cor, fig.width=12, fig.height=8, fig.cap="Double-check slope-intercept correlations"}
 ggplot(sub, aes(sub_i, sub_version_slope, color = sub_cond)) +
   geom_point() +
-  geom_smooth(method = lm)
+  geom_smooth(method = lm, formula = y~x)
 ```
 
 
@@ -471,7 +487,6 @@ stim_cors <- c(stim_i_cor, stim_i_cor, stim_i_cor,
                                        stim_s_cor)
 stim <- rnorm_multi(
   n = stim_n, 
-  vars = 4, 
   r = stim_cors, 
   mu = 0, # means of random intercepts and slopes are always 0
   sd = c(stim_sd, stim_version_sd, stim_cond_sd, stim_cond_version_sd),
@@ -552,12 +567,12 @@ ggplot(dat, aes(sub_cond, dv, color = stim_version)) +
 New we'll run a linear mixed effects model with `lmer` and look at the summary. You specify random slopes by adding the within-level effects to the random intercept specifications. Since the only within-subject factor is version, the random effects specification for subjects is `(1 + stim_version.e | sub_id)`. Since both condition and version are within-stimuli factors, the random effects specification for stimuli is `(1 + stim_version.e*sub_cond.e | stim_id)`.
 
 
-This model will take a lot longer to run than one without random slopes specified.
+This model will take a lot longer to run than one without random slopes specified. This might be a good time for a coffee break.
 
 ```{r rslope-lmer}
 mod <- lmer(dv ~ sub_cond.e * stim_version.e +
-              (1 + stim_version.e | sub_id) + 
-              (1 + stim_version.e*sub_cond.e | stim_id),
+              (1 + stim_version.e || sub_id) + 
+              (1 + stim_version.e*sub_cond.e || stim_id),
             data = dat)
 
 mod.sum <- summary(mod)
@@ -588,13 +603,10 @@ Next, look at the SDs for the random effects.
    * `stim_version.e:sub_cond.e` ~= `stim_cond_version_sd`
 * Residual ~= `error_sd`
 
-```{r rslope-mod-varcor}
-mod.sum$varcor
-```
 
 The correlations are a bit more difficult to parse. The first column under `Corr` shows the correlation between the random slope for that row and the random intercept. So for `stim_version.e` under `sub_id`, the correlation should be close to `sub_i_version_cor`. For all three random slopes under `stim_id`, the correlation with the random intercept should be near `stim_i_cor` and their correlations with each other should be near `stim_s_cor`.
 
-```{r rslope-mod-varcor2}
+```{r rslope-mod-varcor}
 mod.sum$varcor
 ```
 
@@ -622,14 +634,15 @@ ranef(mod)$sub_id %>%
   left_join(sub, by = "sub_id") %>%
   select(mod_i, sub_i, 
          mod_version_slope,  sub_version_slope) %>%
-  check_sim_stats() %>%    # calculates means, SDs and correlations
-  rename(mod_v = 5, sub_v = 6) # rename columns to fit width
+  get_params() %>%    # calculates means, SDs and correlations
+  rename(mod_v = 5, sub_v = 6) %>% # rename columns to fit width
+  select(n, var, mod_i, mod_v, sub_i, sub_v, mean, sd)
 ```
 
-Compare the stimulus intercepts and slopes from our code above (`stim$stim_i`) against the stimulus intercepts and slopes calculcated by `lmer` (`ranef(mod)$stim_id`).
+Compare the stimulus intercepts and slopes from our code above (`stim$stim_i`) against the stimulus intercepts and slopes calculated by `lmer` (`ranef(mod)$stim_id`).
 
 ```{r rslope-stim-ranef}
-ranef(mod)$stim_id %>%
+x <- ranef(mod)$stim_id %>%
   as_tibble(rownames = "stim_id") %>%
   rename(mod_i = `(Intercept)`,
          mod_version_slope = stim_version.e,
@@ -641,7 +654,12 @@ ranef(mod)$stim_id %>%
          mod_version_slope, stim_version_slope, 
          mod_cond_slope, stim_cond_slope, 
          mod_cond_version_slope, stim_cond_version_slope) %>%
-  check_sim_stats() %>%    # calculates means, SDs and correlations
+  get_params()    # calculates means, SDs and correlations
+
+nm <- names(x)[3:10]
+x$var <- factor(x$var, levels = nm)
+x %>%
+  arrange(var) %>%
   rename(mod_v = 5, stim_v = 6, 
          mod_c = 7, stim_c = 8, 
          mod_cv = 9, stim_cv = 10) # rename columns to fit width
@@ -670,10 +688,9 @@ sim_lmer_slope <- function( sub_n = 200,
                             error_sd = 25) {
   sub <- rnorm_multi(
     n = sub_n, 
-    vars = 2, 
-    cors = sub_i_version_cor,
     mu = 0, # means of random intercepts and slopes are always 0
     sd = c(sub_sd, sub_version_sd),
+    r = sub_i_version_cor,
     varnames = c("sub_i", "sub_version_slope")
   ) %>%
     mutate(
@@ -685,11 +702,10 @@ sim_lmer_slope <- function( sub_n = 200,
                              stim_s_cor, stim_s_cor,
                                          stim_s_cor)
   stim <- rnorm_multi(
-    n = stim_n, 
-    vars = 4, 
-    cors = stim_cors, 
+    n = stim_n,
     mu = 0, # means of random intercepts and slopes are always 0
     sd = c(stim_sd, stim_version_sd, stim_cond_sd, stim_cond_version_sd),
+    r = stim_cors, 
     varnames = c("stim_i", "stim_version_slope", "stim_cond_slope", "stim_cond_version_slope")
   ) %>%
     mutate(
@@ -726,8 +742,8 @@ sim_lmer_slope <- function( sub_n = 200,
     )
   
   mod <- lmer(dv ~ sub_cond.e * stim_version.e +
-                (1 + stim_version.e | sub_id) + 
-                (1 + stim_version.e*sub_cond.e | stim_id),
+                (1 + stim_version.e || sub_id) + 
+                (1 + stim_version.e*sub_cond.e || stim_id),
               data = dat)
   
   return(mod)
@@ -752,7 +768,7 @@ sim_lmer_slope(sub_cond_eff = 50,
 
 1. Calculate power for the parameters in the last example using the `sim_lmer_slope()` function. 
 
-```{r ex1}
+```{r ex1, include=FALSE}
 sim_lmer_slope_pwr <- function(rep) {
   s <- sim_lmer_slope(sub_cond_eff = 50,
                       stim_version_eff = 50, 
@@ -776,7 +792,7 @@ my_power_s <- map_df(1:2, sim_lmer_slope_pwr)
 * Face intercepts have an SD of 10
 * The residual error has an SD of 8
 
-```{r ex2}
+```{r ex2, include=FALSE}
 grand_i <- 50
 sub_n <- 50
 stim_n <- 50 # in each group
@@ -802,14 +818,14 @@ trials <- crossing(sub_id = sub$sub_id,
          error = rnorm(nrow(.), 0, err_sd),
          dv = grand_i + sub_i + stim_i + (grp.e * grp_effect) + error,
          # round and make sure all values are 0-100
-         dv = round(dv) %>% pmax(0) %>% pmin(100))
+         dv = norm2trunc(dv, 0, 100) %>% round())
 
 ggplot(trials, aes(dv, color = stim_grp)) + geom_density()
 ```
 
 3. For the design from exercise 2, write a function that simulates data and runs a mixed effects analysis on it. 
 
-```{r ex3}
+```{r ex3, include=FALSE}
 
 # Lisa write this soon
 
@@ -817,7 +833,7 @@ ggplot(trials, aes(dv, color = stim_grp)) + geom_density()
 
 4. The package `faux` has a built-in dataset called `fr4`. Type `?faux::fr4` into the console to view the help for this dataset. Run a mixed effects model on this dataset looking at the effect of `face_sex` on ratings. Rememnber to include a random slope for the effect of face sex.
 
-```{r}
+```{r, include=FALSE}
 
 sex_code <- c("male" = 0.5, "female" = -0.5)
 
@@ -834,7 +850,7 @@ summary(mod)
 
 5. Use the parameters from this analysis to simulate a new dataset with 50 male and 50 female faces, and 100 raters.
 
-```{r}
+```{r, include=FALSE}
 
 # get data into a table
 stats <- broom.mixed::tidy(mod)
