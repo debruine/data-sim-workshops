@@ -33,6 +33,10 @@ When: Friday February 5 13:00-15:00 (CET) Where: Grenoble (zoom)
     textbook introducing tidyverse for psychologists
   - [Understanding mixed effects models through data
     simulation](https://osf.io/3cz2e/) (preprint, code, and shiny apps)
+  - [Simulate Basic
+    Distributions](https://shiny.psy.gla.ac.uk/debruine/simulate/)
+  - [Scienceverse](http://shiny.ieis.tue.nl/scienceverse/) (shiny app
+    has an interactive data simulation tab)
 
 ## Past Workshops
 

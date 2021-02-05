@@ -19,7 +19,8 @@ Imports:
     tidyr,
     ggplot2 (>= 3.3.0),
     faux,
-    lmerTest
+    lmerTest,
+    afex
 Suggests:
     testthat (>= 2.1.0),
     knitr,

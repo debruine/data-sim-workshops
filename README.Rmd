@@ -45,6 +45,8 @@ Where: Grenoble (zoom)
 
 * [Data Skills for Reproducible Science](https://psyteachr.github.io/msc-data-skills/) open source textbook introducing tidyverse for psychologists
 * [Understanding mixed effects models through data simulation](https://osf.io/3cz2e/) (preprint, code, and shiny apps) 
+* [Simulate Basic Distributions](https://shiny.psy.gla.ac.uk/debruine/simulate/)
+* [Scienceverse](http://shiny.ieis.tue.nl/scienceverse/) (shiny app has an interactive data simulation tab)
 
 ## Past Workshops
 
