@@ -1,5 +1,5 @@
 ---
-title: "Fixed Effects"
+title: "Mixed Effects"
 author: "Lisa DeBruine"
 output: 
   html_document:
