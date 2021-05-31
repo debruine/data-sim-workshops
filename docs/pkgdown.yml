@@ -1,9 +1,10 @@
-pandoc: 2.7.3
+pandoc: '2.13'
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
+  calories: calories.html
   faux: faux.html
-  fixed-effects: fixed-effects.html
-  mixed-effects: mixed-effects.html
-last_built: 2021-02-05T01:42Z
+  fixed: fixed.html
+  mixed: mixed.html
+last_built: 2021-05-31T14:01Z
 

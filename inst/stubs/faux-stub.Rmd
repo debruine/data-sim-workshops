@@ -5,6 +5,7 @@ output:
     df_print: kable
 ---
 
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -13,6 +14,7 @@ knitr::opts_chunk$set(
   fig.height = 3,
   dpi = 144
 )
+set.seed(8675309) # Jenny, I've got your number
 ```
 
 ```{r libs, message=FALSE}
@@ -45,7 +47,7 @@ The function `get_params()` gives you a quick way to see the means, SDs and corr
 get_params(dat3)
 ```
 
-If you set `empirical` to `TRUE`, the values you set will be the **sample** parameters, not the **population** parameters. This isn't usually what you want for a simulation, but can be useful to check you set the simulation parameters correctly.
+If you set `empirical` to `TRUE`, the values you set will be the **sample** parameters, not the **population** parameters. This isn't usually what you want for a simulation, but can be useful to check you set the parameters correctly.
 
 ```{r}
 dat3 <- rnorm_multi(
@@ -90,7 +92,9 @@ guess3 <- rnorm_multi(50,
 get_params(guess3)
 ```
 
-You can set the r for correlations is a few different ways.
+You can set the r for correlations in a few different ways.
+
+If all correlations have the same value, just set r equal to a single number.
 
 ```{r}
 # all correlations the same value
@@ -98,33 +102,36 @@ rho_same <- rnorm_multi(50, 4, r = .5, empirical = TRUE)
 get_params(rho_same)
 ```
 
-```{r}
-# upper right triangle
-rho_urt <- rnorm_multi(50, 4, 
-                      #      X2   X3   X4
-                       r = c(0.5, 0.4, 0.3, # X1
-                                  0.2, 0.1, # X2
-                                      0.0), # X3
-                       empirical = TRUE)
-get_params(rho_urt)
-```
+You can set rho to a vector or matrix of the full correlation matrix. This is convenient when you're getting the values from an existing dataset, where you can just use the output of the `cor()` function.
 
 ```{r}
 # full correlation matrix
-rho_cormat <- rnorm_multi(50, 4, 
-                        #      X1   X2   X3   X4
-                          r = c(1.0, 0.5, 0.4, 0.3,  # X1
-                                0.5, 1.0, 0.2, 0.1,  # X2
-                                0.4, 0.2, 1.0, 0.0,  # X3
-                                0.3, 0.1, 0.0, 1.0), # X4
-                       empirical = TRUE)
+#         X1   X2   X3   X4
+rho <- c(1.0, 0.5, 0.4, 0.3, # X1
+         0.5, 1.0, 0.2, 0.1, # X2
+         0.4, 0.2, 1.0, 0.0, # X3
+         0.3, 0.1, 0.0, 1.0) # X4
+rho_cormat <- rnorm_multi(50, 4, r = rho, empirical = TRUE)
 get_params(rho_cormat)
+```
+
+Alternatively, you can just specify the values from the upper right triangle of a correlation matrix. This is easier if you're reading the values out of a paper.
+
+```{r}
+# upper right triangle
+#         X2   X3   X4
+rho <- c(0.5, 0.4, 0.3, # X1
+              0.2, 0.1, # X2
+                   0.0) # X3
+
+rho_urt <- rnorm_multi(50, 4, r = rho, empirical = TRUE)
+get_params(rho_urt)
 ```
 
 
 ## Factorial Designs
 
-You can just use `rnorm_multi()` to simulate data for each between-subjects cell of a factorial design and manually combine the tables, but faux has a function that better maps onto how we usually think and teach about factorial designs.
+You can use `rnorm_multi()` to simulate data for each between-subjects cell of a factorial design and manually combine the tables, but faux has a function that better maps onto how we usually think and teach about factorial designs.
 
 The default design is 100 observations of one variable (named `y`) with a mean of 0 and SD of 1. Unless you set `plot = FALSE` or run `faux_options(plot = FALSE)`, this function will show you a plot of your design so you can check that it looks like you expect.
 
@@ -135,7 +142,7 @@ simdat1 <- sim_design()
 
 ### Factors
 
-Use lists to set the names and levels of within- and between-subject factors.
+Use lists to set the names and levels of `within`- and `between`-subject factors.
 
 ```{r}
 pettime <- sim_design(
@@ -144,7 +151,7 @@ pettime <- sim_design(
 )
 ```
 
-You can set mu and sd with unnamed vectors, but getting the order right can be tricky.
+You can set `mu` and `sd` with unnamed vectors, but getting the order right can take some trial and error.
 
 ```{r}
 pettime <- sim_design(
@@ -179,7 +186,7 @@ pettime <- sim_design(
 )
 ```
 
-If you have within-subject factors, set the correlations for each between-subject cell like this. You need to tell `get_params()` if you have any between-subject columns.
+If you have within-subject factors, set the correlations for each between-subject cell like this.
 
 ```{r}
 pettime <- sim_design(
@@ -192,10 +199,10 @@ pettime <- sim_design(
   plot = FALSE
 )
 
-get_params(pettime, between = "pet")
+get_params(pettime)
 ```
 
-You can also change the name of the `dv` and `id` columns and output the data in long format. If you do this, you also need to tell `get_params()` what columns contain the between- and within-subject factors, the dv, and the id. 
+You can also change the name of the `dv` and `id` columns and output the data in long format. If you do this, you also need to tell `get_params()` what columns contain the between- and within-subject factors, the dv, and the id.
 
 ```{r}
 dat_long <- sim_design(
@@ -215,9 +222,11 @@ get_params(dat_long,
            digits = 3)
 ```
 
+*The current version of faux doesn't actually need `between` or `dv` and later versions won't need `within` or `id` if a data frame was created with faux.*
+
 ### Anonymous Factors
 
-If you need to make a quick demo, you can set factors anonymously with integer vectors.
+If you need to make a quick demo, you can set factors anonymously with integer vectors. For example, the following code makes 3B\*2B\*2W mixed design.
 
 ```{r}
 dat_anon <- sim_design(
@@ -228,7 +237,7 @@ dat_anon <- sim_design(
 )
 ```
 
-Faux has a quick plotting function for visualising data made with sim_design.
+Faux has a quick plotting function for visualising data made with faux. The plot created by `sim_design()` shows the *design*, while this function shows the simulated *data*.
 
 ```{r}
 plot(dat_anon)
@@ -239,28 +248,108 @@ You can change the order of plotting and the types of geoms plotted. This takes 
 plot(dat_anon, "B", "A", "C", geoms = c("violin", "pointrangeSD"))
 ```
 
-### Replications
+## Replications
 
-You often want to simulate data repeatedly to do things like calculate power. The `sim_design()` function has a lot of overhead for checking if a design makes sense and if the correlation matrix is possible, so you can speed up the creation of multiple datasets with the same design using the `rep` argument. This will give you a nested data from with each dataset in the `data` column. 
+You often want to simulate data repeatedly to do things like calculate power. The `sim_design()` function has a lot of overhead for checking if a design makes sense and if the correlation matrix is possible, so you can speed up the creation of multiple datasets with the same design using the `rep` argument. This will give you a nested data frame with each dataset in the `data` column. 
 
 ```{r}
 dat_rep <- sim_design(
   within = 2,
   n = 20,
   mu = c(0, 0.25),
-  rep = 10,
+  rep = 5,
   plot = FALSE
 )
 ```
 
-You can run analyses on the nested data like this:
+### Analyse each replicate
+
+You can run analyses on the nested data by wrapping your analysis code in a function then using `map()` to run the analysis on each data set and `unnest()` to expand the results into a data table.
 
 ```{r}
-map_df(dat_rep$data, ~{
- t.test(.x$A1, .x$A2, paired = TRUE) %>% broom::tidy()
-})
+analyse <- function(data) {
+  t.test(data$A1, data$A2, paired = TRUE) %>% broom::tidy()
+}
+
+dat_rep %>%
+  mutate(analysis = map(data, analyse)) %>%
+  select(-data) %>%
+  unnest(analysis)
 ```
 
+### ANOVA
+
+Use the same pattern to run an ANOVA on a version of the `pettime` dataset.
+
+First, simulate 100 datasets in long format. These data will have small main effects of pet and time, but no interaction.
+
+```{r}
+pettime100 <- sim_design(
+  within = list(time = c("pre", "post")),
+  between = list(pet = c("cat", "dog")),
+  n = c(cat = 50, dog = 40),
+  mu = data.frame(
+    pre = c(1, 1.2),
+    post = c(1.2, 1.4),
+    row.names = c("cat", "dog")
+  ),
+  sd = 1,
+  id = "pet_id",
+  dv = "score",
+  r = 0.5,
+  long = TRUE,
+  rep = 100
+)
+```
+
+Then set up your analysis. We'll use the `aov_ez()` function from the {afex} package because its arguments match those of `sim_design()`.
+
+```{r}
+afex::set_sum_contrasts() # avoids annoying afex message
+afex_options(include_aov = FALSE) # runs faster
+afex_options(es_aov = "pes") # changes effect size measure to partial eta squared
+
+analyse <- function(data) {
+  a <- afex::aov_ez(
+    id = "pet_id",
+    dv = "score",
+    between = "pet",
+    within = "time",
+    data = data
+  ) 
+  # return anova_table for GG-corrected DF
+  as_tibble(a$anova_table, rownames = "term") %>%
+    mutate(term = factor(term, levels = term)) %>% # keeps terms in order
+    rename(p.value = `Pr(>F)`) # fixes annoying p.value name
+}
+```
+
+Make a table of the results of each analysis:
+
+```{r}
+pettime_sim <- pettime100 %>%
+  mutate(analysis = map(data, analyse)) %>%
+  select(-data) %>%
+  unnest(analysis)
+```
+
+```{r, echo = FALSE}
+# show the first 6 rows
+head(pettime_sim) %>% 
+  mutate(across(5:8, round, 3))
+```
+
+Then you can summarise the data to calculate things like power for each effect or mean effect size.
+
+```{r}
+pettime_sim %>%
+  group_by(term) %>%
+  summarise(power = mean(p.value < 0.05),
+            mean_pes = mean(pes),
+            .groups = "drop")
+```
+
+The power for the between-subjects effect of pet is smaller than for the within-subjects effect of time. What happens if you reduce the correlation between pre and post?
 
 ## Exercises
 
@@ -351,7 +440,7 @@ Create 5 datasets with a 2b*2b design, 30 participants in each cell. Each cell's
 
 Simulate 100 datasets like the one above and use `lm()` or `afex::aov_ez()` to look at the interaction between A and B. What is the power of this design?
 
-```{r}
+````{r}
 
 ```
 

@@ -2,12 +2,8 @@
 title: "Fixed Effects"
 author: "Lisa DeBruine"
 output: 
-  rmarkdown::html_vignette:
+  rmarkdown::html_document:
     df_print: kable
-vignette: >
-  %\VignetteIndexEntry{intro}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
@@ -43,7 +39,7 @@ The function `rep()` lets you repeat the first argument a number of times.
 Use `rep()` to create a vector of alternating `"A"` and `"B"` values of length 24.
 
 ```{r rep1-times}
-rep(c("A", "B"), times = 12)
+rep("A", times = 12)
 ```
 
 If the second argument is a vector that is the same length as the first argument, each element in the first vector is repeated that many times. Use `rep()` to create a vector of 11 `"A"` values followed by 3 `"B"` values.
@@ -61,7 +57,7 @@ rep(c("A", "B"), each = 12)
 What do you think will happen if you set `times` to 3 and `each` to 2?
 
 ```{r rep-times-each}
-rep(c("A", "B"), times = 3, each = 2)
+rep(c(T, F), times = 3)
 ```
 
 
@@ -107,7 +103,8 @@ runif(100000, min = 0, max = 1) %>% hist()
 You can use `sample()` to simulate events like rolling dice or choosing from a deck of cards. The code below simulates rolling a 6-sided die 10000 times. We set `replace` to `TRUE` so that each event is independent. See what happens if you set `replace` to `FALSE`.
 
 ```{r sample-replace, fig.cap = "Distribution of dice rolls."}
-rolls <- sample(1:6, 10000, replace = TRUE)
+rolls <- sample(0:1, 10000, replace = TRUE,
+                prob = c(.4, .6))
 
 # plot the results
 as.factor(rolls) %>% plot()
@@ -143,12 +140,12 @@ Coin flips are a typical example of a binomial distribution, where we can assign
 
 ```{r rbinom-fair}
 # 20 individual coin flips of a fair coin
-rbinom(20, 1, 0.5)
+rbinom(n = 20, size = 1, prob = 0.5)
 ```
 
 
 ```{r rbinom-bias}
-# 20 individual coin flips of a baised (0.75) coin
+# 20 individual coin flips of a biased (0.75) coin
 rbinom(20, 1, 0.75)
 ```
 
@@ -156,7 +153,7 @@ You can generate the total number of heads in 1 set of 20 coin flips by setting 
 
 ```{r rbinom-size}
 # 1 set of 20 fair coin flips
-rbinom(1, 20, 0.75)
+rbinom(n = 1, size = 20, 0.75)
 ```
 
 You can generate more sets of 20 coin flips by increasing the `n`.
@@ -179,13 +176,13 @@ A density plot is usually the best way to visualise this type of data.
 
 ```{r rnorm-plot}
 # 100 samples from a normal distribution with a mean of 10 and SD of 2
-dv <- rnorm(100, 10, 2)
+dv <- rnorm(20, 10, 2)
 
 # use sample to get a random colour
 fill_colour <- sample(colours(), 1)
 
 ggplot() +
-  geom_density(aes(dv), fill = fill_colour) +
+  geom_density(aes(x = dv), fill = fill_colour) +
   scale_x_continuous(
     limits = c(0,20), 
     breaks = seq(0,20)
@@ -230,7 +227,8 @@ You can stop here and just analyse your simulated data with `t.test(A_scores, B_
 
 ```{r ind-tibble}
 dat <- tibble(
-  sub_condition = rep( c("A", "B"), c(A_sub_n, B_sub_n) ),
+  sub_condition = rep( c("A", "B"), 
+                       c(A_sub_n, B_sub_n) ),
   score = c(A_scores, B_scores)
 )
 ```
@@ -322,7 +320,7 @@ Now you can graph the data from your simulations.
 
 ```{r sim-p-fig}
 # set boundary = 0 when plotting p-values
-ggplot(mysim, aes(p)) +
+ggplot(mysim, aes(x = p)) +
   geom_histogram(binwidth = 0.05, boundary = 0,
                  fill = "white", colour = "black")
 ```
