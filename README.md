@@ -36,7 +36,8 @@ multiple datasets for simulation studies.
 
 -   Install R packages from CRAN: `tidyverse`, `faux`, `afex`, `broom`
 -   Download files:
-    [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd)
+    [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd),
+    [calories-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/calories-stub.Rmd)
 
 ### Data simulation for factorial designs
 
