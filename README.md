@@ -20,25 +20,6 @@ dsw::exercise("mixed")
 
 ## Upcoming Workshops
 
-### Simulation for factorial designs with faux
-
-When: Friday June 4 13:00-15:00 (BST)  
-Where: PsyPAG Data Simulation Summer School (zoom)  
-Register: [free tickets via
-EventBrite](https://www.eventbrite.co.uk/e/simulation-for-factorial-designs-with-faux-w-lisa-debruine-tickets-153666134545)
-
-In this workshop I will introduce the {faux} R package for simulating
-factorial designs from existing data or data parameters. I will also
-cover adding continuous predictors to existing data and simulating
-multiple datasets for simulation studies.
-
-#### Prep
-
--   Install R packages from CRAN: `tidyverse`, `faux`, `afex`, `broom`
--   Download files:
-    [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd),
-    [calories-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/calories-stub.Rmd)
-
 ### Data simulation for factorial designs
 
 When: Tuesday July 13 13:30-15:00 (BST)  
@@ -59,6 +40,8 @@ have very basic knowledge of R and R Markdown, and have installed
 -   Install R packages from CRAN: `tidyverse`, `afex`, `faux`
 -   Download files:
     [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd)
+    &
+    [calories-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/calories-stub.Rmd)
 
 ### Data simulation for mixed designs
 
@@ -100,3 +83,6 @@ currently analyse them with mixed models) and have installed {faux},
 
 -   University of Grenoble Understanding Mixed-Effects Models through
     Data Simulation 2021 February 5 13:00-15:00
+
+-   PsyPAG Data Simulation Summer School Simulation for factorial
+    designs with faux 2021 June 4 13:00-15:00
