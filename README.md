@@ -37,7 +37,8 @@ have very basic knowledge of R and R Markdown, and have installed
 
 #### Prep
 
--   Install R packages from CRAN: `tidyverse`, `afex`, `faux`
+-   Install R packages from CRAN: `tidyverse`, `afex`, `faux`, and
+    `broom`
 -   Download files:
     [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd)
     &
@@ -60,7 +61,7 @@ currently analyse them with mixed models) and have installed {faux},
 #### Prep
 
 -   Install R packages from CRAN: `tidyverse`, `afex`, `lme4`, `broom`,
-    `faux`
+    `broom.mixed`, `faux`
 -   Download files:
     [mixed-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/mixed-stub.Rmd)
 
