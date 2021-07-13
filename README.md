@@ -6,7 +6,7 @@ that makes it easy to access the workshop .Rmd files by running the
 following code:
 
 ``` r
-remotes::install_github("debruine/data-sim-workshops")
+devtools::install_github("debruine/data-sim-workshops")
 ```
 
 Load exercises with the following code:
