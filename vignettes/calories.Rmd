@@ -5,7 +5,7 @@ output:
   rmarkdown::html_vignette:
     df_print: kable
 vignette: >
-  %\VignetteIndexEntry{calories}
+  %\VignetteIndexEntry{Calorie Placement Re-Simulation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

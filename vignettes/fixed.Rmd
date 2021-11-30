@@ -5,7 +5,7 @@ output:
   rmarkdown::html_vignette:
     df_print: kable
 vignette: >
-  %\VignetteIndexEntry{fixed}
+  %\VignetteIndexEntry{Fixed Effects}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsw</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.4</span>
       </span>
     </div>
 
@@ -85,7 +85,7 @@
 
       
 
-      </header><script src="fixed_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
+      </header><script src="fixed_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Fixed Effects</h1>
@@ -104,7 +104,7 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/debruine/faux">faux</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://afex.singmann.science/">afex</a></span><span class="op">)</span> <span class="co"># for anova and lmer</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://broom.tidymodels.org/">broom</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://github.com/bbolker/broom.mixed">broom.mixed</a></span><span class="op">)</span> <span class="co"># to make tidy tables of lmer output</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bbolker/broom.mixed">broom.mixed</a></span><span class="op">)</span> <span class="co"># to make tidy tables of lmer output</span>
 
 <span class="fu">theme_set</span><span class="op">(</span><span class="fu">theme_minimal</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">14</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div id="simulation-functions" class="section level2">
@@ -299,12 +299,14 @@ Distribution of dice rolls.
 
 <span class="co"># start your analysis here</span>
 <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"data/sim-data-ind-samples.csv"</span><span class="op">)</span>
-<span class="co">## </span>
+<span class="co">## Rows: 100 Columns: 2</span>
 <span class="co">## ── Column specification ────────────────────────────────────────────────────────</span>
-<span class="co">## cols(</span>
-<span class="co">##   sub_condition = col_character(),</span>
-<span class="co">##   score = col_double()</span>
-<span class="co">## )</span></code></pre></div>
+<span class="co">## Delimiter: ","</span>
+<span class="co">## chr (1): sub_condition</span>
+<span class="co">## dbl (1): score</span>
+<span class="co">## </span>
+<span class="co">## ℹ Use `spec()` to retrieve the full column specification for this data.</span>
+<span class="co">## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></code></pre></div>
 </div>
 <div id="check-your-data" class="section level3">
 <h3 class="hasAnchor">
@@ -317,7 +319,7 @@ Distribution of dice rolls.
             mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span>,
             sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span>,
             .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span>
-<span class="co">## # A tibble: 2 x 4</span>
+<span class="co">## # A tibble: 2 × 4</span>
 <span class="co">##   sub_condition     n  mean    sd</span>
 <span class="co">##   &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">## 1 A                50  10.3  2.54</span>
@@ -377,11 +379,11 @@ Distribution of dice rolls.
 <code class="sourceCode R"><span class="co"># str() prints the resulting list in a shorter format</span>
 <span class="fu">ind_sim</span><span class="op">(</span><span class="fl">50</span>, <span class="fl">50</span>, <span class="fl">10</span>, <span class="fl">11</span>, <span class="fl">2.5</span>, <span class="fl">2.5</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">## List of 5</span>
-<span class="co">##  $ t       : num -3.15</span>
-<span class="co">##  $ ci_lower: num -3.11</span>
-<span class="co">##  $ ci_upper: num -0.703</span>
-<span class="co">##  $ p       : num 0.00222</span>
-<span class="co">##  $ estimate: num -1.91</span></code></pre></div>
+<span class="co">##  $ t       : num -2.18</span>
+<span class="co">##  $ ci_lower: num -2.11</span>
+<span class="co">##  $ ci_upper: num -0.101</span>
+<span class="co">##  $ p       : num 0.0314</span>
+<span class="co">##  $ estimate: num -1.1</span></code></pre></div>
 <p>Now you can use this function to run many simulations. The function <code>map_df</code> from the <code>purrr</code> package (loaded with <code>tidyverse</code>) is one of many ways to run a function many times and organise the results into a table.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mysim</span> <span class="op">&lt;-</span> <span class="fu">map_df</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>, <span class="op">~</span><span class="fu">ind_sim</span><span class="op">(</span><span class="fl">50</span>, <span class="fl">50</span>, <span class="fl">10</span>, <span class="fl">11</span>, <span class="fl">2.5</span>, <span class="fl">2.5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -408,7 +410,7 @@ Distribution of results from simulated independent samples data
 <code class="sourceCode R"><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.05</span>
 <span class="va">power</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">mysim</span><span class="op">$</span><span class="va">p</span> <span class="op">&lt;</span> <span class="va">alpha</span><span class="op">)</span>
 <span class="va">power</span>
-<span class="co">## [1] 0.506</span></code></pre></div>
+<span class="co">## [1] 0.474</span></code></pre></div>
 </div>
 </div>
 <div id="paired-samples" class="section level2">
@@ -475,8 +477,8 @@ Distribution of results from simulated independent samples data
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">faux</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/faux/man/get_params.html">get_params</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span>
 <span class="co">##     n var    A    B  mean   sd</span>
-<span class="co">## 1 100   A 1.00 0.46 10.55 2.83</span>
-<span class="co">## 2 100   B 0.46 1.00 11.56 2.47</span></code></pre></div>
+<span class="co">## 1 100   A 1.00 0.49 10.09 2.57</span>
+<span class="co">## 2 100   B 0.49 1.00 11.27 2.50</span></code></pre></div>
 </div>
 <div id="analysis-1" class="section level3">
 <h3 class="hasAnchor">
@@ -488,13 +490,13 @@ Distribution of results from simulated independent samples data
 <span class="co">##  Paired t-test</span>
 <span class="co">## </span>
 <span class="co">## data:  dat$A and dat$B</span>
-<span class="co">## t = -3.6875, df = 99, p-value = 0.00037</span>
+<span class="co">## t = -4.6022, df = 99, p-value = 1.242e-05</span>
 <span class="co">## alternative hypothesis: true difference in means is not equal to 0</span>
 <span class="co">## 95 percent confidence interval:</span>
-<span class="co">##  -1.5652477 -0.4700593</span>
+<span class="co">##  -1.6843022 -0.6694754</span>
 <span class="co">## sample estimates:</span>
 <span class="co">## mean of the differences </span>
-<span class="co">##               -1.017653</span></code></pre></div>
+<span class="co">##               -1.176889</span></code></pre></div>
 </div>
 <div id="function-1" class="section level3">
 <h3 class="hasAnchor">
@@ -540,7 +542,7 @@ Distribution of results from simulated paired samples data
 <code class="sourceCode R"><span class="va">alpha</span> <span class="op">&lt;-</span> <span class="fl">0.05</span>
 <span class="va">power</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">mysim_p</span><span class="op">$</span><span class="va">p</span> <span class="op">&lt;</span> <span class="va">alpha</span><span class="op">)</span>
 <span class="va">power</span>
-<span class="co">## [1] 0.984</span></code></pre></div>
+<span class="co">## [1] 0.983</span></code></pre></div>
 </div>
 </div>
 <div id="intercept-model" class="section level2">
@@ -617,8 +619,8 @@ Distribution of results from simulated paired samples data
                  dv <span class="op">=</span> <span class="st">"score"</span>,
                  within <span class="op">=</span> <span class="st">"condition"</span><span class="op">)</span>
 <span class="co">##     n var    A    B  mean   sd</span>
-<span class="co">## 1 100   A 1.00 0.59 10.24 2.40</span>
-<span class="co">## 2 100   B 0.59 1.00 11.31 2.52</span></code></pre></div>
+<span class="co">## 1 100   A 1.00 0.59  9.68 2.40</span>
+<span class="co">## 2 100   B 0.59 1.00 10.33 2.58</span></code></pre></div>
 <p>You can use the following code to put the data table into a more familiar “wide” format.</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dat_wide</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op">%&gt;%</span>
@@ -636,13 +638,13 @@ Distribution of results from simulated paired samples data
 <span class="co">##  Paired t-test</span>
 <span class="co">## </span>
 <span class="co">## data:  dat_wide$A and dat_wide$B</span>
-<span class="co">## t = -4.8156, df = 99, p-value = 5.283e-06</span>
+<span class="co">## t = -2.8648, df = 99, p-value = 0.005095</span>
 <span class="co">## alternative hypothesis: true difference in means is not equal to 0</span>
 <span class="co">## 95 percent confidence interval:</span>
-<span class="co">##  -1.5128660 -0.6299387</span>
+<span class="co">##  -1.0923496 -0.1983759</span>
 <span class="co">## sample estimates:</span>
 <span class="co">## mean of the differences </span>
-<span class="co">##               -1.071402</span></code></pre></div>
+<span class="co">##              -0.6453628</span></code></pre></div>
 <p>Or in the long format:</p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># paired-samples t-test from dat (long)</span>
@@ -651,13 +653,13 @@ Distribution of results from simulated paired samples data
 <span class="co">##  Paired t-test</span>
 <span class="co">## </span>
 <span class="co">## data:  score by condition</span>
-<span class="co">## t = -4.8156, df = 99, p-value = 5.283e-06</span>
+<span class="co">## t = -2.8648, df = 99, p-value = 0.005095</span>
 <span class="co">## alternative hypothesis: true difference in means is not equal to 0</span>
 <span class="co">## 95 percent confidence interval:</span>
-<span class="co">##  -1.5128660 -0.6299387</span>
+<span class="co">##  -1.0923496 -0.1983759</span>
 <span class="co">## sample estimates:</span>
 <span class="co">## mean of the differences </span>
-<span class="co">##               -1.071402</span></code></pre></div>
+<span class="co">##              -0.6453628</span></code></pre></div>
 <p>You can analyse the data with ANOVA using the <code><a href="https://rdrr.io/pkg/afex/man/aov_car.html">aov_4()</a></code> function from <code>afex</code>. (Notice how the F-value is the square of the t-value above.)</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># anova using afex::aov_4</span>
@@ -667,8 +669,8 @@ Distribution of results from simulated paired samples data
 <span class="co">## Anova Table (Type 3 tests)</span>
 <span class="co">## </span>
 <span class="co">## Response: score</span>
-<span class="co">##           num Df den Df   MSE     F     ges    Pr(&gt;F)    </span>
-<span class="co">## condition      1     99 2.475 23.19 0.04571 5.283e-06 ***</span>
+<span class="co">##           num Df den Df    MSE      F      ges   Pr(&gt;F)   </span>
+<span class="co">## condition      1     99 2.5373 8.2072 0.016676 0.005095 **</span>
 <span class="co">## ---</span>
 <span class="co">## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></code></pre></div>
 <p>You can even analyse the data with a mixed effects model using the <code>lmer</code> function (the <code>afex</code> version gives you p-values, but the <code>lme4</code> version does not).</p>
@@ -678,11 +680,11 @@ Distribution of results from simulated paired samples data
 
 <span class="co"># displays a tidy table of the fixed effects</span>
 <span class="fu">broom.mixed</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">lmem</span>, effects <span class="op">=</span> <span class="st">"fixed"</span><span class="op">)</span>
-<span class="co">## # A tibble: 2 x 7</span>
+<span class="co">## # A tibble: 2 × 7</span>
 <span class="co">##   effect term        estimate std.error statistic    df  p.value</span>
 <span class="co">##   &lt;chr&gt;  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">## 1 fixed  (Intercept)    10.8      0.219     49.1   99.0 2.57e-71</span>
-<span class="co">## 2 fixed  condition.e     1.07     0.222      4.82  99.0 5.28e- 6</span></code></pre></div>
+<span class="co">## 1 fixed  (Intercept)   10.0       0.222     45.0   99.0 9.08e-68</span>
+<span class="co">## 2 fixed  condition.e    0.645     0.225      2.86  99.0 5.10e- 3</span></code></pre></div>
 </div>
 </div>
 <div id="simulate-a-dataset-from-an-analysis" class="section level2">
@@ -692,7 +694,7 @@ Distribution of results from simulated paired samples data
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">am</span> <span class="op">*</span> <span class="va">vs</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
 <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span>
-<span class="co">## # A tibble: 4 x 5</span>
+<span class="co">## # A tibble: 4 × 5</span>
 <span class="co">##   term        estimate std.error statistic  p.value</span>
 <span class="co">##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span>
 <span class="co">## 1 (Intercept)    15.0       1.00     15.0  6.34e-15</span>
@@ -721,13 +723,13 @@ Distribution of results from simulated paired samples data
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sim_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">am</span> <span class="op">*</span> <span class="va">vs</span>, data <span class="op">=</span> <span class="va">sim_mtcars</span><span class="op">)</span>
 <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">sim_model</span><span class="op">)</span>
-<span class="co">## # A tibble: 4 x 5</span>
+<span class="co">## # A tibble: 4 × 5</span>
 <span class="co">##   term        estimate std.error statistic  p.value</span>
 <span class="co">##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">## 1 (Intercept)    15.1      0.523     28.9  1.76e-72</span>
-<span class="co">## 2 am              4.88     0.739      6.60 3.79e-10</span>
-<span class="co">## 3 vs              6.09     0.739      8.24 2.37e-14</span>
-<span class="co">## 4 am:vs           1.66     1.05       1.59 1.14e- 1</span></code></pre></div>
+<span class="co">## 1 (Intercept)    14.8      0.523     28.3  3.18e-71</span>
+<span class="co">## 2 am              5.61     0.739      7.60 1.21e-12</span>
+<span class="co">## 3 vs              6.62     0.739      8.95 2.67e-16</span>
+<span class="co">## 4 am:vs           1.96     1.05       1.87 6.24e- 2</span></code></pre></div>
 </div>
 <div id="function-2" class="section level3">
 <h3 class="hasAnchor">
@@ -750,13 +752,13 @@ Distribution of results from simulated paired samples data
 <span class="va">fx2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coefficients</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span>
 
 <span class="fu">carsim</span><span class="op">(</span><span class="fl">50</span>, <span class="va">fx2</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">fx2</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">fx2</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, <span class="va">fx2</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span>, <span class="va">err_sd</span><span class="op">)</span>
-<span class="co">## # A tibble: 4 x 5</span>
+<span class="co">## # A tibble: 4 × 5</span>
 <span class="co">##   term        estimate std.error statistic  p.value</span>
 <span class="co">##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">## 1 (Intercept)     6.99     0.517     13.5  7.74e-30</span>
-<span class="co">## 2 am              2.89     0.732      3.95 1.09e- 4</span>
-<span class="co">## 3 vs              3.06     0.732      4.18 4.45e- 5</span>
-<span class="co">## 4 am:vs           2.16     1.03       2.09 3.82e- 2</span></code></pre></div>
+<span class="co">## 1 (Intercept)    7.25      0.535    13.5   6.06e-30</span>
+<span class="co">## 2 am             2.78      0.757     3.67  3.11e- 4</span>
+<span class="co">## 3 vs             3.97      0.757     5.25  3.95e- 7</span>
+<span class="co">## 4 am:vs         -0.200     1.07     -0.187 8.52e- 1</span></code></pre></div>
 <p>Repeat this 100 time and calculate power for each effect.</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">simstats</span> <span class="op">&lt;-</span> <span class="fu">map_df</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="op">~</span><span class="fu">carsim</span><span class="op">(</span><span class="fl">50</span>, <span class="va">fx2</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">fx2</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">fx2</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, <span class="va">fx2</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span>, <span class="va">err_sd</span><span class="op">)</span><span class="op">)</span>
@@ -764,13 +766,13 @@ Distribution of results from simulated paired samples data
 <span class="va">simstats</span> <span class="op">%&gt;%</span>
   <span class="fu">group_by</span><span class="op">(</span><span class="va">term</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">summarise</span><span class="op">(</span>power <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">p.value</span> <span class="op">&lt;</span> <span class="fl">.05</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span>
-<span class="co">## # A tibble: 4 x 2</span>
+<span class="co">## # A tibble: 4 × 2</span>
 <span class="co">##   term        power</span>
 <span class="co">##   &lt;chr&gt;       &lt;dbl&gt;</span>
 <span class="co">## 1 (Intercept)  1   </span>
 <span class="co">## 2 am           0.92</span>
-<span class="co">## 3 am:vs        0.33</span>
-<span class="co">## 4 vs           0.99</span></code></pre></div>
+<span class="co">## 3 am:vs        0.3 </span>
+<span class="co">## 4 vs           0.96</span></code></pre></div>
 </div>
 </div>
 <div id="exercises" class="section level2">
@@ -779,16 +781,14 @@ Distribution of results from simulated paired samples data
 <p>Using the dataset below, predict <code>moral</code> disgust from the interaction between <code>pathogen</code> and <code>sexual</code> disgust using <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>.</p>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">disgust</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span><span class="st">"https://psyteachr.github.io/msc-data-skills/data/disgust_scores.csv"</span><span class="op">)</span>
-<span class="co">## </span>
+<span class="co">## Rows: 20000 Columns: 6</span>
 <span class="co">## ── Column specification ────────────────────────────────────────────────────────</span>
-<span class="co">## cols(</span>
-<span class="co">##   id = col_double(),</span>
-<span class="co">##   user_id = col_double(),</span>
-<span class="co">##   date = col_date(format = ""),</span>
-<span class="co">##   moral = col_double(),</span>
-<span class="co">##   pathogen = col_double(),</span>
-<span class="co">##   sexual = col_double()</span>
-<span class="co">## )</span></code></pre></div>
+<span class="co">## Delimiter: ","</span>
+<span class="co">## dbl  (5): id, user_id, moral, pathogen, sexual</span>
+<span class="co">## date (1): date</span>
+<span class="co">## </span>
+<span class="co">## ℹ Use `spec()` to retrieve the full column specification for this data.</span>
+<span class="co">## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></code></pre></div>
 <p>Simulate a new dataset of 100 people with a similar pathogen and sexual disgust distribution to the original dataset. Remember that these are likely to be correlated and that scores can only range from 0 to 6. (Hint: look at the help for <code>norm2trunc</code>)</p>
 <p>Write a function to simulate data, analyse it, and return a table of results. Make sure you can vary the important parameters using arguments.</p>
 <p>Calculate power for the same fixed effects as in the original analysis. Adjust the N until the dsign has around .80 power to detect a main effect of pathogen disgust.</p>

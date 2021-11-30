@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsw</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.4</span>
       </span>
     </div>
 
@@ -85,7 +85,7 @@
 
       
 
-      </header><script src="calories_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
+      </header><script src="calories_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Calorie Placement Re-Simulation</h1>
@@ -135,7 +135,7 @@
 <span class="op">}</span>
 
 <span class="fu">s2_analyse</span><span class="op">(</span><span class="va">s2</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 10
+<pre><code>## # A tibble: 1 × 10
 ##   estimate estimate1 estimate2 statistic p.value parameter conf.low conf.high
 ##      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
 ## 1    -80.4     1266.     1347.     -1.50   0.134      258.    -186.      24.9
@@ -158,7 +158,7 @@
   <span class="fu">unnest</span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">s2_sim</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 11
+<pre><code>## # A tibble: 6 × 11
 ##     rep estimate estimate1 estimate2 statistic  p.value parameter conf.low
 ##   &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
 ## 1     1   -161.      1204.     1365.     -2.74 0.00659       254.    -276.
@@ -240,7 +240,7 @@
   <span class="fu">unnest</span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">s1_sim</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 4
+<pre><code>## # A tibble: 6 × 4
 ##     rep   p_all    p_1     p_2
 ##   &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
 ## 1     1 0.0286  0.0161 0.0999 
@@ -304,7 +304,7 @@
   <span class="fu">unnest</span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">s3_sim</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 4
+<pre><code>## # A tibble: 6 × 4
 ##     rep   p_all      p_1    p_2
 ##   &lt;int&gt;   &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
 ## 1     1 0.0765  0.0477   0.210 
@@ -415,7 +415,7 @@
 <span class="op">)</span>
 
 <span class="va">power_table</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 3
+<pre><code>## # A tibble: 6 × 3
 ##   study power_ft power_my
 ##   &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;
 ## 1 1        0.458    0.5  

@@ -5,7 +5,7 @@ output:
   rmarkdown::html_vignette:
     df_print: kable
 vignette: >
-  %\VignetteIndexEntry{mixed}
+  %\VignetteIndexEntry{Mixed Effects}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -173,7 +173,7 @@ versions   <- c("congruent" = -0.5, "incongruent" = +0.5)
 
 Use the code below to transform the simple main effects above into main effects and interactions for use in the equations below.
 
-````{r sim-effect-calc}
+```{r sim-effect-calc}
 # calculate main effects and interactions from simple effects above
 
 # mean difference between easy and hard conditions

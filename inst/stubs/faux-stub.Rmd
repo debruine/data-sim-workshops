@@ -19,7 +19,7 @@ set.seed(8675309) # Jenny, I've got your number
 
 ```{r libs, message=FALSE}
 library(tidyverse)
-library(faux)
+library(faux) # requires version >=1.1.0
 library(broom)
 library(afex)
 ```
@@ -245,7 +245,7 @@ plot(dat_anon)
 You can change the order of plotting and the types of geoms plotted. This takes a little trial and error, so this function will probably be refined in later versions.
 
 ```{r}
-plot(dat_anon, "B", "A", "C", geoms = c("violin", "pointrangeSD"))
+plot(dat_anon, "B1", "B2", "W1", geoms = c("violin", "pointrangeSD"))
 ```
 
 ## Replications
@@ -268,7 +268,7 @@ You can run analyses on the nested data by wrapping your analysis code in a func
 
 ```{r}
 analyse <- function(data) {
-  t.test(data$A1, data$A2, paired = TRUE) %>% broom::tidy()
+  t.test(data$W1a, data$W1b, paired = TRUE) %>% broom::tidy()
 }
 
 dat_rep %>%
@@ -400,14 +400,14 @@ Create a dataset of 20 observations with 1 within-subject variable ("condition")
 
 ### 2w*2w
 
-Create a dataset with 50 observations of 2 within-subject variables ("A" and "B") each having 2 levels. The mean for all cells is 10 and the SD is 2. The dataset should have 20 subjects. The correlations look like this:
+Create a dataset with 50 observations of 2 within-subject variables ("W1" and "W2") each having 2 levels. The mean for all cells is 10 and the SD is 2. The dataset should have 20 subjects. The correlations look like this:
 
-|       | A1_B1 | A1_B2 | A2_B1 | A2_B2 |
-|:------|------:|------:|------:|------:|
-| A1_B1 | 1.0   | 0.5   | 0.5   | 0.2   |
-| A1_B2 | 0.5   | 1.0   | 0.2   | 0.5   |
-| A2_B1 | 0.5   | 0.2   | 1.0   | 0.5   |
-| A2_B2 | 0.2   | 0.5   | 0.5   | 1.0   |
+|         | W1a_W2a | W1a_W2b | W1b_W2a | W1b_W2b |
+|:--------|------:|------:|------:|------:|
+| W1a_W2a | 1.0   | 0.5   | 0.5   | 0.2   |
+| W1a_W2b | 0.5   | 1.0   | 0.2   | 0.5   |
+| W1b_W2a | 0.5   | 0.2   | 1.0   | 0.5   |
+| W1b_W2b | 0.2   | 0.5   | 0.5   | 1.0   |
 
 
 ```{r}
@@ -430,7 +430,7 @@ SDs are all 5 and within-cell correlations are all 0.25.
 
 ### Replications
 
-Create 5 datasets with a 2b*2b design, 30 participants in each cell. Each cell's mean should be 0, except A1_B1, which should be 0.5. The SD should be 1. Make the resulting data in long format.
+Create 5 datasets with a 2b*2b design, 30 participants in each cell. Each cell's mean should be 0, except B1a:B2a, which should be 0.5. The SD should be 1. Make the resulting data in long format.
 
 ```{r}
 
@@ -438,9 +438,9 @@ Create 5 datasets with a 2b*2b design, 30 participants in each cell. Each cell's
 
 ### Power 
 
-Simulate 100 datasets like the one above and use `lm()` or `afex::aov_ez()` to look at the interaction between A and B. What is the power of this design?
+Simulate 100 datasets like the one above and use `lm()` or `afex::aov_ez()` to look at the interaction between B1 and B2. What is the power of this design?
 
-````{r}
+```{r}
 
 ```
 

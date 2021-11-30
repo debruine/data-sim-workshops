@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsw</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.4</span>
       </span>
     </div>
 
@@ -85,7 +85,7 @@
 
       
 
-      </header><script src="mixed_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
+      </header><script src="mixed_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Mixed Effects</h1>
@@ -107,7 +107,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>   <span class="co"># for data wrangling, pipes, and good dataviz</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://afex.singmann.science/">afex</a></span><span class="op">)</span>        <span class="co"># for mixed effect models</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://github.com/bbolker/broom.mixed">broom.mixed</a></span><span class="op">)</span> <span class="co"># for getting tidy data tables from mixed models</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bbolker/broom.mixed">broom.mixed</a></span><span class="op">)</span> <span class="co"># for getting tidy data tables from mixed models</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/debruine/faux">faux</a></span><span class="op">)</span>        <span class="co"># for simulating correlated variables</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">4</span>, scipen <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
@@ -281,7 +281,7 @@ Double-check the interaction between condition and version
   <span class="fu">summarise</span><span class="op">(</span>m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">dv</span><span class="op">)</span> <span class="op">-</span> <span class="va">grand_i</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>,
             .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">spread</span><span class="op">(</span><span class="va">stim_version</span>, <span class="va">m</span><span class="op">)</span>
-<span class="co">## # A tibble: 2 x 3</span>
+<span class="co">## # A tibble: 2 × 3</span>
 <span class="co">##   sub_cond congruent incongruent</span>
 <span class="co">##   &lt;chr&gt;        &lt;dbl&gt;       &lt;dbl&gt;</span>
 <span class="co">## 1 easy         -17.5        32.1</span>
@@ -573,7 +573,7 @@ Compare simulated stimulus random intercepts to those from the model
   <span class="fu">group_by</span><span class="op">(</span><span class="va">term</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">summarise</span><span class="op">(</span>power <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">p.value</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span>,
             .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span>
-<span class="co">## # A tibble: 4 x 2</span>
+<span class="co">## # A tibble: 4 × 2</span>
 <span class="co">##   term                      power</span>
 <span class="co">##   &lt;chr&gt;                     &lt;dbl&gt;</span>
 <span class="co">## 1 (Intercept)                   1</span>

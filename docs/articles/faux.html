@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsw</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.4</span>
       </span>
     </div>
 
@@ -85,7 +85,7 @@
 
       
 
-      </header><script src="faux_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
+      </header><script src="faux_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Intro to Faux</h1>
@@ -330,9 +330,10 @@
 <p>Faux has a quick plotting function for visualising data made with faux. The plot created by <code><a href="https://rdrr.io/pkg/faux/man/sim_design.html">sim_design()</a></code> shows the <em>design</em>, while this function shows the simulated <em>data</em>.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">dat_anon</span><span class="op">)</span></code></pre></div>
-<p><img src="faux_files/figure-html/unnamed-chunk-19-1.png" width="100%"> You can change the order of plotting and the types of geoms plotted. This takes a little trial and error, so this function will probably be refined in later versions.</p>
+<p><img src="faux_files/figure-html/unnamed-chunk-19-1.png" width="100%"></p>
+<p>You can change the order of plotting and the types of geoms plotted. This takes a little trial and error, so this function will probably be refined in later versions.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">dat_anon</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"C"</span>, geoms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"violin"</span>, <span class="st">"pointrangeSD"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">dat_anon</span>, <span class="st">"B1"</span>, <span class="st">"B2"</span>, <span class="st">"W1"</span>, geoms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"violin"</span>, <span class="st">"pointrangeSD"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="faux_files/figure-html/unnamed-chunk-20-1.png" width="100%"></p>
 </div>
 </div>
@@ -354,14 +355,14 @@
 <p>You can run analyses on the nested data by wrapping your analysis code in a function then using <code>map()</code> to run the analysis on each data set and <code>unnest()</code> to expand the results into a data table.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">analyse</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">A1</span>, <span class="va">data</span><span class="op">$</span><span class="va">A2</span>, paired <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">W1a</span>, <span class="va">data</span><span class="op">$</span><span class="va">W1b</span>, paired <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">}</span>
 
 <span class="va">dat_rep</span> <span class="op">%&gt;%</span>
   <span class="fu">mutate</span><span class="op">(</span>analysis <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">data</span>, <span class="va">analyse</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">data</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">unnest</span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span>
-<span class="co">## # A tibble: 5 x 9</span>
+<span class="co">## # A tibble: 5 × 9</span>
 <span class="co">##     rep estimate statistic p.value parameter conf.low conf.high method       </span>
 <span class="co">##   &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;        </span>
 <span class="co">## 1     1   -0.131    -0.427  0.674         19   -0.774    0.512  Paired t-test</span>
@@ -420,7 +421,7 @@
   <span class="fu">mutate</span><span class="op">(</span>analysis <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">data</span>, <span class="va">analyse</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">data</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">unnest</span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 8
+<pre><code>## # A tibble: 6 × 8
 ##     rep term     `num Df` `den Df`   MSE      F   pes p.value
 ##   &lt;int&gt; &lt;fct&gt;       &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
 ## 1     1 pet             1       88 1.42   0.667 0.008   0.416
@@ -436,7 +437,7 @@
   <span class="fu">summarise</span><span class="op">(</span>power <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">p.value</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span>,
             mean_pes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">pes</span><span class="op">)</span>,
             .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span>
-<span class="co">## # A tibble: 3 x 3</span>
+<span class="co">## # A tibble: 3 × 3</span>
 <span class="co">##   term     power mean_pes</span>
 <span class="co">##   &lt;fct&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span>
 <span class="co">## 1 pet       0.15  0.0213 </span>
@@ -525,39 +526,39 @@
 <div id="w2w" class="section level3">
 <h3 class="hasAnchor">
 <a href="#w2w" class="anchor"></a>2w*2w</h3>
-<p>Create a dataset with 50 observations of 2 within-subject variables (“A” and “B”) each having 2 levels. The mean for all cells is 10 and the SD is 2. The dataset should have 20 subjects. The correlations look like this:</p>
+<p>Create a dataset with 50 observations of 2 within-subject variables (“W1” and “W2”) each having 2 levels. The mean for all cells is 10 and the SD is 2. The dataset should have 20 subjects. The correlations look like this:</p>
 <table class="table">
 <thead><tr class="header">
 <th align="left"></th>
-<th align="right">A1_B1</th>
-<th align="right">A1_B2</th>
-<th align="right">A2_B1</th>
-<th align="right">A2_B2</th>
+<th align="right">W1a_W2a</th>
+<th align="right">W1a_W2b</th>
+<th align="right">W1b_W2a</th>
+<th align="right">W1b_W2b</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">A1_B1</td>
+<td align="left">W1a_W2a</td>
 <td align="right">1.0</td>
 <td align="right">0.5</td>
 <td align="right">0.5</td>
 <td align="right">0.2</td>
 </tr>
 <tr class="even">
-<td align="left">A1_B2</td>
+<td align="left">W1a_W2b</td>
 <td align="right">0.5</td>
 <td align="right">1.0</td>
 <td align="right">0.2</td>
 <td align="right">0.5</td>
 </tr>
 <tr class="odd">
-<td align="left">A2_B1</td>
+<td align="left">W1b_W2a</td>
 <td align="right">0.5</td>
 <td align="right">0.2</td>
 <td align="right">1.0</td>
 <td align="right">0.5</td>
 </tr>
 <tr class="even">
-<td align="left">A2_B2</td>
+<td align="left">W1b_W2b</td>
 <td align="right">0.2</td>
 <td align="right">0.5</td>
 <td align="right">0.5</td>
@@ -580,7 +581,7 @@
 <div id="replications-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#replications-1" class="anchor"></a>Replications</h3>
-<p>Create 5 datasets with a 2b*2b design, 30 participants in each cell. Each cell’s mean should be 0, except A1_B1, which should be 0.5. The SD should be 1. Make the resulting data in long format.</p>
+<p>Create 5 datasets with a 2b*2b design, 30 participants in each cell. Each cell’s mean should be 0, except B1a:B2a, which should be 0.5. The SD should be 1. Make the resulting data in long format.</p>
 </div>
 <div id="power" class="section level3">
 <h3 class="hasAnchor">
@@ -600,7 +601,7 @@
 <code class="sourceCode R">
 <span class="co"># linear model version</span>
 <span class="va">analyse_lm</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">A</span><span class="op">*</span><span class="va">B</span>, data <span class="op">=</span> <span class="va">data</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">B1</span><span class="op">*</span><span class="va">B2</span>, data <span class="op">=</span> <span class="va">data</span><span class="op">)</span> <span class="op">%&gt;%</span> 
     <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
     <span class="fu">mutate</span><span class="op">(</span>term <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">term</span>, levels <span class="op">=</span> <span class="va">term</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span>
@@ -614,19 +615,19 @@
   <span class="fu">group_by</span><span class="op">(</span><span class="va">term</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">summarise</span><span class="op">(</span>power <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">p.value</span> <span class="op">&lt;</span> <span class="fl">.05</span><span class="op">)</span>,
             .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span>
-<span class="co">## # A tibble: 4 x 2</span>
+<span class="co">## # A tibble: 4 × 2</span>
 <span class="co">##   term        power</span>
 <span class="co">##   &lt;fct&gt;       &lt;dbl&gt;</span>
 <span class="co">## 1 (Intercept)  0.21</span>
-<span class="co">## 2 A1           0.23</span>
-<span class="co">## 3 B1           0.25</span>
-<span class="co">## 4 A1:B1        0.32</span>
+<span class="co">## 2 B11          0.23</span>
+<span class="co">## 3 B21          0.25</span>
+<span class="co">## 4 B11:B21      0.32</span>
 
 <span class="co"># anova version</span>
 <span class="va">analyse_aov</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">afex</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/afex/man/aov_car.html">aov_ez</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"id"</span>,
               dv <span class="op">=</span> <span class="st">"y"</span>,
-              between <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>,
+              between <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B1"</span>, <span class="st">"B2"</span><span class="op">)</span>,
               data <span class="op">=</span> <span class="va">data</span><span class="op">)</span>
   
   <span class="fu">as_tibble</span><span class="op">(</span><span class="va">a</span><span class="op">$</span><span class="va">anova_table</span>, rownames <span class="op">=</span> <span class="st">"term"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -643,12 +644,12 @@
   <span class="fu">group_by</span><span class="op">(</span><span class="va">term</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">summarise</span><span class="op">(</span>power <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">p.value</span> <span class="op">&lt;</span> <span class="fl">.05</span><span class="op">)</span>,
             .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span>
-<span class="co">## # A tibble: 3 x 2</span>
+<span class="co">## # A tibble: 3 × 2</span>
 <span class="co">##   term  power</span>
 <span class="co">##   &lt;fct&gt; &lt;dbl&gt;</span>
-<span class="co">## 1 A      0.23</span>
-<span class="co">## 2 B      0.25</span>
-<span class="co">## 3 A:B    0.32</span></code></pre></div>
+<span class="co">## 1 B1     0.23</span>
+<span class="co">## 2 B2     0.25</span>
+<span class="co">## 3 B1:B2  0.32</span></code></pre></div>
 </div>
 </div>
   </div>
