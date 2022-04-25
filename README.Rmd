@@ -37,8 +37,8 @@ dsw::exercise("mixed")
 
 ### Data simulation for factorial designs
 
-When: Tuesday July 13 13:30-15:00 (BST)  
-Where: From Proposal to Publication: Pathways to Open Science (zoom)
+When: Wednesday April 27 09:00-11:00 (BST)  
+Where: York University
 
 This session will cover the basics of simulation using {faux}. We will simulate data with factorial designs by specifying the within and between-subjects factor structure, each cell mean and standard deviation, and correlations between cells where appropriate. This can be used to create simulated data sets to be used in preparing the analysis code for pre-registrations or registered reports. We will also create data sets for simulation-based power analyses. Students will need to have very basic knowledge of R and R Markdown, and have installed {faux}, {afex} and {tidyverse}.
 
@@ -50,8 +50,8 @@ This session will cover the basics of simulation using {faux}. We will simulate 
 
 ### Data simulation for mixed designs
 
-When: Tuesday July 13 15:30-17:00 (BST)  
-Where: From Proposal to Publication: Pathways to Open Science (zoom)
+When: Wednesday April 27 13:00-15:00 (BST)  
+Where: York University
 
 This session will cover simulating data for a mixed design, where trials are crossed with subjects. We will learn how to analyse this using {lme4}, with a focus on understanding how the simulation parameters correspond to the output. Finally, we will learn how to use simulation to calculate power. Students will need to have basic knowledge of R and R Markdown, some familiarity with mixed designs (even if they don't currently analyse them with mixed models) and have installed {faux}, {afex}, {tidyverse}, and {lme4}.
 
@@ -70,6 +70,11 @@ This session will cover simulating data for a mixed design, where trials are cro
 
 ## Past Workshops
 
+*  From Proposal to Publication: Pathways to Open Science
+    Data simulation for factorial designs 
+    Data simulation for mixed designs 
+    2022 July 13 13:30-17:00 
+    
 * University of Glasgow
     Institute of Neuroscience and Psychology 
     2020 Jan 28 13:00-15:00 and Feb 5 14:00-16:00 

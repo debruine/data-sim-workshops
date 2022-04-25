@@ -22,8 +22,8 @@ dsw::exercise("mixed")
 
 ### Data simulation for factorial designs
 
-When: Tuesday July 13 13:30-15:00 (BST)  
-Where: From Proposal to Publication: Pathways to Open Science (zoom)
+When: Wednesday April 27 09:00-11:00 (BST)  
+Where: York University
 
 This session will cover the basics of simulation using {faux}. We will
 simulate data with factorial designs by specifying the within and
@@ -46,8 +46,8 @@ have very basic knowledge of R and R Markdown, and have installed
 
 ### Data simulation for mixed designs
 
-When: Tuesday July 13 15:30-17:00 (BST)  
-Where: From Proposal to Publication: Pathways to Open Science (zoom)
+When: Wednesday April 27 13:00-15:00 (BST)  
+Where: York University
 
 This session will cover simulating data for a mixed design, where trials
 are crossed with subjects. We will learn how to analyse this using
@@ -78,6 +78,10 @@ currently analyse them with mixed models) and have installed {faux},
     has an interactive data simulation tab)
 
 ## Past Workshops
+
+-   From Proposal to Publication: Pathways to Open Science Data
+    simulation for factorial designs Data simulation for mixed designs
+    2022 July 13 13:30-17:00
 
 -   University of Glasgow Institute of Neuroscience and Psychology 2020
     Jan 28 13:00-15:00 and Feb 5 14:00-16:00
