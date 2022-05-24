@@ -2,7 +2,7 @@
 title: "Calorie Placement Re-Simulation"
 author: "Lisa DeBruine"
 output: 
-  rmarkdown::html_vignette:
+  rmarkdown::html_document:
     df_print: paged
 vignette: >
   %\VignetteIndexEntry{Calorie Placement Re-Simulation}
@@ -12,6 +12,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
 library(tidyverse)
 library(faux)
 library(afex)
@@ -42,7 +43,7 @@ We'll start with S2 because the analysis is very straightforward. It's a between
 Let's first simulate a single data table with these parameters and set up our analysis.
 
 ```{r}
-s2 <- sim_design(
+data <- sim_design(
   between = list(placement = c("left", "right")),
   mu = c(left = 1249.83, right = 1362.31),
   sd = c(left = 449.07, right = 447.35),
@@ -59,11 +60,11 @@ s2_analyse <- function(data) {
     broom::tidy()
 }
 
-s2_analyse(s2)
+s2_analyse(data)
 ```
 
 
-Now, simulate the data 1000 times.
+Now, simulate the data 500 times.
 
 ```{r}
 s2 <- sim_design(
@@ -72,7 +73,7 @@ s2 <- sim_design(
   sd = c(left = 449.07, right = 447.35),
   n = c(left = 143, right = 132),
   dv = "calories",
-  rep = 1000
+  rep = 500
 )
 ```
 
@@ -105,7 +106,7 @@ Study 1 is a little more complicated because the design includes a "no label" co
 The data simulation is relatively straightforward, though.
 
 ```{r}
-s1 <- sim_design(
+data <- sim_design(
   between = list(placement = c("left", "right", "none")),
   mu = c(654.53, 865.41, 914.34),
   sd = c(390.45, 517.26, 560.94),
@@ -114,7 +115,7 @@ s1 <- sim_design(
 )
 ```
 
-Set up the analysis. Here, we really just care about three p=values, so we'll just return those. We can use a function from the {emmeans} package to check the two pairwise comparisons.
+Set up the analysis. Here, we really just care about three p-values, so we'll just return those. We can use a function from the {emmeans} package to check the two pairwise comparisons.
 
 ```{r}
 afex::set_sum_contrasts() # avoids annoying afex message on each run
@@ -143,7 +144,7 @@ s1_analyse <- function(data) {
   )
 }
 
-s1_analyse(s1)
+s1_analyse(data)
 ```
 
 Let's just replicate this 100 times so the simulation doesn't take too long to run at first. We can always increase it later after we've run some sense checks.
@@ -225,6 +226,7 @@ s3_analyse <- function(data) {
 }
 ```
 
+
 Run the analysis on each data set.
 
 ```{r}
@@ -250,7 +252,7 @@ Compare this value (`r s3_power`) with the value in the paper (0.3626).
 
 ### Study S1
 
-Now you can use the pattern from Study 2 to analyse the data for Study S1. You can even reuse the analysis function `s2_analyse`!
+Now you can use the pattern from Study 2 to analyse the data for Study S1. You can even reuse the analysis function `s2_analyse()`!
 
 ```{r}
 ss1 <- sim_design(
@@ -281,7 +283,7 @@ ss1_power <- ss1_sim |>
 
 ### Study S2
 
-Now you can use the pattern from Study 1 to analyse the data for Study S2. You can even reuse the analysis function `s1_analyse`!
+Now you can use the pattern from Study 1 to analyse the data for Study S2. You can even reuse the analysis function `s1_analyse()`!
 
 ```{r}
 ss2 <- sim_design(
@@ -349,12 +351,12 @@ Now that you've calculated power for each of the 6 studies, just multiply the 6 
 ```{r}
 power_table <- tribble(
   ~study, ~power_ft, ~ power_my,
-  "1", 0.4582, s1_power,
-  "2", 0.5426, s2_power,
-  "3", 0.3626, s3_power,
-  "S1", 0.5358, ss1_power,
-  "S2", 0.5667, ss2_power,
-  "S3", 0.4953, ss3_power
+  "1",       0.4582,   s1_power,
+  "2",       0.5426,   s2_power,
+  "3",       0.3626,   s3_power,
+  "S1",      0.5358,  ss1_power,
+  "S2",      0.5667,  ss2_power,
+  "S3",      0.4953,  ss3_power
 )
 
 power_table

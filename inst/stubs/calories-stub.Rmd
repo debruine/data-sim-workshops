@@ -37,7 +37,7 @@ We'll start with S2 because the analysis is very straightforward. It's a between
 Let's first simulate a single data table with these parameters and set up our analysis.
 
 ```{r}
-s2 <- NULL
+data <- NULL
 ```
 
 Wrap the analysis in a function using the `tidy()` function from {broom} to get the results in a tidy table. Check that it works by running it on the single data set above.
@@ -46,11 +46,11 @@ Wrap the analysis in a function using the `tidy()` function from {broom} to get 
 s2_analyse <- function(data) {
 }
 
-s2_analyse(s2)
+s2_analyse(data)
 ```
 
 
-Now, simulate the data 1000 times.
+Now, simulate the data 500 times.
 
 ```{r}
 s2 <- NULL
@@ -79,10 +79,14 @@ Study 1 is a little more complicated because the design includes a "no label" co
 The data simulation is relatively straightforward, though.
 
 ```{r}
-s1 <- NULL
+mu = c(left = 654.53, right = 865.41, none = 914.34)
+sd = c(left = 390.45, right = 517.26, none = 560.94)
+n =  c(left =  45,    right =  54,    none =  50)
+
+data <- NULL
 ```
 
-Set up the analysis. Here, we really just care about three p=values, so we'll just return those. We can use a function from the {emmeans} package to check the two pairwise comparisons.
+Set up the analysis. Here, we really just care about three p-values, so we'll just return those. We can use a function from the {emmeans} package to check the two pairwise comparisons.
 
 ```{r}
 afex::set_sum_contrasts() # avoids annoying afex message on each run
@@ -111,7 +115,7 @@ s1_analyse <- function(data) {
   )
 }
 
-s1_analyse(s1)
+s1_analyse(data)
 ```
 
 Let's just replicate this 100 times so the simulation doesn't take too long to run at first. We can always increase it later after we've run some sense checks.
@@ -139,6 +143,10 @@ Compare this value (`r s1_power`) with the value in the paper (0.4582).
 Now you can use the pattern from Study 1 to analyse the data for Study 3. We'll start with the repeated data set.
 
 ```{r}
+mu = c(left = 1428.24, right = 1308.66, none = 1436.79)
+sd = c(left =  377.02, right =  420.14, none =  378.47)
+n =  c(left =   85,    right =   86,    none =   81)
+
 s3 <- NULL
 ```
 
@@ -165,9 +173,13 @@ Compare this value (`r s3_power`) with the value in the paper (0.3626).
 
 ### Study S1
 
-Now you can use the pattern from Study 2 to analyse the data for Study S1. You can even reuse the analysis function `s2_analyse`!
+Now you can use the pattern from Study 2 to analyse the data for Study S1. You can even reuse the analysis function `s2_analyse()`!
 
 ```{r}
+mu = c(left = 185.94, right = 215.73)
+sd = c(left =  93.92, right =  95.33)
+n =  c(left =  99,    right =  77)
+
 ss1 <- NULL
 ```
 
@@ -183,9 +195,13 @@ ss1_power <- NULL
 
 ### Study S2
 
-Now you can use the pattern from Study 1 to analyse the data for Study S2. You can even reuse the analysis function `s1_analyse`!
+Now you can use the pattern from Study 1 to analyse the data for Study S2. You can even reuse the analysis function `s1_analyse()`!
 
 ```{r}
+mu = c(left = 1182.15, right = 1302.23, none = 1373.74)
+sd = c(left =  477.60, right =  434.41, none =  475.77)
+n =  c(left =  139,    right =  141,    none = 151)
+
 ss2 <- NULL
 ```
 
@@ -202,6 +218,10 @@ ss2_power <- NULL
 Now you can use the pattern from Study 1 to analyse the data for Study S3.
 
 ```{r}
+mu = c(left = 1302.03, right = 1373.15, none = 1404.35)
+sd = c(left =  480.02, right =  442.49, none =  422.03)
+n  = c(left =  336,    right =  337,    none =  333)
+
 ss3 <- NULL
 ```
 
@@ -221,12 +241,12 @@ Now that you've calculated power for each of the 6 studies, just multiply the 6 
 ```{r}
 power_table <- tribble(
   ~study, ~power_ft, ~ power_my,
-  "1", 0.4582, s1_power,
-  "2", 0.5426, s2_power,
-  "3", 0.3626, s3_power,
-  "S1", 0.5358, ss1_power,
-  "S2", 0.5667, ss2_power,
-  "S3", 0.4953, ss3_power
+  "1",       0.4582,   s1_power,
+  "2",       0.5426,   s2_power,
+  "3",       0.3626,   s3_power,
+  "S1",      0.5358,  ss1_power,
+  "S2",      0.5667,  ss2_power,
+  "S3",      0.4953,  ss3_power
 )
 
 power_table

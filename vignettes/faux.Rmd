@@ -2,7 +2,7 @@
 title: "Intro to Faux"
 author: "Lisa DeBruine"
 output: 
-  rmarkdown::html_vignette:
+  rmarkdown::html_document:
     df_print: paged
 vignette: >
   %\VignetteIndexEntry{Intro to Faux}
