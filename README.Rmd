@@ -14,7 +14,17 @@ knitr::opts_chunk$set(
 set.seed(8675309)
 ```
 
-# Data Simulation Workshop Materials
+# Data Simulation Workshop Materials ![](man/figures/logo.png){style="float:right; width:200px;"}
+
+Being able to simulate data allows you to:
+
+* prep analysis scripts for pre-registration
+* calculate power and sensitivity for analyses that don't have empirical methods
+* create reproducible examples when your data are too big or confidential to share
+* enhance your understanding of statistical concepts
+* create demo data for teaching and tutorials
+
+## Installation
 
 You can install the packages used in these tutorials and get a function that makes it easy to access the workshop .Rmd files by running the following code:
 
@@ -31,7 +41,7 @@ dsw::exercise("fixed")
 dsw::exercise("mixed")
 ```
 
-
+Alternatively, download the stub files and install the specific packages for your workshop. They will be listed below under "Prep".
 
 ## Upcoming Workshops
 
@@ -64,17 +74,17 @@ This session will cover simulating data for a mixed design, where trials are cro
 
 ## Resources
 
-* [Data Skills for Reproducible Science](https://psyteachr.github.io/msc-data-skills/) open source textbook introducing tidyverse for psychologists
+* [Faux Shiny App](https://shiny.psy.gla.ac.uk/debruine/fauxapp/) 
+* [Data Skills for Reproducible Research](https://psyteachr.github.io/reprores/) open source textbook introducing tidyverse for psychologists
 * [Understanding mixed effects models through data simulation](https://osf.io/3cz2e/) (preprint, code, and shiny apps) 
 * [Simulate Basic Distributions](https://shiny.psy.gla.ac.uk/debruine/simulate/)
-* [Faux Shiny App](https://shiny.psy.gla.ac.uk/debruine/fauxapp/) 
 
 ## Past Workshops
 
 * University of York
     Data simulation for factorial designs
     Data simulation for mixed designs 
-    Wednesday April 27 09:00-17:00 (BST)  
+    2022 April 27 09:00-17:00 (BST)  
 
 *  From Proposal to Publication: Pathways to Open Science
     Data simulation for factorial designs 
