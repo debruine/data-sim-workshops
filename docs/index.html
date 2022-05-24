@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">dsw</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9005</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -60,9 +60,6 @@
     </li>
     <li>
       <a href="articles/mixed.html">Mixed Effects</a>
-    </li>
-    <li>
-      <a href="articles/mixed2.html">Mixed Effects 2.0</a>
     </li>
   </ul>
 </li>
@@ -89,9 +86,7 @@
 <div class="section level1">
 <div class="page-header"><h1 id="data-simulation-workshop-materials">Data Simulation Workshop Materials<a class="anchor" aria-label="anchor" href="#data-simulation-workshop-materials"></a>
 </h1></div>
-<p>You can install the packages used in these tutorials and get a
-function that makes it easy to access the workshop .Rmd files by running
-the following code:</p>
+<p>You can install the packages used in these tutorials and get a function that makes it easy to access the workshop .Rmd files by running the following code:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"debruine/data-sim-workshops"</span><span class="op">)</span></code></pre></div>
 <p>Load exercises with the following code:</p>
@@ -104,56 +99,33 @@ the following code:</p>
 <h2 id="upcoming-workshops">Upcoming Workshops<a class="anchor" aria-label="anchor" href="#upcoming-workshops"></a>
 </h2>
 <div class="section level3">
-<h3 id="data-simulation-for-factorial-designs">Data simulation for factorial designs<a class="anchor" aria-label="anchor" href="#data-simulation-for-factorial-designs"></a>
+<h3 id="data-simulation-using-faux">Data simulation using faux<a class="anchor" aria-label="anchor" href="#data-simulation-using-faux"></a>
 </h3>
-<p>When: Wednesday April 27 09:00-11:00 (BST)<br>
-Where: York University</p>
-<p>This session will cover the basics of simulation using {faux}. We
-will simulate data with factorial designs by specifying the within and
-between-subjects factor structure, each cell mean and standard
-deviation, and correlations between cells where appropriate. This can be
-used to create simulated data sets to be used in preparing the analysis
-code for pre-registrations or registered reports. We will also create
-data sets for simulation-based power analyses. Students will need to
-have very basic knowledge of R and R Markdown, and have installed
-{faux}, {afex} and {tidyverse}.</p>
+<p>When: Wednesday May 24 15:00-17:00 (BST)<br>
+Where: RLadies Glasgow <a href="https://www.meetup.com/rladies-glasgow/events/285942871/" class="external-link">Register</a></p>
+<p>This session will cover the basics of simulation using {faux}. We will simulate data with factorial designs by specifying the within and between-subjects factor structure, each cell mean and standard deviation, and correlations between cells where appropriate. This can be used to create simulated data sets to be used in preparing the analysis code for pre-registrations or registered reports. We will also create data sets for simulation-based power analyses. Students will need to have very basic knowledge of R and R Markdown, and have installed {faux}, {afex}, {broom} and {tidyverse}.</p>
 <div class="section level4">
 <h4 id="prep">Prep<a class="anchor" aria-label="anchor" href="#prep"></a>
 </h4>
 <ul>
-<li>Install R packages from CRAN: <code>tidyverse</code>,
-<code>afex</code>, <code>faux</code>, and <code>broom</code>
+<li>Install R packages from CRAN: <code>tidyverse</code>, <code>afex</code>, <code>faux</code>, and <code>broom</code>
 </li>
-<li>Download files: <a href="https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd" class="external-link">faux-stub.Rmd</a>
-&amp; <a href="https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/calories-stub.Rmd" class="external-link">calories-stub.Rmd</a>
+<li>Download files: <a href="https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd" class="external-link">faux-stub.Rmd</a> &amp; <a href="https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/calories-stub.Rmd" class="external-link">calories-stub.Rmd</a>
 </li>
 </ul>
-</div>
-</div>
-<div class="section level3">
-<h3 id="data-simulation-for-mixed-designs">Data simulation for mixed designs<a class="anchor" aria-label="anchor" href="#data-simulation-for-mixed-designs"></a>
-</h3>
-<p>When: Wednesday April 27 13:00-15:00 (BST)<br>
-Where: York University</p>
-<p>This session will cover simulating data for a mixed design, where
-trials are crossed with subjects. We will learn how to analyse this
-using {lme4}, with a focus on understanding how the simulation
-parameters correspond to the output. Finally, we will learn how to use
-simulation to calculate power. Students will need to have basic
-knowledge of R and R Markdown, some familiarity with mixed designs (even
-if they don’t currently analyse them with mixed models) and have
-installed {faux}, {afex}, {tidyverse}, and {lme4}.</p>
-<div class="section level4">
-<h4 id="prep-1">Prep<a class="anchor" aria-label="anchor" href="#prep-1"></a>
-</h4>
-<ul>
-<li>Install R packages from CRAN: <code>tidyverse</code>,
-<code>afex</code>, <code>lme4</code>, <code>broom</code>,
-<code>broom.mixed</code>, <code>faux</code>
-</li>
-<li>Download files: <a href="https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/mixed-stub.Rmd" class="external-link">mixed-stub.Rmd</a>
-</li>
-</ul>
+<!--
+### Data simulation for mixed designs
+
+When: Wednesday April 27 13:00-15:00 (BST)  
+Where: York University
+
+This session will cover simulating data for a mixed design, where trials are crossed with subjects. We will learn how to analyse this using {lme4}, with a focus on understanding how the simulation parameters correspond to the output. Finally, we will learn how to use simulation to calculate power. Students will need to have basic knowledge of R and R Markdown, some familiarity with mixed designs (even if they don't currently analyse them with mixed models) and have installed {faux}, {afex}, {tidyverse}, and {lme4}.
+
+#### Prep
+
+* Install R packages from CRAN: `tidyverse`, `afex`, `lme4`, `broom`, `broom.mixed`, `faux`
+* Download files: [mixed-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/mixed-stub.Rmd)
+-->
 </div>
 </div>
 </div>
@@ -162,32 +134,22 @@ installed {faux}, {afex}, {tidyverse}, and {lme4}.</p>
 </h2>
 <ul>
 <li>
-<a href="https://psyteachr.github.io/msc-data-skills/" class="external-link">Data Skills
-for Reproducible Science</a> open source textbook introducing tidyverse
-for psychologists</li>
+<a href="https://psyteachr.github.io/msc-data-skills/" class="external-link">Data Skills for Reproducible Science</a> open source textbook introducing tidyverse for psychologists</li>
 <li>
-<a href="https://osf.io/3cz2e/" class="external-link">Understanding mixed effects models
-through data simulation</a> (preprint, code, and shiny apps)</li>
-<li><a href="https://shiny.psy.gla.ac.uk/debruine/simulate/" class="external-link">Simulate
-Basic Distributions</a></li>
-<li>
-<a href="http://shiny.ieis.tue.nl/scienceverse/" class="external-link">Scienceverse</a>
-(shiny app has an interactive data simulation tab)</li>
+<a href="https://osf.io/3cz2e/" class="external-link">Understanding mixed effects models through data simulation</a> (preprint, code, and shiny apps)</li>
+<li><a href="https://shiny.psy.gla.ac.uk/debruine/simulate/" class="external-link">Simulate Basic Distributions</a></li>
+<li><a href="https://shiny.psy.gla.ac.uk/debruine/fauxapp/" class="external-link">Faux Shiny App</a></li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="past-workshops">Past Workshops<a class="anchor" aria-label="anchor" href="#past-workshops"></a>
 </h2>
 <ul>
-<li><p>From Proposal to Publication: Pathways to Open Science Data
-simulation for factorial designs Data simulation for mixed designs 2022
-July 13 13:30-17:00</p></li>
-<li><p>University of Glasgow Institute of Neuroscience and Psychology
-2020 Jan 28 13:00-15:00 and Feb 5 14:00-16:00</p></li>
-<li><p>University of Grenoble Understanding Mixed-Effects Models through
-Data Simulation 2021 February 5 13:00-15:00</p></li>
-<li><p>PsyPAG Data Simulation Summer School Simulation for factorial
-designs with faux 2021 June 4 13:00-15:00</p></li>
+<li><p>University of York Data simulation for factorial designs Data simulation for mixed designs Wednesday April 27 09:00-17:00 (BST)</p></li>
+<li><p>From Proposal to Publication: Pathways to Open Science Data simulation for factorial designs Data simulation for mixed designs 2022 July 13 13:30-17:00</p></li>
+<li><p>University of Glasgow Institute of Neuroscience and Psychology 2020 Jan 28 13:00-15:00 and Feb 5 14:00-16:00</p></li>
+<li><p>University of Grenoble Understanding Mixed-Effects Models through Data Simulation 2021 February 5 13:00-15:00</p></li>
+<li><p>PsyPAG Data Simulation Summer School Simulation for factorial designs with faux 2021 June 4 13:00-15:00</p></li>
 </ul>
 </div>
 </div>
@@ -238,8 +200,7 @@ designs with faux 2021 June 4 13:00-15:00</p></li>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
-2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>

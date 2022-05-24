@@ -20,10 +20,11 @@ dsw::exercise("mixed")
 
 ## Upcoming Workshops
 
-### Data simulation for factorial designs
+### Data simulation using faux
 
-When: Wednesday April 27 09:00-11:00 (BST)  
-Where: York University
+When: Wednesday May 24 15:00-17:00 (BST)  
+Where: RLadies Glasgow
+[Register](https://www.meetup.com/rladies-glasgow/events/285942871/)
 
 This session will cover the basics of simulation using {faux}. We will
 simulate data with factorial designs by specifying the within and
@@ -33,7 +34,7 @@ used to create simulated data sets to be used in preparing the analysis
 code for pre-registrations or registered reports. We will also create
 data sets for simulation-based power analyses. Students will need to
 have very basic knowledge of R and R Markdown, and have installed
-{faux}, {afex} and {tidyverse}.
+{faux}, {afex}, {broom} and {tidyverse}.
 
 #### Prep
 
@@ -44,26 +45,19 @@ have very basic knowledge of R and R Markdown, and have installed
     &
     [calories-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/calories-stub.Rmd)
 
+<!--
 ### Data simulation for mixed designs
 
 When: Wednesday April 27 13:00-15:00 (BST)  
 Where: York University
 
-This session will cover simulating data for a mixed design, where trials
-are crossed with subjects. We will learn how to analyse this using
-{lme4}, with a focus on understanding how the simulation parameters
-correspond to the output. Finally, we will learn how to use simulation
-to calculate power. Students will need to have basic knowledge of R and
-R Markdown, some familiarity with mixed designs (even if they don’t
-currently analyse them with mixed models) and have installed {faux},
-{afex}, {tidyverse}, and {lme4}.
+This session will cover simulating data for a mixed design, where trials are crossed with subjects. We will learn how to analyse this using {lme4}, with a focus on understanding how the simulation parameters correspond to the output. Finally, we will learn how to use simulation to calculate power. Students will need to have basic knowledge of R and R Markdown, some familiarity with mixed designs (even if they don't currently analyse them with mixed models) and have installed {faux}, {afex}, {tidyverse}, and {lme4}.
 
 #### Prep
 
--   Install R packages from CRAN: `tidyverse`, `afex`, `lme4`, `broom`,
-    `broom.mixed`, `faux`
--   Download files:
-    [mixed-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/mixed-stub.Rmd)
+* Install R packages from CRAN: `tidyverse`, `afex`, `lme4`, `broom`, `broom.mixed`, `faux`
+* Download files: [mixed-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/mixed-stub.Rmd)
+-->
 
 ## Resources
 
@@ -74,10 +68,12 @@ currently analyse them with mixed models) and have installed {faux},
     simulation](https://osf.io/3cz2e/) (preprint, code, and shiny apps)
 -   [Simulate Basic
     Distributions](https://shiny.psy.gla.ac.uk/debruine/simulate/)
--   [Scienceverse](http://shiny.ieis.tue.nl/scienceverse/) (shiny app
-    has an interactive data simulation tab)
+-   [Faux Shiny App](https://shiny.psy.gla.ac.uk/debruine/fauxapp/)
 
 ## Past Workshops
+
+-   University of York Data simulation for factorial designs Data
+    simulation for mixed designs Wednesday April 27 09:00-17:00 (BST)
 
 -   From Proposal to Publication: Pathways to Open Science Data
     simulation for factorial designs Data simulation for mixed designs

@@ -3,7 +3,7 @@ title: "Intro to Faux"
 author: "Lisa DeBruine"
 output: 
   rmarkdown::html_vignette:
-    df_print: kable
+    df_print: paged
 vignette: >
   %\VignetteIndexEntry{Intro to Faux}
   %\VignetteEngine{knitr::rmarkdown}
@@ -11,6 +11,7 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
+# control the appearance of the knitted result
 knitr::opts_chunk$set(
   collapse = TRUE,
   out.width = "100%",
@@ -18,30 +19,77 @@ knitr::opts_chunk$set(
   fig.height = 3,
   dpi = 144
 )
-set.seed(8675309) # Jenny, I've got your number
 ```
 
-```{r libs, message=FALSE}
-library(tidyverse)
-library(faux)
-library(broom)
-library(afex)
-```
 
 In this tutorial, we'll learn how to simulate data for factorial designs using {faux}. There are more extensive examples at <https://debruine.github.io/faux/>.
 
+## Setup
+
+We'll be using 4 packages in this tutorial.
+
+```{r libs, message=FALSE}
+library(tidyverse) # for data wrangling
+library(faux)      # for simulation
+library(broom)     # for tidy analysis results
+library(afex)      # for ANOVA
+
+set.seed(8675309) # Jenny, I've got your number
+```
+
+A seed makes randomness reproducible. Run the following code several times. Change the seed to your favourite integer. If the seed is the same, the random numbers after it will be the same, as long as the code is always executed in the same order. 
+
+```{r}
+set.seed(0)
+rnorm(1)
+```
+
+## Normal
+
+Let's start with a normal distribution using the base R function `rnorm()`, which returns `n` values from a normal distribution with a mean of 0 and a standard deviation of 1.
+
+```{r}
+rnorm(n = 10)
+```
+
+You can change the mean and SD. Simulate a lot of values (1e5 == 100,000) and visualise them with `hist()`.
+
+```{r}
+x <- rnorm(1e5, mean = 30, sd = 5)
+
+hist(x)
+```
+
 ## Multivariate normal
 
-You can create sets of correlated normally distributed values using `rnorm_multi()`.
+But how do you create correlated values? You can do this with `MASS::mvrnorm()`, but you need to construct the `Sigma` argument yourself from the correlation matrix and the standard deviations of the populations, and then you need to turn the resulting matrix into a data frame for many use cases. This isn't very difficult, but can be tedious with larger numbers of variables.
+
+```{r}
+n = 1e5 # this is a large number to demonstrate that the result is as expected
+mu = c(A = 1, B = 2, C = 3)
+sd = c(0.5, 1, 1.5)
+r = c(0, .25, .5)
+
+cor_mat <- matrix(c(1, r[1], r[2], 
+                    r[1], 1, r[3],
+                    r[2], r[3], 1), 
+                  nrow = 3)
+Sigma <- (sd %*% t(sd)) * cor_mat
+vars <- MASS::mvrnorm(n, mu, Sigma) |> as.data.frame()
+
+cor(vars) |> round(2)
+```
+
+### rnorm_multi
+
+In faux, you can create sets of correlated normally distributed values using `rnorm_multi()`.
 
 ```{r}
 dat3 <- rnorm_multi(
   n = 50,
-  vars = 3,
-  mu = c(1, 2, 3),
+  mu = c(A = 1, B = 2, C = 3),
   sd = c(0.5, 1, 1.5),
-  r = c(0, .25, .5),
-  varnames = c("A", "B", "C")
+  r = c(0, .25, .5)
 )
 ```
 
@@ -56,11 +104,9 @@ If you set `empirical` to `TRUE`, the values you set will be the **sample** para
 ```{r}
 dat3 <- rnorm_multi(
   n = 50,
-  vars = 3,
-  mu = c(1, 2, 3),
+  mu = c(A = 1, B = 2, C = 3),
   sd = c(0.5, 1, 1.5),
   r = c(0, .25, .5),
-  varnames = c("A", "B", "C"),
   empirical = TRUE
 )
 
@@ -72,7 +118,10 @@ get_params(dat3)
 There are a few shortcuts you can use. Run the following and see if you can guess how they work.
 
 ```{r}
-guess1 <- rnorm_multi(50, mu = c(x = 1, y = 2, z = 3), empirical = TRUE)
+guess1 <- rnorm_multi(50, 
+                      mu = 1:3, 
+                      varnames = LETTERS[1:3], 
+                      empirical = TRUE)
 
 get_params(guess1)
 ```
@@ -84,9 +133,10 @@ get_params(guess2)
 ```
 
 ```{r}
-iris_r <- cor(iris[, 1:4])
-iris_mu <- summarise_all(iris[, 1:4], mean) %>% t()
-iris_sd <- summarise_all(iris[, 1:4], sd) %>% t()
+# get correlation matrix, means and SDs for 4 variables from iris
+iris_r <- cor(iris[1:4])
+iris_mu <- colMeans(iris[1:4])
+iris_sd <- var(iris[1:4]) |> diag() |> sqrt() # colSDs
 
 guess3 <- rnorm_multi(50, 
                       mu = iris_mu, 
@@ -96,7 +146,10 @@ guess3 <- rnorm_multi(50,
 get_params(guess3)
 ```
 
-You can set the r for correlations in a few different ways.
+
+### Setting r
+
+You can set the `r` argument for correlations in a few different ways.
 
 If all correlations have the same value, just set r equal to a single number.
 
@@ -146,7 +199,7 @@ simdat1 <- sim_design()
 
 ### Factors
 
-Use lists to set the names and levels of `within`- and `between`-subject factors.
+Use lists to set the names and levels of `within` and `between` subject factors.
 
 ```{r}
 pettime <- sim_design(
@@ -272,13 +325,24 @@ dat_rep <- sim_design(
 You can run analyses on the nested data by wrapping your analysis code in a function then using `map()` to run the analysis on each data set and `unnest()` to expand the results into a data table.
 
 ```{r}
+# define function
 analyse <- function(data) {
   t.test(data$W1a, data$W1b, paired = TRUE) %>% broom::tidy()
 }
 
-dat_rep %>%
-  mutate(analysis = map(data, analyse)) %>%
-  select(-data) %>%
+# get one test data set
+data <- dat_rep$data[[1]]
+
+# check function returns what you want
+analyse(data)
+```
+
+
+```{r}
+# run the function on each data set
+dat_rep |>
+  mutate(analysis = map(data, analyse)) |>
+  select(-data) |>
   unnest(analysis)
 ```
 
@@ -323,32 +387,41 @@ analyse <- function(data) {
     data = data
   ) 
   # return anova_table for GG-corrected DF
-  as_tibble(a$anova_table, rownames = "term") %>%
-    mutate(term = factor(term, levels = term)) %>% # keeps terms in order
+  as_tibble(a$anova_table, rownames = "term") |>
+    mutate(term = factor(term, levels = term)) |> # keeps terms in order
     rename(p.value = `Pr(>F)`) # fixes annoying p.value name
 }
 ```
 
+Test the analysis code.
+
+```{r}
+data <- pettime100$data[[1]]
+
+analyse(data)
+```
+
+
 Make a table of the results of each analysis:
 
 ```{r}
-pettime_sim <- pettime100 %>%
-  mutate(analysis = map(data, analyse)) %>%
-  select(-data) %>%
+pettime_sim <- pettime100 |>
+  mutate(analysis = map(data, analyse)) |>
+  select(-data) |>
   unnest(analysis)
 ```
 
 ```{r, echo = FALSE}
 # show the first 6 rows
-head(pettime_sim) %>% 
+head(pettime_sim) |> 
   mutate(across(5:8, round, 3))
 ```
 
 Then you can summarise the data to calculate things like power for each effect or mean effect size.
 
 ```{r}
-pettime_sim %>%
-  group_by(term) %>%
+pettime_sim |>
+  group_by(term) |>
   summarise(power = mean(p.value < 0.05),
             mean_pes = mean(pes),
             .groups = "drop")
@@ -375,8 +448,8 @@ Using the data from the built-in dataset `attitude`, simulate a new set of 20 ob
 
 ```{r, include=FALSE}
 dat_r <- cor(attitude)
-dat_mu <- summarise_all(attitude, mean) %>% t()
-dat_sd <- summarise_all(attitude, sd) %>% t()
+dat_mu <- colMeans(attitude)
+dat_sd <- var(attitude) |> diag() |> sqrt() # colSDs
 
 ex2 <- rnorm_multi(20, mu = dat_mu, sd = dat_sd,r = dat_r)
 
@@ -507,7 +580,7 @@ dat2b2b <- sim_design(
 
 Simulate 100 datasets like the one above and use `lm()` or `afex::aov_ez()` to look at the interaction between A and B. What is the power of this design?
 
-```{r, include=TRUE}
+```{r, include=FALSE}
 # simulate 100 datasets
 dat2b2b_100 <- sim_design(
   between = c(2, 2),
@@ -519,18 +592,18 @@ dat2b2b_100 <- sim_design(
 
 # linear model version
 analyse_lm <- function(data) {
-  lm(y ~ B1*B2, data = data) %>% 
-    broom::tidy() %>%
+  lm(y ~ B1*B2, data = data) |> 
+    broom::tidy() |>
     mutate(term = factor(term, levels = term))
 }
 
-ana_lm <- dat2b2b_100 %>%
-  mutate(analysis = map(data, analyse_lm)) %>%
-  select(-data) %>%
+ana_lm <- dat2b2b_100 |>
+  mutate(analysis = map(data, analyse_lm)) |>
+  select(-data) |>
   unnest(analysis)
 
-ana_lm %>%
-  group_by(term) %>%
+ana_lm |>
+  group_by(term) |>
   summarise(power = mean(p.value < .05),
             .groups = "drop")
 
@@ -541,18 +614,18 @@ analyse_aov <- function(data) {
               between = c("B1", "B2"),
               data = data)
   
-  as_tibble(a$anova_table, rownames = "term") %>%
-    mutate(term = factor(term, levels = term)) %>% 
+  as_tibble(a$anova_table, rownames = "term") |>
+    mutate(term = factor(term, levels = term)) |> 
     rename(p.value = `Pr(>F)`) 
 }
 
-ana_aov <- dat2b2b_100 %>%
-  mutate(analysis = map(data, analyse_aov)) %>%
-  select(-data) %>%
+ana_aov <- dat2b2b_100 |>
+  mutate(analysis = map(data, analyse_aov)) |>
+  select(-data) |>
   unnest(analysis)
 
-ana_aov %>%
-  group_by(term) %>%
+ana_aov |>
+  group_by(term) |>
   summarise(power = mean(p.value < .05),
             .groups = "drop")
 ```

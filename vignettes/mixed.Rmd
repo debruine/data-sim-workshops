@@ -177,15 +177,16 @@ Use the code below to transform the simple main effects above into main effects 
 # calculate main effects and interactions from simple effects above
 
 # mean difference between easy and hard conditions
-sub_cond_eff     <- (easy_congr + easy_incon)/2 -
-                    (hard_congr + hard_incon)/2
+sub_cond_eff     <- (hard_congr + hard_incon)/2 -
+                    (easy_congr + easy_incon)/2
+
 # mean difference between incongruent and congruent versions
 stim_version_eff <- (hard_incon + easy_incon)/2 - 
-                    (hard_congr + easy_congr)/2  
+                    (hard_congr + easy_congr)/2
+
 # interaction between version and condition
-cond_version_ixn <- (easy_incon - easy_congr) -
-                    (hard_incon - hard_congr) 
-                    
+cond_version_ixn <- (hard_incon - hard_congr) -
+                    (easy_incon - easy_congr)
 ```
 
 Then generate the DV the same way we did above, but also add the interaction effect multiplied by the effect-coded subject condition and stimulus version.
@@ -372,13 +373,13 @@ Try changing some variables to simulate different patterns of fixed effects.
 ```{r sim-lmer-changes}
 sim_lmer(sub_cond_eff = 0,
          stim_version_eff = 75, 
-         cond_version_ixn = 50) %>%
+         cond_version_ixn = -50) %>%
   summary()
 ```
 
 ### Power analysis
 
-First, wrap your simulation function inside of another function that takes the argument of a replication number, runs a simluated analysis, and returns a data table of the fixed and random effects (made with `broom.mixed::tidy()`). You can use purrr's `map_df()` function to create a data table of results from multiple replications of this function. We're only running 10 replications here in the interests of time, but you'll want to run 100 or more for a proper power calcuation. 
+First, wrap your simulation function inside of another function that takes the argument of a replication number, runs a simluated analysis, and returns a data table of the fixed and random effects (made with `broom.mixed::tidy()`). You can use purrr's `map_df()` function to create a data table of results from multiple replications of this function. We're only running 10 replications here in the interests of time, but you'll want to run 100 or more for a proper power calculation. 
 
 ```{r power1}
 

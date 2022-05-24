@@ -173,15 +173,16 @@ Use the code below to transform the simple main effects above into main effects 
 # calculate main effects and interactions from simple effects above
 
 # mean difference between easy and hard conditions
-sub_cond_eff     <- (easy_congr + easy_incon)/2 -
-                    (hard_congr + hard_incon)/2
+sub_cond_eff     <- (hard_congr + hard_incon)/2 - 
+                    (easy_congr + easy_incon)/2
+                    
 # mean difference between incongruent and congruent versions
 stim_version_eff <- (hard_incon + easy_incon)/2 - 
-                    (hard_congr + easy_congr)/2  
+                    (hard_congr + easy_congr)/2
+
 # interaction between version and condition
-cond_version_ixn <- (easy_incon - easy_congr) -
-                    (hard_incon - hard_congr) 
-                    
+cond_version_ixn <- (hard_incon - hard_congr) -
+                    (easy_incon - easy_congr)
 ```
 
 Then generate the DV the same way we did above, but also add the interaction effect multiplied by the effect-coded subject condition and stimulus version.
@@ -368,7 +369,7 @@ Try changing some variables to simulate different patterns of fixed effects.
 ```{r sim-lmer-changes}
 sim_lmer(sub_cond_eff = 0,
          stim_version_eff = 75, 
-         cond_version_ixn = 50) %>%
+         cond_version_ixn = -50) %>%
   summary()
 ```
 

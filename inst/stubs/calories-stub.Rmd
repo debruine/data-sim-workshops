@@ -101,7 +101,7 @@ s1_analyse <- function(data) {
   e <- emmeans(a, "placement")
   c1 <- list(lr = c(-0.5, 0.5, 0),
              ln = c(-0.5, 0, 0.5))
-  b <- contrast(e, c1, adjust = "holm") %>%
+  b <- contrast(e, c1, adjust = "holm") |>
     broom::tidy()
   
   data.frame(
