@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Data Simulation Workshops • dsw</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -100,23 +106,23 @@
 </h2>
 <p>You can install the packages used in these tutorials and get a function that makes it easy to access the workshop .Rmd files by running the following code:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"debruine/data-sim-workshops"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"debruine/data-sim-workshops"</span><span class="op">)</span></span></code></pre></div>
 <p>Load exercises with the following code:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">dsw</span><span class="fu">::</span><span class="fu"><a href="reference/exercise.html">exercise</a></span><span class="op">(</span><span class="st">"faux"</span><span class="op">)</span>
-<span class="fu">dsw</span><span class="fu">::</span><span class="fu"><a href="reference/exercise.html">exercise</a></span><span class="op">(</span><span class="st">"calories"</span><span class="op">)</span>
-<span class="fu">dsw</span><span class="fu">::</span><span class="fu"><a href="reference/exercise.html">exercise</a></span><span class="op">(</span><span class="st">"fixed"</span><span class="op">)</span>
-<span class="fu">dsw</span><span class="fu">::</span><span class="fu"><a href="reference/exercise.html">exercise</a></span><span class="op">(</span><span class="st">"mixed"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">dsw</span><span class="fu">::</span><span class="fu"><a href="reference/exercise.html">exercise</a></span><span class="op">(</span><span class="st">"faux"</span><span class="op">)</span></span>
+<span><span class="fu">dsw</span><span class="fu">::</span><span class="fu"><a href="reference/exercise.html">exercise</a></span><span class="op">(</span><span class="st">"calories"</span><span class="op">)</span></span>
+<span><span class="fu">dsw</span><span class="fu">::</span><span class="fu"><a href="reference/exercise.html">exercise</a></span><span class="op">(</span><span class="st">"fixed"</span><span class="op">)</span></span>
+<span><span class="fu">dsw</span><span class="fu">::</span><span class="fu"><a href="reference/exercise.html">exercise</a></span><span class="op">(</span><span class="st">"mixed"</span><span class="op">)</span></span></code></pre></div>
 <p>Alternatively, download the stub files and install the specific packages for your workshop. They will be listed below under “Prep”.</p>
 </div>
 <div class="section level2">
 <h2 id="upcoming-workshops">Upcoming Workshops<a class="anchor" aria-label="anchor" href="#upcoming-workshops"></a>
 </h2>
 <div class="section level3">
-<h3 id="data-simulation-using-faux">Data simulation using faux<a class="anchor" aria-label="anchor" href="#data-simulation-using-faux"></a>
+<h3 id="data-simulation-for-fixed-effects">Data simulation for fixed effects<a class="anchor" aria-label="anchor" href="#data-simulation-for-fixed-effects"></a>
 </h3>
-<p>When: Wednesday May 24 15:00-17:00 (BST)<br>
-Where: RLadies Glasgow <a href="https://www.meetup.com/rladies-glasgow/events/285942871/" class="external-link">Register</a></p>
+<p>When: Wednesday September 14 09:00 - 10:30 (CET)<br>
+Where: Polish Association of Social Psychology Conference, Gdánsk</p>
 <p>This session will cover the basics of simulation using {faux}. We will simulate data with factorial designs by specifying the within and between-subjects factor structure, each cell mean and standard deviation, and correlations between cells where appropriate. This can be used to create simulated data sets to be used in preparing the analysis code for pre-registrations or registered reports. We will also create data sets for simulation-based power analyses. Students will need to have very basic knowledge of R and R Markdown, and have installed {faux}, {afex}, {broom} and {tidyverse}.</p>
 <div class="section level4">
 <h4 id="prep">Prep<a class="anchor" aria-label="anchor" href="#prep"></a>
@@ -124,22 +130,41 @@ Where: RLadies Glasgow <a href="https://www.meetup.com/rladies-glasgow/events/28
 <ul>
 <li>Install R packages from CRAN: <code>tidyverse</code>, <code>afex</code>, <code>faux</code>, and <code>broom</code>
 </li>
-<li>Download files: <a href="https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd" class="external-link">faux-stub.Rmd</a> &amp; <a href="https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/calories-stub.Rmd" class="external-link">calories-stub.Rmd</a>
+<li>Download files: <a href="https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd" class="external-link">faux-stub.Rmd</a>
 </li>
 </ul>
-<!--
-### Data simulation for mixed designs
-
-When: Wednesday April 27 13:00-15:00 (BST)  
-Where: York University
-
-This session will cover simulating data for a mixed design, where trials are crossed with subjects. We will learn how to analyse this using {lme4}, with a focus on understanding how the simulation parameters correspond to the output. Finally, we will learn how to use simulation to calculate power. Students will need to have basic knowledge of R and R Markdown, some familiarity with mixed designs (even if they don't currently analyse them with mixed models) and have installed {faux}, {afex}, {tidyverse}, and {lme4}.
-
-#### Prep
-
-* Install R packages from CRAN: `tidyverse`, `afex`, `lme4`, `broom`, `broom.mixed`, `faux`
-* Download files: [mixed-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/mixed-stub.Rmd)
--->
+</div>
+</div>
+<div class="section level3">
+<h3 id="data-simulation-for-mixed-designs">Data simulation for mixed designs<a class="anchor" aria-label="anchor" href="#data-simulation-for-mixed-designs"></a>
+</h3>
+<p>When: Wednesday September 14 11:00 - 13:00 (CET)<br>
+Where: Polish Association of Social Psychology Conference, Gdánsk</p>
+<p>This session will cover simulating data for a mixed design, where trials are crossed with subjects. We will learn how to analyse this using {lme4}, with a focus on understanding how the simulation parameters correspond to the output. Finally, we will learn how to use simulation to calculate power. Students will need to have basic knowledge of R and R Markdown, some familiarity with mixed designs (even if they don’t currently analyse them with mixed models) and have installed {faux}, {afex}, {tidyverse}, and {lme4}.</p>
+<div class="section level4">
+<h4 id="prep-1">Prep<a class="anchor" aria-label="anchor" href="#prep-1"></a>
+</h4>
+<ul>
+<li>Install R packages from CRAN: <code>tidyverse</code>, <code>afex</code>, <code>lme4</code>, <code>broom</code>, <code>broom.mixed</code>, <code>faux</code>
+</li>
+<li>Download files: <a href="https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/mixed-stub.Rmd" class="external-link">mixed-stub.Rmd</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="section level3">
+<h3 id="practical-session">Practical Session<a class="anchor" aria-label="anchor" href="#practical-session"></a>
+</h3>
+<p>When: Wednesday September 14 14:00 - 16:00 (CET)<br>
+Where: Polish Association of Social Psychology Conference, Gdánsk</p>
+<p>Bring your own study designs to simulate, or work on provided exercises.</p>
+<div class="section level4">
+<h4 id="prep-2">Prep<a class="anchor" aria-label="anchor" href="#prep-2"></a>
+</h4>
+<ul>
+<li>Download files: <a href="https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/calories-stub.Rmd" class="external-link">calories-stub.Rmd</a>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -159,11 +184,12 @@ This session will cover simulating data for a mixed design, where trials are cro
 <h2 id="past-workshops">Past Workshops<a class="anchor" aria-label="anchor" href="#past-workshops"></a>
 </h2>
 <ul>
+<li><p><a href="https://www.meetup.com/rladies-glasgow/events/285942871/" class="external-link">RLadies Glasgow</a> Data simulation using faux 2022 May 24 15:00-17:00 (BST)</p></li>
 <li><p>University of York Data simulation for factorial designs Data simulation for mixed designs 2022 April 27 09:00-17:00 (BST)</p></li>
-<li><p>From Proposal to Publication: Pathways to Open Science Data simulation for factorial designs Data simulation for mixed designs 2022 July 13 13:30-17:00</p></li>
+<li><p><a href="https://www.dropbox.com/s/aydsuk6eahxumzu/OSW-Jul21.pdf?dl=0" class="external-link">From Proposal to Publication: Pathways to Open Science</a> Data simulation for factorial designs Data simulation for mixed designs 2022 July 13 13:30-17:00</p></li>
 <li><p>University of Glasgow Institute of Neuroscience and Psychology 2020 Jan 28 13:00-15:00 and Feb 5 14:00-16:00</p></li>
 <li><p>University of Grenoble Understanding Mixed-Effects Models through Data Simulation 2021 February 5 13:00-15:00</p></li>
-<li><p>PsyPAG Data Simulation Summer School Simulation for factorial designs with faux 2021 June 4 13:00-15:00</p></li>
+<li><p><a href="https://simsummerschool.github.io/" class="external-link">PsyPAG Data Simulation Summer School</a> Simulation for factorial designs with faux 2021 June 4 13:00-15:00</p></li>
 </ul>
 </div>
 </div>
@@ -214,7 +240,7 @@ This session will cover simulating data for a mixed design, where trials are cro
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
