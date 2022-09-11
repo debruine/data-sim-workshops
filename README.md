@@ -35,7 +35,9 @@ for your workshop. They will be listed below under “Prep”.
 
 ## Upcoming Workshops
 
-### Data simulation for fixed effects
+### Polish Association of Social Psychology Conference
+
+#### Data simulation for fixed effects
 
 When: Wednesday September 14 09:00 - 10:30 (CET)  
 Where: Polish Association of Social Psychology Conference, Gdánsk
@@ -50,14 +52,12 @@ data sets for simulation-based power analyses. Students will need to
 have very basic knowledge of R and R Markdown, and have installed
 {faux}, {afex}, {broom} and {tidyverse}.
 
-#### Prep
-
 -   Install R packages from CRAN: `tidyverse`, `afex`, `faux`, and
     `broom`
 -   Download files:
     [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd)
 
-### Data simulation for mixed designs
+#### Data simulation for mixed designs
 
 When: Wednesday September 14 11:00 - 13:00 (CET)  
 Where: Polish Association of Social Psychology Conference, Gdánsk
@@ -71,21 +71,17 @@ R Markdown, some familiarity with mixed designs (even if they don’t
 currently analyse them with mixed models) and have installed {faux},
 {afex}, {tidyverse}, and {lme4}.
 
-#### Prep
-
 -   Install R packages from CRAN: `tidyverse`, `afex`, `lme4`, `broom`,
     `broom.mixed`, `faux`
 -   Download files:
     [mixed-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/mixed-stub.Rmd)
 
-### Practical Session
+#### Practical Session
 
 When: Wednesday September 14 14:00 - 16:00 (CET)  
 Where: Polish Association of Social Psychology Conference, Gdánsk
 
 Bring your own study designs to simulate, or work on provided exercises.
-
-#### Prep
 
 -   Download files:
     [calories-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/calories-stub.Rmd)
