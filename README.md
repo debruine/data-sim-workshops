@@ -3,13 +3,13 @@
 
 Being able to simulate data allows you to:
 
--   prep analysis scripts for pre-registration
--   calculate power and sensitivity for analyses that don’t have
-    empirical methods
--   create reproducible examples when your data are too big or
-    confidential to share
--   enhance your understanding of statistical concepts
--   create demo data for teaching and tutorials
+- prep analysis scripts for pre-registration
+- calculate power and sensitivity for analyses that don’t have empirical
+  methods
+- create reproducible examples when your data are too big or
+  confidential to share
+- enhance your understanding of statistical concepts
+- create demo data for teaching and tutorials
 
 ## Installation
 
@@ -35,12 +35,10 @@ for your workshop. They will be listed below under “Prep”.
 
 ## Upcoming Workshops
 
-### Polish Association of Social Psychology Conference
+### Data Simulation with {faux}
 
-#### Data simulation for fixed effects
-
-When: Wednesday September 14 09:00 - 10:30 (CET)  
-Where: Polish Association of Social Psychology Conference, Gdánsk
+When: Tuesday, December 6 13:00 - 14:00 (CET)  
+Where: Netherlands Institute for the Study of Crime and Law Enforcement
 
 This session will cover the basics of simulation using {faux}. We will
 simulate data with factorial designs by specifying the within and
@@ -52,71 +50,66 @@ data sets for simulation-based power analyses. Students will need to
 have very basic knowledge of R and R Markdown, and have installed
 {faux}, {afex}, {broom} and {tidyverse}.
 
--   Install R packages from CRAN: `tidyverse`, `afex`, `faux`, and
-    `broom`
--   Download files:
-    [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd)
+#### Prep
 
-#### Data simulation for mixed designs
+- Install R packages from CRAN: `tidyverse`, `afex`, `faux`, and `broom`
+- Download files:
+  [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd)
 
-When: Wednesday September 14 11:00 - 13:00 (CET)  
-Where: Polish Association of Social Psychology Conference, Gdánsk
+<!--
+### Data simulation for mixed designs
 
-This session will cover simulating data for a mixed design, where trials
-are crossed with subjects. We will learn how to analyse this using
-{lme4}, with a focus on understanding how the simulation parameters
-correspond to the output. Finally, we will learn how to use simulation
-to calculate power. Students will need to have basic knowledge of R and
-R Markdown, some familiarity with mixed designs (even if they don’t
-currently analyse them with mixed models) and have installed {faux},
-{afex}, {tidyverse}, and {lme4}.
+This session will cover simulating data for a mixed design, where trials are crossed with subjects. We will learn how to analyse this using {lme4}, with a focus on understanding how the simulation parameters correspond to the output. Finally, we will learn how to use simulation to calculate power. Students will need to have basic knowledge of R and R Markdown, some familiarity with mixed designs (even if they don't currently analyse them with mixed models) and have installed {faux}, {afex}, {tidyverse}, and {lme4}.
 
--   Install R packages from CRAN: `tidyverse`, `afex`, `lme4`, `broom`,
-    `broom.mixed`, `faux`
--   Download files:
-    [mixed-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/mixed-stub.Rmd)
+#### Prep
 
-#### Practical Session
-
-When: Wednesday September 14 14:00 - 16:00 (CET)  
-Where: Polish Association of Social Psychology Conference, Gdánsk
-
-Bring your own study designs to simulate, or work on provided exercises.
-
--   Download files:
-    [calories-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/calories-stub.Rmd)
+* Install R packages from CRAN: `tidyverse`, `afex`, `lme4`, `broom`, `broom.mixed`, `faux`
+* Download files: [mixed-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/mixed-stub.Rmd)
+-->
 
 ## Resources
 
--   [Faux Shiny App](https://shiny.psy.gla.ac.uk/debruine/fauxapp/)
--   [Data Skills for Reproducible
-    Research](https://psyteachr.github.io/reprores/) open source
-    textbook introducing tidyverse for psychologists
--   [Understanding mixed effects models through data
-    simulation](https://osf.io/3cz2e/) (preprint, code, and shiny apps)
--   [Simulate Basic
-    Distributions](https://shiny.psy.gla.ac.uk/debruine/simulate/)
+- [Faux Shiny App](https://shiny.psy.gla.ac.uk/debruine/fauxapp/)
+- [Data Skills for Reproducible
+  Research](https://psyteachr.github.io/reprores/) open source textbook
+  introducing tidyverse for psychologists
+- [Understanding mixed effects models through data
+  simulation](https://osf.io/3cz2e/) (preprint, code, and shiny apps)
+- [Simulate Basic
+  Distributions](https://shiny.psy.gla.ac.uk/debruine/simulate/)
 
 ## Past Workshops
 
--   [RLadies
-    Glasgow](https://www.meetup.com/rladies-glasgow/events/285942871/)
-    Data simulation using faux 2022 May 24 15:00-17:00 (BST)
+- Polish Association of Social Psychology Conference, Gdánsk  
+  Data simulation for fixed effects  
+  Data simulation for mixed designs  
+  Practical Session  
+  2022 September 14 09:00 - 16:00 (CET)
 
--   University of York Data simulation for factorial designs Data
-    simulation for mixed designs 2022 April 27 09:00-17:00 (BST)
+- [RLadies
+  Glasgow](https://www.meetup.com/rladies-glasgow/events/285942871/)  
+  Data simulation using faux  
+  2022 May 24 15:00-17:00 (BST)
 
--   [From Proposal to Publication: Pathways to Open
-    Science](https://www.dropbox.com/s/aydsuk6eahxumzu/OSW-Jul21.pdf?dl=0)
-    Data simulation for factorial designs Data simulation for mixed
-    designs 2022 July 13 13:30-17:00
+- University of York Data simulation for factorial designs  
+  Data simulation for mixed designs  
+  2022 April 27 09:00-17:00 (BST)
 
--   University of Glasgow Institute of Neuroscience and Psychology 2020
-    Jan 28 13:00-15:00 and Feb 5 14:00-16:00
+- [From Proposal to Publication: Pathways to Open
+  Science](https://www.dropbox.com/s/aydsuk6eahxumzu/OSW-Jul21.pdf?dl=0)  
+  Data simulation for factorial designs  
+  Data simulation for mixed designs  
+  2022 July 13 13:30-17:00
 
--   University of Grenoble Understanding Mixed-Effects Models through
-    Data Simulation 2021 February 5 13:00-15:00
+- University of Glasgow  
+  Institute of Neuroscience and Psychology  
+  2020 Jan 28 13:00-15:00 and Feb 5 14:00-16:00
 
--   [PsyPAG Data Simulation Summer
-    School](https://simsummerschool.github.io/) Simulation for factorial
-    designs with faux 2021 June 4 13:00-15:00
+- University of Grenoble  
+  Understanding Mixed-Effects Models through Data Simulation  
+  2021 February 5 13:00-15:00
+
+- [PsyPAG Data Simulation Summer
+  School](https://simsummerschool.github.io/)  
+  Simulation for factorial designs with faux  
+  2021 June 4 13:00-15:00
