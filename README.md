@@ -21,7 +21,7 @@ following code:
 devtools::install_github("debruine/data-sim-workshops")
 ```
 
-Load exercises with the following code:
+Then you can load exercises with the following code:
 
 ``` r
 dsw::exercise("faux")
@@ -37,8 +37,8 @@ for your workshop. They will be listed below under “Prep”.
 
 ### Data Simulation with {faux}
 
-When: Tuesday, December 6 13:00 - 14:00 (CET)  
-Where: Netherlands Institute for the Study of Crime and Law Enforcement
+When: Wednesday, January 18 12:00 - 13:00 (GMT)  
+Where: Methods & MetaScience, University of Glasgow
 
 This session will cover the basics of simulation using {faux}. We will
 simulate data with factorial designs by specifying the within and
@@ -79,6 +79,10 @@ This session will cover simulating data for a mixed design, where trials are cro
   Distributions](https://shiny.psy.gla.ac.uk/debruine/simulate/)
 
 ## Past Workshops
+
+- Netherlands Institute for the Study of Crime and Law Enforcement Data
+  Simulation with {faux}  
+  2022 December 6 13:00 - 14:00 (CET)
 
 - Polish Association of Social Psychology Conference, Gdánsk  
   Data simulation for fixed effects  

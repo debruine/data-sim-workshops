@@ -32,7 +32,7 @@ You can install the packages used in these tutorials and get a function that mak
 devtools::install_github("debruine/data-sim-workshops")
 ```
 
-Load exercises with the following code:
+Then you can load exercises with the following code:
 
 ```{r, eval = FALSE}
 dsw::exercise("faux")
@@ -47,8 +47,8 @@ Alternatively, download the stub files and install the specific packages for you
 
 ### Data Simulation with {faux}
 
-When: Tuesday, December 6 13:00 - 14:00 (CET)  
-Where: Netherlands Institute for the Study of Crime and Law Enforcement
+When: Wednesday, January 18 12:00 - 13:00 (GMT)  
+Where: Methods & MetaScience, University of Glasgow
 
 This session will cover the basics of simulation using {faux}. We will simulate data with factorial designs by specifying the within and between-subjects factor structure, each cell mean and standard deviation, and correlations between cells where appropriate. This can be used to create simulated data sets to be used in preparing the analysis code for pre-registrations or registered reports. We will also create data sets for simulation-based power analyses. Students will need to have very basic knowledge of R and R Markdown, and have installed {faux}, {afex}, {broom} and {tidyverse}.
 
@@ -78,6 +78,10 @@ This session will cover simulating data for a mixed design, where trials are cro
 * [Simulate Basic Distributions](https://shiny.psy.gla.ac.uk/debruine/simulate/)
 
 ## Past Workshops
+
+* Netherlands Institute for the Study of Crime and Law Enforcement
+    Data Simulation with {faux}  
+    2022 December 6 13:00 - 14:00 (CET)  
 
 * Polish Association of Social Psychology Conference, Gdánsk  
     Data simulation for fixed effects  
