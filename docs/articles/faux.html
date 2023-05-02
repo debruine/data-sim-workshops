@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsw</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9006</span>
       </span>
     </div>
 
@@ -136,7 +136,8 @@ distribution with a mean of 0 and a standard deviation of 1.</p>
 <span><span class="co">##  [1] -0.326233361  1.329799263  1.272429321  0.414641434 -1.539950042</span></span>
 <span><span class="co">##  [6] -0.928567035 -0.294720447 -0.005767173  2.404653389  0.763593461</span></span></code></pre></div>
 <p>You can change the mean and SD. Simulate a lot of values (1e5 ==
-100,000) and visualise them with <code><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist()</a></code>.</p>
+100,000), save them in a variable, and visualise them with
+<code><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1e5</span>, mean <span class="op">=</span> <span class="fl">30</span>, sd <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span></span>
@@ -212,56 +213,13 @@ correctly.</p>
 <span><span class="co">## 3 50   C 0.25 0.5 1.00    3 1.5</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="shortcuts">Shortcuts<a class="anchor" aria-label="anchor" href="#shortcuts"></a>
-</h3>
-<p>There are a few shortcuts you can use. Run the following and see if
-you can guess how they work.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">guess1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/rnorm_multi.html" class="external-link">rnorm_multi</a></span><span class="op">(</span><span class="fl">50</span>, </span>
-<span>                      mu <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, </span>
-<span>                      varnames <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, </span>
-<span>                      empirical <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/faux/man/get_params.html" class="external-link">get_params</a></span><span class="op">(</span><span class="va">guess1</span><span class="op">)</span></span>
-<span><span class="co">##    n var A B C mean sd</span></span>
-<span><span class="co">## 1 50   A 1 0 0    1  1</span></span>
-<span><span class="co">## 2 50   B 0 1 0    2  1</span></span>
-<span><span class="co">## 3 50   C 0 0 1    3  1</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">guess2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/rnorm_multi.html" class="external-link">rnorm_multi</a></span><span class="op">(</span><span class="fl">50</span>, vars <span class="op">=</span> <span class="fl">4</span>, r <span class="op">=</span> <span class="fl">0.5</span>, empirical <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/faux/man/get_params.html" class="external-link">get_params</a></span><span class="op">(</span><span class="va">guess2</span><span class="op">)</span></span>
-<span><span class="co">##    n var  X1  X2  X3  X4 mean sd</span></span>
-<span><span class="co">## 1 50  X1 1.0 0.5 0.5 0.5    0  1</span></span>
-<span><span class="co">## 2 50  X2 0.5 1.0 0.5 0.5    0  1</span></span>
-<span><span class="co">## 3 50  X3 0.5 0.5 1.0 0.5    0  1</span></span>
-<span><span class="co">## 4 50  X4 0.5 0.5 0.5 1.0    0  1</span></span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># get correlation matrix, means and SDs for 4 variables from iris</span></span>
-<span><span class="va">iris_r</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="va">iris_mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colMeans</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="va">iris_sd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># colSDs</span></span>
-<span></span>
-<span><span class="va">guess3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/rnorm_multi.html" class="external-link">rnorm_multi</a></span><span class="op">(</span><span class="fl">50</span>, </span>
-<span>                      mu <span class="op">=</span> <span class="va">iris_mu</span>, </span>
-<span>                      sd <span class="op">=</span> <span class="va">iris_sd</span>, </span>
-<span>                      r <span class="op">=</span> <span class="va">iris_r</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/faux/man/get_params.html" class="external-link">get_params</a></span><span class="op">(</span><span class="va">guess3</span><span class="op">)</span></span>
-<span><span class="co">##    n          var Sepal.Length Sepal.Width Petal.Length Petal.Width mean   sd</span></span>
-<span><span class="co">## 1 50 Sepal.Length         1.00       -0.13         0.88        0.79 6.01 0.82</span></span>
-<span><span class="co">## 2 50  Sepal.Width        -0.13        1.00        -0.39       -0.30 3.09 0.37</span></span>
-<span><span class="co">## 3 50 Petal.Length         0.88       -0.39         1.00        0.95 3.83 1.66</span></span>
-<span><span class="co">## 4 50  Petal.Width         0.79       -0.30         0.95        1.00 1.22 0.68</span></span></code></pre></div>
-</div>
-<div class="section level3">
 <h3 id="setting-r">Setting r<a class="anchor" aria-label="anchor" href="#setting-r"></a>
 </h3>
 <p>You can set the <code>r</code> argument for correlations in a few
 different ways.</p>
 <p>If all correlations have the same value, just set r equal to a single
 number.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># all correlations the same value</span></span>
 <span><span class="va">rho_same</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/rnorm_multi.html" class="external-link">rnorm_multi</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">4</span>, r <span class="op">=</span> <span class="fl">.5</span>, empirical <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/faux/man/get_params.html" class="external-link">get_params</a></span><span class="op">(</span><span class="va">rho_same</span><span class="op">)</span></span>
@@ -270,28 +228,33 @@ number.</p>
 <span><span class="co">## 2 50  X2 0.5 1.0 0.5 0.5    0  1</span></span>
 <span><span class="co">## 3 50  X3 0.5 0.5 1.0 0.5    0  1</span></span>
 <span><span class="co">## 4 50  X4 0.5 0.5 0.5 1.0    0  1</span></span></code></pre></div>
-<p>You can set rho to a vector or matrix of the full correlation matrix.
-This is convenient when you’re getting the values from an existing
-dataset, where you can just use the output of the <code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor()</a></code>
-function.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># full correlation matrix</span></span>
-<span><span class="co">#         X1   X2   X3   X4</span></span>
-<span><span class="va">rho</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.0</span>, <span class="fl">0.5</span>, <span class="fl">0.4</span>, <span class="fl">0.3</span>, <span class="co"># X1</span></span>
-<span>         <span class="fl">0.5</span>, <span class="fl">1.0</span>, <span class="fl">0.2</span>, <span class="fl">0.1</span>, <span class="co"># X2</span></span>
-<span>         <span class="fl">0.4</span>, <span class="fl">0.2</span>, <span class="fl">1.0</span>, <span class="fl">0.0</span>, <span class="co"># X3</span></span>
-<span>         <span class="fl">0.3</span>, <span class="fl">0.1</span>, <span class="fl">0.0</span>, <span class="fl">1.0</span><span class="op">)</span> <span class="co"># X4</span></span>
-<span><span class="va">rho_cormat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/rnorm_multi.html" class="external-link">rnorm_multi</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">4</span>, r <span class="op">=</span> <span class="va">rho</span>, empirical <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<p>You can set <code>r</code> to a vector or matrix of the full
+correlation matrix. This is convenient when you’re getting the values
+from an existing dataset, where you can just use the output of the
+<code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor()</a></code> function.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rho</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">rho</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co">##              Sepal.Length Sepal.Width Petal.Length Petal.Width</span></span>
+<span><span class="co">## Sepal.Length         1.00       -0.12         0.87        0.82</span></span>
+<span><span class="co">## Sepal.Width         -0.12        1.00        -0.43       -0.37</span></span>
+<span><span class="co">## Petal.Length         0.87       -0.43         1.00        0.96</span></span>
+<span><span class="co">## Petal.Width          0.82       -0.37         0.96        1.00</span></span></code></pre></div>
+<p>Notice how, since we didn’t specify the names of the 4 variables
+anywhere else, <code><a href="https://rdrr.io/pkg/faux/man/rnorm_multi.html" class="external-link">rnorm_multi()</a></code> will take them from the named
+correlation matrix.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rho_cormat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/rnorm_multi.html" class="external-link">rnorm_multi</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">4</span>, r <span class="op">=</span> <span class="va">rho</span>, empirical <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/faux/man/get_params.html" class="external-link">get_params</a></span><span class="op">(</span><span class="va">rho_cormat</span><span class="op">)</span></span>
-<span><span class="co">##    n var  X1  X2  X3  X4 mean sd</span></span>
-<span><span class="co">## 1 50  X1 1.0 0.5 0.4 0.3    0  1</span></span>
-<span><span class="co">## 2 50  X2 0.5 1.0 0.2 0.1    0  1</span></span>
-<span><span class="co">## 3 50  X3 0.4 0.2 1.0 0.0    0  1</span></span>
-<span><span class="co">## 4 50  X4 0.3 0.1 0.0 1.0    0  1</span></span></code></pre></div>
+<span><span class="co">##    n          var Sepal.Length Sepal.Width Petal.Length Petal.Width mean sd</span></span>
+<span><span class="co">## 1 50 Sepal.Length         1.00       -0.12         0.87        0.82    0  1</span></span>
+<span><span class="co">## 2 50  Sepal.Width        -0.12        1.00        -0.43       -0.37    0  1</span></span>
+<span><span class="co">## 3 50 Petal.Length         0.87       -0.43         1.00        0.96    0  1</span></span>
+<span><span class="co">## 4 50  Petal.Width         0.82       -0.37         0.96        1.00    0  1</span></span></code></pre></div>
 <p>Alternatively, you can just specify the values from the upper right
-triangle of a correlation matrix. This is easier if you’re reading the
-values out of a paper.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+triangle of a correlation matrix. This might be easier if you’re reading
+the values out of a paper.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># upper right triangle</span></span>
 <span><span class="co">#         X2   X3   X4</span></span>
 <span><span class="va">rho</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.4</span>, <span class="fl">0.3</span>, <span class="co"># X1</span></span>
@@ -319,57 +282,57 @@ think and teach about factorial designs.</p>
 <code>plot = FALSE</code> or run
 <code>faux_options(plot = FALSE)</code>, this function will show you a
 plot of your design so you can check that it looks like you expect.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">simdat1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/sim_design.html" class="external-link">sim_design</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="faux_files/figure-html/unnamed-chunk-15-1.png" width="100%"></p>
+<p><img src="faux_files/figure-html/unnamed-chunk-13-1.png" width="100%"></p>
 <div class="section level3">
 <h3 id="factors">Factors<a class="anchor" aria-label="anchor" href="#factors"></a>
 </h3>
-<p>Use lists to set the names and levels of <code>within</code> and
-<code>between</code> subject factors.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<p>Use named lists to set the names and levels of <code>within</code>
+and <code>between</code> subject factors.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pettime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/sim_design.html" class="external-link">sim_design</a></span><span class="op">(</span></span>
-<span>  within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre"</span>, <span class="st">"post"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  between <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cat"</span>, <span class="st">"dog"</span>, <span class="st">"ferret"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  between <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cat"</span>, <span class="st">"dog"</span>, <span class="st">"ferret"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre"</span>, <span class="st">"post"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="faux_files/figure-html/unnamed-chunk-16-1.png" width="100%"></p>
+<p><img src="faux_files/figure-html/unnamed-chunk-14-1.png" width="100%"></p>
 <p>You can set <code>mu</code> and <code>sd</code> with unnamed vectors,
 but getting the order right can take some trial and error.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pettime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/sim_design.html" class="external-link">sim_design</a></span><span class="op">(</span></span>
-<span>  within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre"</span>, <span class="st">"post"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  between <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cat"</span>, <span class="st">"dog"</span>, <span class="st">"ferret"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre"</span>, <span class="st">"post"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  mu <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="faux_files/figure-html/unnamed-chunk-17-1.png" width="100%"></p>
+<p><img src="faux_files/figure-html/unnamed-chunk-15-1.png" width="100%"></p>
 <p>You can set values with a named vector for a single type of factor.
 The values do not have to be in the right order if they’re named.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pettime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/sim_design.html" class="external-link">sim_design</a></span><span class="op">(</span></span>
-<span>  within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre"</span>, <span class="st">"post"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  between <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cat"</span>, <span class="st">"dog"</span>, <span class="st">"ferret"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre"</span>, <span class="st">"post"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>cat <span class="op">=</span> <span class="fl">1</span>, ferret <span class="op">=</span> <span class="fl">5</span>, dog <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span>
 <span>  sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>pre <span class="op">=</span> <span class="fl">1</span>, post <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="faux_files/figure-html/unnamed-chunk-18-1.png" width="100%"></p>
+<p><img src="faux_files/figure-html/unnamed-chunk-16-1.png" width="100%"></p>
 <p>Or use a data frame for within- and between-subject factors.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pettime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/sim_design.html" class="external-link">sim_design</a></span><span class="op">(</span></span>
-<span>  within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre"</span>, <span class="st">"post"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  between <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cat"</span>, <span class="st">"dog"</span>, <span class="st">"ferret"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre"</span>, <span class="st">"post"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>    pre <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,</span>
 <span>    post <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span><span class="op">)</span>,</span>
 <span>    row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cat"</span>, <span class="st">"dog"</span>, <span class="st">"ferret"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="faux_files/figure-html/unnamed-chunk-19-1.png" width="100%"></p>
+<p><img src="faux_files/figure-html/unnamed-chunk-17-1.png" width="100%"></p>
 <p>If you have within-subject factors, set the correlations for each
 between-subject cell like this.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pettime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/sim_design.html" class="external-link">sim_design</a></span><span class="op">(</span></span>
-<span>  within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre"</span>, <span class="st">"post"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  between <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cat"</span>, <span class="st">"dog"</span>, <span class="st">"ferret"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre"</span>, <span class="st">"post"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cat <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>           dog <span class="op">=</span> <span class="fl">0.25</span>,</span>
 <span>           ferret <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>,</span>
@@ -389,33 +352,70 @@ between-subject cell like this.</p>
 <code>id</code> columns and output the data in long format. If you do
 this, you also need to tell <code><a href="https://rdrr.io/pkg/faux/man/get_params.html" class="external-link">get_params()</a></code> what columns
 contain the between- and within-subject factors, the dv, and the id.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat_long</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/sim_design.html" class="external-link">sim_design</a></span><span class="op">(</span></span>
-<span>  within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre"</span>, <span class="st">"post"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  between <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cat"</span>, <span class="st">"dog"</span>, <span class="st">"ferret"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre"</span>, <span class="st">"post"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  id <span class="op">=</span> <span class="st">"subj_id"</span>,</span>
 <span>  dv <span class="op">=</span> <span class="st">"score"</span>,</span>
 <span>  long <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  plot <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/faux/man/get_params.html" class="external-link">get_params</a></span><span class="op">(</span><span class="va">dat_long</span>, </span>
-<span>           between <span class="op">=</span> <span class="st">"pet"</span>, </span>
-<span>           within <span class="op">=</span> <span class="st">"time"</span>,</span>
-<span>           id <span class="op">=</span> <span class="st">"subj_id"</span>,</span>
-<span>           dv <span class="op">=</span> <span class="st">"score"</span>,</span>
-<span>           digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">##      pet   n  var    pre   post  mean    sd</span></span>
-<span><span class="co">## 1    cat 100  pre  1.000 -0.070 0.013 1.031</span></span>
-<span><span class="co">## 2    cat 100 post -0.070  1.000 0.009 0.918</span></span>
-<span><span class="co">## 3    dog 100  pre  1.000  0.133 0.095 0.994</span></span>
-<span><span class="co">## 4    dog 100 post  0.133  1.000 0.096 1.028</span></span>
-<span><span class="co">## 5 ferret 100  pre  1.000 -0.001 0.060 1.030</span></span>
-<span><span class="co">## 6 ferret 100 post -0.001  1.000 0.018 1.054</span></span></code></pre></div>
-<p><em>The current version of faux doesn’t actually need
-<code>between</code> or <code>dv</code> and later versions won’t need
-<code>within</code> or <code>id</code> if a data frame was created with
-faux.</em></p>
+<span><span class="fu"><a href="https://rdrr.io/pkg/faux/man/get_params.html" class="external-link">get_params</a></span><span class="op">(</span><span class="va">dat_long</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">##      pet   n  var    pre   post   mean    sd</span></span>
+<span><span class="co">## 1    cat 100  pre  1.000  0.074  0.082 0.944</span></span>
+<span><span class="co">## 2    cat 100 post  0.074  1.000  0.097 1.091</span></span>
+<span><span class="co">## 3    dog 100  pre  1.000 -0.061  0.036 1.014</span></span>
+<span><span class="co">## 4    dog 100 post -0.061  1.000  0.115 1.024</span></span>
+<span><span class="co">## 5 ferret 100  pre  1.000  0.009 -0.015 0.998</span></span>
+<span><span class="co">## 6 ferret 100 post  0.009  1.000 -0.115 0.887</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="multiple-factors">Multiple Factors<a class="anchor" aria-label="anchor" href="#multiple-factors"></a>
+</h3>
+<p>Set more than one within-or between-subject factor like this:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dat_multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/sim_design.html" class="external-link">sim_design</a></span><span class="op">(</span></span>
+<span>  between <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cat"</span>, <span class="st">"dog"</span>, <span class="st">"ferret"</span><span class="op">)</span>,</span>
+<span>                 country <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"UK"</span>, <span class="st">"NL"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre"</span>, <span class="st">"post"</span><span class="op">)</span>,</span>
+<span>                condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ctl"</span>, <span class="st">"exp"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>    cat_UK <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span>
+<span>    cat_NL <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">8</span>,</span>
+<span>    dog_UK <span class="op">=</span> <span class="fl">9</span><span class="op">:</span><span class="fl">12</span>,</span>
+<span>    dog_NL <span class="op">=</span> <span class="fl">13</span><span class="op">:</span><span class="fl">16</span>,</span>
+<span>    ferret_UK <span class="op">=</span> <span class="fl">17</span><span class="op">:</span><span class="fl">20</span>, </span>
+<span>    ferret_NL <span class="op">=</span> <span class="fl">21</span><span class="op">:</span><span class="fl">24</span>,</span>
+<span>    row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre_ctl"</span>, <span class="st">"pre_exp"</span>, <span class="st">"post_ctl"</span>, <span class="st">"post_exp"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="faux_files/figure-html/unnamed-chunk-20-1.png" width="100%"></p>
+<p>Because faux uses an underscore for the separator, you have to set
+the <code>sep</code> argument to something different if you want to use
+underscores in your variable names (or set the separator globally with
+<code>faux_options</code>).</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># faux_options(sep = ".")</span></span>
+<span></span>
+<span><span class="va">dat_multi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/sim_design.html" class="external-link">sim_design</a></span><span class="op">(</span></span>
+<span>  between <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cat"</span>, <span class="st">"dog"</span>, <span class="st">"ferret"</span><span class="op">)</span>,</span>
+<span>                 country <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Glasgow_UK"</span>, <span class="st">"Rotterdam_NL"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre"</span>, <span class="st">"post"</span><span class="op">)</span>,</span>
+<span>                condition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ctl"</span>, <span class="st">"exp"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>    cat.Glasgow_UK <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>,</span>
+<span>    cat.Rotterdam_NL <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">8</span>,</span>
+<span>    dog.Glasgow_UK <span class="op">=</span> <span class="fl">9</span><span class="op">:</span><span class="fl">12</span>,</span>
+<span>    dog.Rotterdam_NL <span class="op">=</span> <span class="fl">13</span><span class="op">:</span><span class="fl">16</span>,</span>
+<span>    ferret.Glasgow_UK <span class="op">=</span> <span class="fl">17</span><span class="op">:</span><span class="fl">20</span>, </span>
+<span>    ferret.Rotterdam_NL <span class="op">=</span> <span class="fl">21</span><span class="op">:</span><span class="fl">24</span>,</span>
+<span>    row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre.ctl"</span>, <span class="st">"pre.exp"</span>, <span class="st">"post.ctl"</span>, <span class="st">"post.exp"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  sep <span class="op">=</span> <span class="st">"."</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><img src="faux_files/figure-html/unnamed-chunk-21-1.png" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="anonymous-factors">Anonymous Factors<a class="anchor" aria-label="anchor" href="#anonymous-factors"></a>
@@ -483,10 +483,9 @@ data table.</p>
 <span><span class="co"># check function returns what you want</span></span>
 <span><span class="fu">analyse</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 8</span></span></span>
-<span><span class="co">##   estimate statistic p.value parameter conf.low conf.high method        altern…¹</span></span>
-<span><span class="co">##      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>   0.092<span style="text-decoration: underline;">6</span>     0.305   0.763        19   -<span style="color: #BB0000;">0.542</span>     0.727 Paired t-test two.sid…</span></span>
-<span><span class="co">## <span style="color: #949494;"># … with abbreviated variable name ¹​alternative</span></span></span></code></pre></div>
+<span><span class="co">##   estimate statistic p.value parameter conf.low conf.high method     alternative</span></span>
+<span><span class="co">##      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>   -<span style="color: #BB0000;">0.528</span>     -<span style="color: #BB0000;">1.96</span>  0.064<span style="text-decoration: underline;">7</span>        19    -<span style="color: #BB0000;">1.09</span>    0.035<span style="text-decoration: underline;">4</span> Paired t-… two.sided</span></span></code></pre></div>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run the function on each data set</span></span>
 <span><span class="va">dat_rep</span> <span class="op">|&gt;</span></span>
@@ -494,14 +493,14 @@ data table.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">data</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">analysis</span><span class="op">)</span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 5 × 9</span></span></span>
-<span><span class="co">##     rep estimate statistic p.value parameter conf.low conf.high method   alter…¹</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>     1   0.092<span style="text-decoration: underline;">6</span>     0.305  0.763         19   -<span style="color: #BB0000;">0.542</span>    0.727  Paired … two.si…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span>     2   0.269      0.717  0.482         19   -<span style="color: #BB0000;">0.517</span>    1.05   Paired … two.si…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>     3  -<span style="color: #BB0000;">0.338</span>     -<span style="color: #BB0000;">1.06</span>   0.303         19   -<span style="color: #BB0000;">1.01</span>     0.330  Paired … two.si…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span>     4  -<span style="color: #BB0000;">0.473</span>     -<span style="color: #BB0000;">1.83</span>   0.082<span style="text-decoration: underline;">3</span>        19   -<span style="color: #BB0000;">1.01</span>     0.066<span style="text-decoration: underline;">8</span> Paired … two.si…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span>     5  -<span style="color: #BB0000;">0.519</span>     -<span style="color: #BB0000;">1.49</span>   0.153         19   -<span style="color: #BB0000;">1.25</span>     0.210  Paired … two.si…</span></span>
-<span><span class="co">## <span style="color: #949494;"># … with abbreviated variable name ¹​alternative</span></span></span></code></pre></div>
+<span><span class="co">##     rep estimate statistic p.value parameter conf.low conf.high method       </span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>     1  -<span style="color: #BB0000;">0.528</span>    -<span style="color: #BB0000;">1.96</span>    0.064<span style="text-decoration: underline;">7</span>        19   -<span style="color: #BB0000;">1.09</span>     0.035<span style="text-decoration: underline;">4</span> Paired t-test</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span>     2  -<span style="color: #BB0000;">0.532</span>    -<span style="color: #BB0000;">2.68</span>    0.014<span style="text-decoration: underline;">7</span>        19   -<span style="color: #BB0000;">0.947</span>   -<span style="color: #BB0000;">0.117</span>  Paired t-test</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>     3   0.019<span style="text-decoration: underline;">9</span>    0.070<span style="text-decoration: underline;">1</span>  0.945         19   -<span style="color: #BB0000;">0.576</span>    0.616  Paired t-test</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span>     4  -<span style="color: #BB0000;">0.111</span>    -<span style="color: #BB0000;">0.311</span>   0.759         19   -<span style="color: #BB0000;">0.856</span>    0.635  Paired t-test</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span>     5  -<span style="color: #BB0000;">0.856</span>    -<span style="color: #BB0000;">2.02</span>    0.057<span style="text-decoration: underline;">6</span>        19   -<span style="color: #BB0000;">1.74</span>     0.030<span style="text-decoration: underline;">5</span> Paired t-test</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 1 more variable: alternative &lt;chr&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="anova">ANOVA<a class="anchor" aria-label="anchor" href="#anova"></a>
@@ -512,8 +511,8 @@ data table.</p>
 small main effects of pet and time, but no interaction.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pettime100</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/sim_design.html" class="external-link">sim_design</a></span><span class="op">(</span></span>
-<span>  within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre"</span>, <span class="st">"post"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  between <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cat"</span>, <span class="st">"dog"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  within <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pre"</span>, <span class="st">"post"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>cat <span class="op">=</span> <span class="fl">50</span>, dog <span class="op">=</span> <span class="fl">40</span><span class="op">)</span>,</span>
 <span>  mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>    pre <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.2</span><span class="op">)</span>,</span>
@@ -530,14 +529,18 @@ small main effects of pet and time, but no interaction.</p>
 <p><img src="faux_files/figure-html/unnamed-chunk-28-1.png" width="100%"></p>
 <p>Then set up your analysis. We’ll use the <code><a href="https://rdrr.io/pkg/afex/man/aov_car.html" class="external-link">aov_ez()</a></code>
 function from the {afex} package because its arguments match those of
-<code><a href="https://rdrr.io/pkg/faux/man/sim_design.html" class="external-link">sim_design()</a></code>.</p>
+<code><a href="https://rdrr.io/pkg/faux/man/sim_design.html" class="external-link">sim_design()</a></code>. There’s a little setup to run first to get
+rid of annoying messages and make this run faster by omitting
+calculations we won’t need.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">afex</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/afex/man/set_sum_contrasts.html" class="external-link">set_sum_contrasts</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># avoids annoying afex message</span></span>
 <span><span class="co">## setting contr.sum globally: options(contrasts=c('contr.sum', 'contr.poly'))</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/afex/man/afex_options.html" class="external-link">afex_options</a></span><span class="op">(</span>include_aov <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># runs faster</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/afex/man/afex_options.html" class="external-link">afex_options</a></span><span class="op">(</span>es_aov <span class="op">=</span> <span class="st">"pes"</span><span class="op">)</span> <span class="co"># changes effect size measure to partial eta squared</span></span>
-<span></span>
-<span><span class="va">analyse</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/afex/man/afex_options.html" class="external-link">afex_options</a></span><span class="op">(</span>es_aov <span class="op">=</span> <span class="st">"pes"</span><span class="op">)</span> <span class="co"># changes effect size measure to partial eta squared</span></span></code></pre></div>
+<p>This custom function takes the data frame as input and runs our ANOVA
+on it. The code at the end just cleans up the resulting table a bit.</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">analyse</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">afex</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/afex/man/aov_car.html" class="external-link">aov_ez</a></span><span class="op">(</span></span>
 <span>    id <span class="op">=</span> <span class="st">"pet_id"</span>,</span>
 <span>    dv <span class="op">=</span> <span class="st">"score"</span>,</span>
@@ -550,19 +553,18 @@ function from the {afex} package because its arguments match those of
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>term <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">term</span>, levels <span class="op">=</span> <span class="va">term</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># keeps terms in order</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>p.value <span class="op">=</span> <span class="va">`Pr(&gt;F)`</span><span class="op">)</span> <span class="co"># fixes annoying p.value name</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>Test the analysis code.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">pettime100</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
-<span></span>
-<span><span class="fu">analyse</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<p>Test the analysis code on the first simulated data frame.</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">analyse</span><span class="op">(</span> <span class="va">pettime100</span><span class="op">$</span><span class="va">data</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">)</span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 3 × 7</span></span></span>
 <span><span class="co">##   term     `num Df` `den Df`   MSE     F     pes p.value</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> pet             1       88 1.87  0.859 0.009<span style="text-decoration: underline;">67</span>   0.357</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> time            1       88 0.507 1.66  0.018<span style="text-decoration: underline;">5</span>    0.201</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> pet:time        1       88 0.507 0.104 0.001<span style="text-decoration: underline;">19</span>   0.747</span></span></code></pre></div>
-<p>Make a table of the results of each analysis:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> pet             1       88 1.42  0.693 0.007<span style="text-decoration: underline;">81</span>  0.408 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> time            1       88 0.466 4.76  0.051<span style="text-decoration: underline;">3</span>   0.031<span style="text-decoration: underline;">8</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> pet:time        1       88 0.466 0.166 0.001<span style="text-decoration: underline;">89</span>  0.684</span></span></code></pre></div>
+<p>Use the same code we used in the first example to make a table of the
+results of each analysis:</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pettime_sim</span> <span class="op">&lt;-</span> <span class="va">pettime100</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>analysis <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">analyse</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">data</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -570,30 +572,80 @@ function from the {afex} package because its arguments match those of
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 8</span></span></span>
 <span><span class="co">##     rep term     `num Df` `den Df`   MSE     F   pes p.value</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>     1 pet             1       88 1.87  0.859 0.01    0.357</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span>     1 time            1       88 0.507 1.66  0.019   0.201</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>     1 pet:time        1       88 0.507 0.104 0.001   0.747</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span>     2 pet             1       88 1.53  0.895 0.01    0.347</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span>     2 time            1       88 0.455 0.567 0.006   0.453</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span>     2 pet:time        1       88 0.455 2.91  0.032   0.091</span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>     1 pet             1       88 1.42  0.693 0.008   0.408</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span>     1 time            1       88 0.466 4.76  0.051   0.032</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>     1 pet:time        1       88 0.466 0.166 0.002   0.684</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span>     2 pet             1       88 1.94  4.32  0.047   0.04 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span>     2 time            1       88 0.506 1.86  0.021   0.177</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span>     2 pet:time        1       88 0.506 1.49  0.017   0.225</span></span></code></pre>
 <p>Then you can summarise the data to calculate things like power for
 each effect or mean effect size.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pettime_sim</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">term</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">p.value</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span>,</span>
-<span>            mean_pes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">pes</span><span class="op">)</span>,</span>
+<span>            mean_pes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">pes</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>,</span>
 <span>            .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">##   term     power mean_pes</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> pet       0.21   0.023<span style="text-decoration: underline;">6</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> time      0.51   0.053<span style="text-decoration: underline;">0</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> pet:time  0.02   0.010<span style="text-decoration: underline;">5</span></span></span></code></pre></div>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> pet       0.2     0.024</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> time      0.45    0.05 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> pet:time  0.04    0.01</span></span></code></pre></div>
 <p>The power for the between-subjects effect of pet is smaller than for
 the within-subjects effect of time. What happens if you reduce the
 correlation between pre and post?</p>
 </div>
+</div>
+<div class="section level2">
+<h2 id="non-normal-distributions">Non-normal Distributions<a class="anchor" aria-label="anchor" href="#non-normal-distributions"></a>
+</h2>
+<p>The newest version of faux has a new function for simulating
+non-normal distributions using the NORTA method (NORmal To Anything).
+The <code>dist</code> argument lists the variables with their
+distribution names (e.g., “norm”, “pois”, unif”, “truncnorm”, or
+anything that has an “rdist” function). The <code>params</code> argument
+lists the distribution function argument values for each variable (e.g.,
+arguments to <code>rnorm</code>, <code>rpois</code>, <code>runif</code>,
+<code>rtruncnorm</code>).</p>
+<p>This function simulates multivariate non-normal distributions by
+using simulation to work out the correlations for a multivariate normal
+distribution that will produce the desired correlations after the normal
+distributions are converted to the desired distributions. This
+simulation can take a while if you have several variables and should
+warn you if you’re requesting an impossible combination (but is still an
+experimental function, so let Lisa know if you have any problems).</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dat_norta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/rmulti.html" class="external-link">rmulti</a></span><span class="op">(</span></span>
+<span>  n <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>U <span class="op">=</span> <span class="st">"unif"</span>,</span>
+<span>           T <span class="op">=</span> <span class="st">"truncnorm"</span>,</span>
+<span>           L <span class="op">=</span> <span class="st">"likert"</span><span class="op">)</span>,</span>
+<span>  params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    U <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
+<span>    T <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span>, b <span class="op">=</span> <span class="fl">7</span>, mean <span class="op">=</span> <span class="fl">3.5</span>, sd <span class="op">=</span> <span class="fl">2.1</span><span class="op">)</span>,</span>
+<span>    L <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`much less` <span class="op">=</span> <span class="fl">.10</span>, </span>
+<span>                      `less`      <span class="op">=</span> <span class="fl">.20</span>, </span>
+<span>                      `equal`     <span class="op">=</span> <span class="fl">.35</span>, </span>
+<span>                      `more`      <span class="op">=</span> <span class="fl">.25</span>, </span>
+<span>                      `much more` <span class="op">=</span> <span class="fl">.10</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The “likert” type is a set of distribution functions provided by faux
+to make creating Likert scale variables easier (see
+<code><a href="https://rdrr.io/pkg/faux/man/rlikert.html" class="external-link">?rlikert</a></code>). You may need to convert Likert-scale variables
+to numbers before analysis or calculating descriptives.</p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># convert likert-scale variable to integer</span></span>
+<span><span class="va">dat_norta</span><span class="op">$</span><span class="va">L</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">dat_norta</span><span class="op">$</span><span class="va">L</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/faux/man/get_params.html" class="external-link">get_params</a></span><span class="op">(</span><span class="va">dat_norta</span><span class="op">)</span></span>
+<span><span class="co">##      n var     U     T     L mean   sd</span></span>
+<span><span class="co">## 1 1000   U  1.00 -0.46 -0.01 4.98 2.88</span></span>
+<span><span class="co">## 2 1000   T -0.46  1.00  0.52 3.67 1.46</span></span>
+<span><span class="co">## 3 1000   L -0.01  0.52  1.00 3.02 1.11</span></span></code></pre></div>
+<p><img src="faux_files/figure-html/unnamed-chunk-37-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="exercises">Exercises<a class="anchor" aria-label="anchor" href="#exercises"></a>

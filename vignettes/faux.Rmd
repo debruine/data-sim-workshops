@@ -52,7 +52,7 @@ Let's start with a normal distribution using the base R function `rnorm()`, whic
 rnorm(n = 10)
 ```
 
-You can change the mean and SD. Simulate a lot of values (1e5 == 100,000) and visualise them with `hist()`.
+You can change the mean and SD. Simulate a lot of values (1e5 == 100,000), save them in a variable, and visualise them with `hist()`.
 
 ```{r}
 x <- rnorm(1e5, mean = 30, sd = 5)
@@ -113,39 +113,6 @@ dat3 <- rnorm_multi(
 get_params(dat3)
 ```
 
-### Shortcuts
-
-There are a few shortcuts you can use. Run the following and see if you can guess how they work.
-
-```{r}
-guess1 <- rnorm_multi(50, 
-                      mu = 1:3, 
-                      varnames = LETTERS[1:3], 
-                      empirical = TRUE)
-
-get_params(guess1)
-```
-
-```{r}
-guess2 <- rnorm_multi(50, vars = 4, r = 0.5, empirical = TRUE)
-
-get_params(guess2)
-```
-
-```{r}
-# get correlation matrix, means and SDs for 4 variables from iris
-iris_r <- cor(iris[1:4])
-iris_mu <- colMeans(iris[1:4])
-iris_sd <- var(iris[1:4]) |> diag() |> sqrt() # colSDs
-
-guess3 <- rnorm_multi(50, 
-                      mu = iris_mu, 
-                      sd = iris_sd, 
-                      r = iris_r)
-
-get_params(guess3)
-```
-
 
 ### Setting r
 
@@ -159,20 +126,21 @@ rho_same <- rnorm_multi(50, 4, r = .5, empirical = TRUE)
 get_params(rho_same)
 ```
 
-You can set rho to a vector or matrix of the full correlation matrix. This is convenient when you're getting the values from an existing dataset, where you can just use the output of the `cor()` function.
+You can set `r` to a vector or matrix of the full correlation matrix. This is convenient when you're getting the values from an existing dataset, where you can just use the output of the `cor()` function.
 
 ```{r}
-# full correlation matrix
-#         X1   X2   X3   X4
-rho <- c(1.0, 0.5, 0.4, 0.3, # X1
-         0.5, 1.0, 0.2, 0.1, # X2
-         0.4, 0.2, 1.0, 0.0, # X3
-         0.3, 0.1, 0.0, 1.0) # X4
+rho <- cor(iris[1:4])
+round(rho, 2)
+```
+
+Notice how, since we didn't specify the names of the 4 variables anywhere else, `rnorm_multi()` will take them from the named correlation matrix.
+
+```{r}
 rho_cormat <- rnorm_multi(50, 4, r = rho, empirical = TRUE)
 get_params(rho_cormat)
 ```
 
-Alternatively, you can just specify the values from the upper right triangle of a correlation matrix. This is easier if you're reading the values out of a paper.
+Alternatively, you can just specify the values from the upper right triangle of a correlation matrix. This might be easier if you're reading the values out of a paper.
 
 ```{r}
 # upper right triangle
@@ -199,12 +167,12 @@ simdat1 <- sim_design()
 
 ### Factors
 
-Use lists to set the names and levels of `within` and `between` subject factors.
+Use named lists to set the names and levels of `within` and `between` subject factors.
 
 ```{r}
 pettime <- sim_design(
-  within = list(time = c("pre", "post")),
-  between = list(pet = c("cat", "dog", "ferret"))
+  between = list(pet = c("cat", "dog", "ferret")),
+  within = list(time = c("pre", "post"))
 )
 ```
 
@@ -212,8 +180,8 @@ You can set `mu` and `sd` with unnamed vectors, but getting the order right can 
 
 ```{r}
 pettime <- sim_design(
-  within = list(time = c("pre", "post")),
   between = list(pet = c("cat", "dog", "ferret")),
+  within = list(time = c("pre", "post")),
   mu = 1:6
 )
 ```
@@ -222,8 +190,8 @@ You can set values with a named vector for a single type of factor. The values d
 
 ```{r}
 pettime <- sim_design(
-  within = list(time = c("pre", "post")),
   between = list(pet = c("cat", "dog", "ferret")),
+  within = list(time = c("pre", "post")),
   mu = c(cat = 1, ferret = 5, dog = 3),
   sd = c(pre = 1, post = 2)
 )
@@ -233,8 +201,8 @@ Or use a data frame for within- and between-subject factors.
 
 ```{r}
 pettime <- sim_design(
-  within = list(time = c("pre", "post")),
   between = list(pet = c("cat", "dog", "ferret")),
+  within = list(time = c("pre", "post")),
   mu = data.frame(
     pre = c(1, 3, 5),
     post = c(2, 4, 6),
@@ -247,8 +215,8 @@ If you have within-subject factors, set the correlations for each between-subjec
 
 ```{r}
 pettime <- sim_design(
-  within = list(time = c("pre", "post")),
   between = list(pet = c("cat", "dog", "ferret")),
+  within = list(time = c("pre", "post")),
   r = list(cat = 0.5,
            dog = 0.25,
            ferret = 0),
@@ -263,23 +231,62 @@ You can also change the name of the `dv` and `id` columns and output the data in
 
 ```{r}
 dat_long <- sim_design(
-  within = list(time = c("pre", "post")),
   between = list(pet = c("cat", "dog", "ferret")),
+  within = list(time = c("pre", "post")),
   id = "subj_id",
   dv = "score",
   long = TRUE,
   plot = FALSE
 )
 
-get_params(dat_long, 
-           between = "pet", 
-           within = "time",
-           id = "subj_id",
-           dv = "score",
-           digits = 3)
+get_params(dat_long, digits = 3)
 ```
 
-*The current version of faux doesn't actually need `between` or `dv` and later versions won't need `within` or `id` if a data frame was created with faux.*
+### Multiple Factors
+
+Set more than one within-or between-subject factor like this:
+
+```{r}
+dat_multi <- sim_design(
+  between = list(pet = c("cat", "dog", "ferret"),
+                 country = c("UK", "NL")),
+  within = list(time = c("pre", "post"),
+                condition = c("ctl", "exp")),
+  mu = data.frame(
+    cat_UK = 1:4,
+    cat_NL = 5:8,
+    dog_UK = 9:12,
+    dog_NL = 13:16,
+    ferret_UK = 17:20, 
+    ferret_NL = 21:24,
+    row.names = c("pre_ctl", "pre_exp", "post_ctl", "post_exp")
+  )
+)
+```
+
+
+Because faux uses an underscore for the separator, you have to set the `sep` argument to something different if you want to use underscores in your variable names (or set the separator globally with `faux_options`).
+
+```{r}
+# faux_options(sep = ".")
+
+dat_multi <- sim_design(
+  between = list(pet = c("cat", "dog", "ferret"),
+                 country = c("Glasgow_UK", "Rotterdam_NL")),
+  within = list(time = c("pre", "post"),
+                condition = c("ctl", "exp")),
+  mu = data.frame(
+    cat.Glasgow_UK = 1:4,
+    cat.Rotterdam_NL = 5:8,
+    dog.Glasgow_UK = 9:12,
+    dog.Rotterdam_NL = 13:16,
+    ferret.Glasgow_UK = 17:20, 
+    ferret.Rotterdam_NL = 21:24,
+    row.names = c("pre.ctl", "pre.exp", "post.ctl", "post.exp")
+  ),
+  sep = "."
+)
+```
 
 ### Anonymous Factors
 
@@ -305,6 +312,8 @@ You can change the order of plotting and the types of geoms plotted. This takes 
 ```{r}
 plot(dat_anon, "B1", "B2", "W1", geoms = c("violin", "pointrangeSD"))
 ```
+
+
 
 ## Replications
 
@@ -354,8 +363,8 @@ First, simulate 100 datasets in long format. These data will have small main eff
 
 ```{r}
 pettime100 <- sim_design(
-  within = list(time = c("pre", "post")),
   between = list(pet = c("cat", "dog")),
+  within = list(time = c("pre", "post")),
   n = c(cat = 50, dog = 40),
   mu = data.frame(
     pre = c(1, 1.2),
@@ -371,13 +380,17 @@ pettime100 <- sim_design(
 )
 ```
 
-Then set up your analysis. We'll use the `aov_ez()` function from the {afex} package because its arguments match those of `sim_design()`.
+Then set up your analysis. We'll use the `aov_ez()` function from the {afex} package because its arguments match those of `sim_design()`. There's a little setup to run first to get rid of annoying messages and make this run faster by omitting calculations we won't need.
 
 ```{r}
 afex::set_sum_contrasts() # avoids annoying afex message
 afex_options(include_aov = FALSE) # runs faster
 afex_options(es_aov = "pes") # changes effect size measure to partial eta squared
+```
 
+This custom function takes the data frame as input and runs our ANOVA on it. The code at the end just cleans up the resulting table a bit.
+
+```{r}
 analyse <- function(data) {
   a <- afex::aov_ez(
     id = "pet_id",
@@ -393,16 +406,14 @@ analyse <- function(data) {
 }
 ```
 
-Test the analysis code.
+Test the analysis code on the first simulated data frame.
 
 ```{r}
-data <- pettime100$data[[1]]
-
-analyse(data)
+analyse( pettime100$data[[1]] )
 ```
 
 
-Make a table of the results of each analysis:
+Use the same code we used in the first example to make a table of the results of each analysis:
 
 ```{r}
 pettime_sim <- pettime100 |>
@@ -414,7 +425,7 @@ pettime_sim <- pettime100 |>
 ```{r, echo = FALSE}
 # show the first 6 rows
 head(pettime_sim) |> 
-  mutate(across(5:8, round, 3))
+  mutate(across(5:8, \(x) round(x, 3)))
 ```
 
 Then you can summarise the data to calculate things like power for each effect or mean effect size.
@@ -423,11 +434,84 @@ Then you can summarise the data to calculate things like power for each effect o
 pettime_sim |>
   group_by(term) |>
   summarise(power = mean(p.value < 0.05),
-            mean_pes = mean(pes),
+            mean_pes = mean(pes) |> round(3),
             .groups = "drop")
 ```
 
 The power for the between-subjects effect of pet is smaller than for the within-subjects effect of time. What happens if you reduce the correlation between pre and post?
+
+## Non-normal Distributions
+
+The newest version of faux has a new function for simulating non-normal distributions using the NORTA method (NORmal To Anything). The `dist` argument lists the variables with their distribution names (e.g., "norm", "pois", unif", "truncnorm", or anything that has an "rdist" function). The `params` argument lists the distribution function argument values for each variable (e.g., arguments to `rnorm`, `rpois`, `runif`, `rtruncnorm`).
+
+This function simulates multivariate non-normal distributions by using simulation to work out the correlations for a multivariate normal distribution that will produce the desired correlations after the normal distributions are converted to the desired distributions. This simulation can take a while if you have several variables and should warn you if you're requesting an impossible combination (but is still an experimental function, so let Lisa know if you have any problems).
+
+```{r}
+dat_norta <- rmulti(
+  n = 1000,
+  dist = c(U = "unif",
+           T = "truncnorm",
+           L = "likert"),
+  params = list(
+    U = list(min = 0, max = 10),
+    T = list(a = 1, b = 7, mean = 3.5, sd = 2.1),
+    L = list(prob = c(`much less` = .10, 
+                      `less`      = .20, 
+                      `equal`     = .35, 
+                      `more`      = .25, 
+                      `much more` = .10))
+  ),
+  r = c(-0.5, 0, 0.5)
+)
+```
+
+The "likert" type is a set of distribution functions provided by faux to make creating Likert scale variables easier (see `?rlikert`). You may need to convert Likert-scale variables to numbers before analysis or calculating descriptives.
+
+```{r}
+# convert likert-scale variable to integer
+dat_norta$L <- as.integer(dat_norta$L)
+
+get_params(dat_norta)
+```
+
+
+```{r, echo = FALSE}
+library(patchwork)
+library(ggExtra)
+
+ut <- ggplot(dat_norta, aes(U, T)) +
+  geom_point(alpha = 0.2) +
+  geom_smooth(method = lm, formula = y ~ x) +
+  labs(x = "Uniform",
+       y = "Truncated Normal") +
+  scale_x_continuous(breaks = 0:10) +
+  scale_y_continuous(breaks = 1:7)
+utm <- ggMarginal(ut, type = "histogram")
+
+ul <- ggplot(dat_norta, aes(U, L)) +
+  geom_point(alpha = 0.1) +
+  geom_smooth(method = lm, formula = y ~ x) +
+  labs(x = "Uniform",
+       y = "Likert") +
+  scale_x_continuous(breaks = 0:10)
+ulm <- ggMarginal(ul, type = "histogram")
+
+tl <- ggplot(dat_norta, aes(T, L)) +
+  geom_point(alpha = 0.1) +
+  geom_smooth(method = lm, formula = y ~ x) +
+  labs(x = "Truncated Normal",
+       y = "Likert") +
+  scale_x_continuous(breaks = 1:7)
+tlm <- ggMarginal(tl, type = "histogram")
+
+wrap_elements(tlm) +
+  wrap_elements(ulm) +
+  plot_spacer() +
+  wrap_elements(utm)
+```
+
+
+
 
 ## Exercises
 

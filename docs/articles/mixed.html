@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">dsw</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9005</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9006</span>
       </span>
     </div>
 
@@ -145,10 +145,10 @@ to small numbers as a demo first.</p>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 2</span></span></span>
 <span><span class="co">##   sub   stim </span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> s1    s1   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> s1    s2   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> s2    s1   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> s2    s2</span></span></code></pre></div>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> sub1  stim1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> sub1  stim2</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> sub2  stim1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> sub2  stim2</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="fixed-factors">Fixed Factors<a class="anchor" aria-label="anchor" href="#fixed-factors"></a>
@@ -175,14 +175,14 @@ rows in our resulting data set.</p>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 8 × 4</span></span></span>
 <span><span class="co">##   sub   stim  condition version    </span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>      </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> s1    s1    easy      congruent  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> s1    s1    easy      incongruent</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> s1    s2    easy      congruent  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> s1    s2    easy      incongruent</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span> s2    s1    hard      congruent  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span> s2    s1    hard      incongruent</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">7</span> s2    s2    hard      congruent  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">8</span> s2    s2    hard      incongruent</span></span></code></pre></div>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> sub1  stim1 easy      congruent  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> sub1  stim1 easy      incongruent</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> sub1  stim2 easy      congruent  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> sub1  stim2 easy      incongruent</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> sub2  stim1 hard      congruent  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> sub2  stim1 hard      incongruent</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">7</span> sub2  stim2 hard      congruent  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">8</span> sub2  stim2 hard      incongruent</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="contrast-coding">Contrast Coding<a class="anchor" aria-label="anchor" href="#contrast-coding"></a>
@@ -212,15 +212,15 @@ vignette</a> for more details.</p>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 8 × 6</span></span></span>
 <span><span class="co">##   sub   stim  condition version     `condition.hard-easy` version.incongruent-…¹</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> s1    s1    easy      congruent                    -<span style="color: #BB0000;">0.5</span>                   -<span style="color: #BB0000;">0.5</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> s1    s1    easy      incongruent                  -<span style="color: #BB0000;">0.5</span>                    0.5</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> s1    s2    easy      congruent                    -<span style="color: #BB0000;">0.5</span>                   -<span style="color: #BB0000;">0.5</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> s1    s2    easy      incongruent                  -<span style="color: #BB0000;">0.5</span>                    0.5</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span> s2    s1    hard      congruent                     0.5                   -<span style="color: #BB0000;">0.5</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span> s2    s1    hard      incongruent                   0.5                    0.5</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">7</span> s2    s2    hard      congruent                     0.5                   -<span style="color: #BB0000;">0.5</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">8</span> s2    s2    hard      incongruent                   0.5                    0.5</span></span>
-<span><span class="co">## <span style="color: #949494;"># … with abbreviated variable name ¹​`version.incongruent-congruent`</span></span></span></code></pre></div>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> sub1  stim1 easy      congruent                    -<span style="color: #BB0000;">0.5</span>                   -<span style="color: #BB0000;">0.5</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> sub1  stim1 easy      incongruent                  -<span style="color: #BB0000;">0.5</span>                    0.5</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> sub1  stim2 easy      congruent                    -<span style="color: #BB0000;">0.5</span>                   -<span style="color: #BB0000;">0.5</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> sub1  stim2 easy      incongruent                  -<span style="color: #BB0000;">0.5</span>                    0.5</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> sub2  stim1 hard      congruent                     0.5                   -<span style="color: #BB0000;">0.5</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> sub2  stim1 hard      incongruent                   0.5                    0.5</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">7</span> sub2  stim2 hard      congruent                     0.5                   -<span style="color: #BB0000;">0.5</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">8</span> sub2  stim2 hard      incongruent                   0.5                    0.5</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ abbreviated name: ¹​`version.incongruent-congruent`</span></span></span></code></pre></div>
 <p>The function defaults to very descriptive names that help you
 interpret the fixed factors. Here, “condition.hard-easy” means the main
 effect of this factor is interpreted as the RT for hard trials minus the
@@ -265,14 +265,14 @@ populations.</p>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 8 × 8</span></span></span>
 <span><span class="co">##   sub   stim  condition version      cond  vers sub_i stim_i</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> s1    s1    easy      congruent    -<span style="color: #BB0000;">0.5</span>  -<span style="color: #BB0000;">0.5</span> -<span style="color: #BB0000;">99.7</span>  -<span style="color: #BB0000;">30.9</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> s1    s1    easy      incongruent  -<span style="color: #BB0000;">0.5</span>   0.5 -<span style="color: #BB0000;">99.7</span>  -<span style="color: #BB0000;">30.9</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> s1    s2    easy      congruent    -<span style="color: #BB0000;">0.5</span>  -<span style="color: #BB0000;">0.5</span> -<span style="color: #BB0000;">99.7</span>  101. </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> s1    s2    easy      incongruent  -<span style="color: #BB0000;">0.5</span>   0.5 -<span style="color: #BB0000;">99.7</span>  101. </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span> s2    s1    hard      congruent     0.5  -<span style="color: #BB0000;">0.5</span>  72.2  -<span style="color: #BB0000;">30.9</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span> s2    s1    hard      incongruent   0.5   0.5  72.2  -<span style="color: #BB0000;">30.9</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">7</span> s2    s2    hard      congruent     0.5  -<span style="color: #BB0000;">0.5</span>  72.2  101. </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">8</span> s2    s2    hard      incongruent   0.5   0.5  72.2  101.</span></span></code></pre></div>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> sub1  stim1 easy      congruent    -<span style="color: #BB0000;">0.5</span>  -<span style="color: #BB0000;">0.5</span> -<span style="color: #BB0000;">99.7</span>  -<span style="color: #BB0000;">30.9</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> sub1  stim1 easy      incongruent  -<span style="color: #BB0000;">0.5</span>   0.5 -<span style="color: #BB0000;">99.7</span>  -<span style="color: #BB0000;">30.9</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> sub1  stim2 easy      congruent    -<span style="color: #BB0000;">0.5</span>  -<span style="color: #BB0000;">0.5</span> -<span style="color: #BB0000;">99.7</span>  101. </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> sub1  stim2 easy      incongruent  -<span style="color: #BB0000;">0.5</span>   0.5 -<span style="color: #BB0000;">99.7</span>  101. </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> sub2  stim1 hard      congruent     0.5  -<span style="color: #BB0000;">0.5</span>  72.2  -<span style="color: #BB0000;">30.9</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> sub2  stim1 hard      incongruent   0.5   0.5  72.2  -<span style="color: #BB0000;">30.9</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">7</span> sub2  stim2 hard      congruent     0.5  -<span style="color: #BB0000;">0.5</span>  72.2  101. </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">8</span> sub2  stim2 hard      incongruent   0.5   0.5  72.2  101.</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="error-term">Error Term<a class="anchor" aria-label="anchor" href="#error-term"></a>

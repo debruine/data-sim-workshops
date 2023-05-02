@@ -31,32 +31,52 @@ dsw::exercise("mixed")
 ```
 
 Alternatively, download the stub files and install the specific packages
-for your workshop. They will be listed below under “Prep”.
+for your workshop.
 
 ## Upcoming Workshops
 
+### Fake It Until You Make It: How and why to simulate research data
+
+When: Thursday, June 1, 2023 Where: European Evolutionary Biology
+Conference, Millport, Scotland
+
+Being able to simulate data allows you to prep analysis scripts for
+pre-registration, calculate power and sensitivity for analyses that
+don’t have empirical methods, create reproducible examples when your
+data are too big or confidential to share, enhance your understanding of
+statistical concepts, and create demo data for teaching and tutorials.
+This workshop will cover the basics of simulation using the R package
+{faux}. We will simulate data with factorial designs by specifying the
+within and between-subjects factor structure, each cell mean and
+standard deviation, and correlations between cells where appropriate.
+This can be used to create simulated data sets to be used in preparing
+the analysis code for pre-registrations or registered reports. We will
+also create data sets for simulation-based power analyses.
+
+### Prerequisites
+
+- install R and RStudio on a laptop
+- have very basic knowledge of R
+- have very basic familiarity with R Markdown (just be able to knit the
+  demo file when creating a new Rmd in RStudio)
+- install the packages {faux}, {afex}, {broom} and {tidyverse} from CRAN
+- download the file
+  [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd)
+
+<!--
 ### Data Simulation with {faux}
 
 When: Wednesday, January 18 12:00 - 13:00 (GMT)  
 Where: Methods & MetaScience, University of Glasgow
 
-This session will cover the basics of simulation using {faux}. We will
-simulate data with factorial designs by specifying the within and
-between-subjects factor structure, each cell mean and standard
-deviation, and correlations between cells where appropriate. This can be
-used to create simulated data sets to be used in preparing the analysis
-code for pre-registrations or registered reports. We will also create
-data sets for simulation-based power analyses. Students will need to
-have very basic knowledge of R and R Markdown, and have installed
-{faux}, {afex}, {broom} and {tidyverse}.
+This session will cover the basics of simulation using {faux}. We will simulate data with factorial designs by specifying the within and between-subjects factor structure, each cell mean and standard deviation, and correlations between cells where appropriate. This can be used to create simulated data sets to be used in preparing the analysis code for pre-registrations or registered reports. We will also create data sets for simulation-based power analyses. Students will need to have very basic knowledge of R and R Markdown, and have installed {faux}, {afex}, {broom} and {tidyverse}.
 
 #### Prep
 
-- Install R packages from CRAN: `tidyverse`, `afex`, `faux`, and `broom`
-- Download files:
-  [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd)
+* Install R packages from CRAN: `tidyverse`, `afex`, `faux`, and `broom`
+* Download files:  [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd)
 
-<!--
+
 ### Data simulation for mixed designs
 
 This session will cover simulating data for a mixed design, where trials are crossed with subjects. We will learn how to analyse this using {lme4}, with a focus on understanding how the simulation parameters correspond to the output. Finally, we will learn how to use simulation to calculate power. Students will need to have basic knowledge of R and R Markdown, some familiarity with mixed designs (even if they don't currently analyse them with mixed models) and have installed {faux}, {afex}, {tidyverse}, and {lme4}.
@@ -79,6 +99,10 @@ This session will cover simulating data for a mixed design, where trials are cro
   Distributions](https://shiny.psy.gla.ac.uk/debruine/simulate/)
 
 ## Past Workshops
+
+- University of Glasgow Institute of Neuroscience & Psychology  
+  Data Simulation with {faux}  
+  2023 January 18 12:00 - 13:00 (GMT)
 
 - Netherlands Institute for the Study of Crime and Law Enforcement Data
   Simulation with {faux}  
