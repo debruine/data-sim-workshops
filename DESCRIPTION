@@ -33,6 +33,6 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/debruine/data-sim-workshops,
     https://debruine.github.io/data-sim-workshops/
-BugReports: https://github.com/debruine/data-sim-workshop/issues
+BugReports: https://github.com/debruine/data-sim-workshops/issues
 License: CC BY 4.0
 VignetteBuilder: knitr
