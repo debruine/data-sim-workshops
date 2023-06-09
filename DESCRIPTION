@@ -31,7 +31,8 @@ Suggests:
 RoxygenNote: 7.1.1
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/debruine/data-sim-workshops
+URL: https://github.com/debruine/data-sim-workshops,
+    https://debruine.github.io/data-sim-workshops/
 BugReports: https://github.com/debruine/data-sim-workshop/issues
 License: CC BY 4.0
 VignetteBuilder: knitr

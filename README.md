@@ -33,12 +33,18 @@ dsw::exercise("mixed")
 Alternatively, download the stub files and install the specific packages
 for your workshop.
 
+- [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd)
+- [calories-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/calories-stub.Rmd)
+- [fixed-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/fixed-stub.Rmd)
+- [mixed-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/mixed-stub.Rmd)
+
 ## Upcoming Workshops
 
-### Fake It Until You Make It: How and why to simulate research data
+### Simulating data with faux
 
-When: Thursday, June 1, 2023 Where: European Evolutionary Biology
-Conference, Millport, Scotland
+When: 9:00 - 12:00, Thursday, July 27, 2023  
+Where: Max Planck Institute for Evolutionary Anthropology, Leipzig,
+Germany
 
 Being able to simulate data allows you to prep analysis scripts for
 pre-registration, calculate power and sensitivity for analyses that
@@ -46,24 +52,52 @@ don’t have empirical methods, create reproducible examples when your
 data are too big or confidential to share, enhance your understanding of
 statistical concepts, and create demo data for teaching and tutorials.
 This workshop will cover the basics of simulation using the R package
-{faux}. We will simulate data with factorial designs by specifying the
-within and between-subjects factor structure, each cell mean and
-standard deviation, and correlations between cells where appropriate.
-This can be used to create simulated data sets to be used in preparing
-the analysis code for pre-registrations or registered reports. We will
-also create data sets for simulation-based power analyses.
+{faux}. In the first half of the workshop, we will simulate data with
+factorial designs by specifying the within and between-subjects factor
+structure, each cell mean and standard deviation, and correlations
+between cells where appropriate. We will use these to set up
+simulation-based power analyses. In the second half of the workshop, we
+will cover simulating data for a mixed design, where trials are crossed
+with subjects. We will learn how to analyse this using {lme4}, with a
+focus on understanding how the simulation parameters correspond to the
+output.
+
+Prep: Install R and RStudio, and run the following code to produce two
+HTML files. If you have trouble with this, please contact
+[Lisa](mailto:lisa.debruine@glasgow.ac.uk), who will help you
+troubleshoot.
+
+``` r
+# install workshop package that includes all packages used
+devtools::install_github("debruine/data-sim-workshops")
+
+# create stub files for the workshop
+dsw::exercise("faux")
+dsw::exercise("mixed")
+
+# render files (may require some rmarkdown setup)
+rmarkdown::render("faux-stub.Rmd")
+rmarkdown::render("mixed-stub.Rmd")
+```
+
+<!--
+
+### Fake It Until You Make It: How and why to simulate research data
+
+When: Thursday, June 1, 2023 
+Where: European Evolutionary Biology Conference, Millport, Scotland
+
+Being able to simulate data allows you to prep analysis scripts for pre-registration, calculate power and sensitivity for analyses that don’t have empirical methods, create reproducible examples when your data are too big or confidential to share, enhance your understanding of statistical concepts, and create demo data for teaching and tutorials. This workshop will cover the basics of simulation using the R package {faux}. We will simulate data with factorial designs by specifying the within and between-subjects factor structure, each cell mean and standard deviation, and correlations between cells where appropriate. This can be used to create simulated data sets to be used in preparing the analysis code for pre-registrations or registered reports. We will also create data sets for simulation-based power analyses. 
 
 ### Prerequisites
 
-- install R and RStudio on a laptop
-- have very basic knowledge of R
-- have very basic familiarity with R Markdown (just be able to knit the
-  demo file when creating a new Rmd in RStudio)
-- install the packages {faux}, {afex}, {broom} and {tidyverse} from CRAN
-- download the file
-  [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd)
+* install R and RStudio on a laptop 
+* have very basic knowledge of R 
+* have very basic familiarity with R Markdown (just be able to knit the demo file when creating a new Rmd in RStudio)
+* install the packages {faux}, {afex}, {broom} and {tidyverse} from CRAN
+* download the file [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd)
 
-<!--
+
 ### Data Simulation with {faux}
 
 When: Wednesday, January 18 12:00 - 13:00 (GMT)  
@@ -100,12 +134,17 @@ This session will cover simulating data for a mixed design, where trials are cro
 
 ## Past Workshops
 
+- [European Evolutionary Biology
+  Conference](https://www.empseb28.com/workshops), Millport, Scotland  
+  Fake It Until You Make It: How and why to simulate research data  
+  2023 June 1, 2023 14:30 - 16:30 (GMT)
+
 - University of Glasgow Institute of Neuroscience & Psychology  
   Data Simulation with {faux}  
   2023 January 18 12:00 - 13:00 (GMT)
 
-- Netherlands Institute for the Study of Crime and Law Enforcement Data
-  Simulation with {faux}  
+- Netherlands Institute for the Study of Crime and Law Enforcement  
+  Data Simulation with {faux}  
   2022 December 6 13:00 - 14:00 (CET)
 
 - Polish Association of Social Psychology Conference, Gdánsk  

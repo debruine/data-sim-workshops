@@ -6,3 +6,4 @@
 ^pkgdown$
 ^classes$
 ^README.Rmd$
+^\.github$
