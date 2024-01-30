@@ -56,64 +56,74 @@ dsw::exercise("mixed")
 rmarkdown::render("faux-stub.Rmd")
 rmarkdown::render("mixed-stub.Rmd")
 ```
+&#10;
+### Fake It Until You Make It: How and why to simulate research data
+&#10;When: Wednesday, September 20, 2023  
+Where: Vrije Universiteit Amsterdam, NL
+&#10;Being able to simulate data allows you to prep analysis scripts for pre-registration, calculate power and sensitivity for analyses that don’t have empirical methods, create reproducible examples when your data are too big or confidential to share, enhance your understanding of statistical concepts, and create demo data for teaching and tutorials. This workshop will cover the basics of simulation using the R package {faux}. We will simulate data with factorial designs by specifying the within and between-subjects factor structure, each cell mean and standard deviation, and correlations between cells where appropriate. This can be used to create simulated data sets to be used in preparing the analysis code for pre-registrations or registered reports. We will also create data sets for simulation-based power analyses. 
+&#10;### Prerequisites
+&#10;* install R and RStudio on a laptop 
+* have very basic knowledge of R 
+* have very basic familiarity with R Markdown (just be able to knit the demo file when creating a new Rmd in RStudio)
+* install the packages {faux}, {afex}, {broom} and {tidyverse} from CRAN
+* download the file [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd)
 &#10;-->
 
-### Fake It Until You Make It: How and why to simulate research data
+When: 2024 February 1-2 Where: [Data Simulation Workshop
+2024](https://kogpsy.github.io/datasimulationcourse_24/), Institute of
+Psychology, Bern , Switzerland
 
-When: Wednesday, September 20, 2023  
-Where: Vrije Universiteit Amsterdam, NL
+### Data Simulation with {faux}
 
-Being able to simulate data allows you to prep analysis scripts for
-pre-registration, calculate power and sensitivity for analyses that
-don’t have empirical methods, create reproducible examples when your
-data are too big or confidential to share, enhance your understanding of
-statistical concepts, and create demo data for teaching and tutorials.
-This workshop will cover the basics of simulation using the R package
-{faux}. We will simulate data with factorial designs by specifying the
-within and between-subjects factor structure, each cell mean and
-standard deviation, and correlations between cells where appropriate.
-This can be used to create simulated data sets to be used in preparing
-the analysis code for pre-registrations or registered reports. We will
-also create data sets for simulation-based power analyses.
+This session will cover the basics of simulation using {faux}. We will
+simulate data with factorial designs by specifying the within and
+between-subjects factor structure, each cell mean and standard
+deviation, and correlations between cells where appropriate. This can be
+used to create simulated data sets to be used in preparing the analysis
+code for pre-registrations or registered reports. We will also create
+data sets for simulation-based power analyses. Students will need to
+have very basic knowledge of R and R Markdown, and have installed
+{faux}, {afex}, {broom} and {tidyverse}.
 
-### Prerequisites
+#### Prep
 
-- install R and RStudio on a laptop
-- have very basic knowledge of R
-- have very basic familiarity with R Markdown (just be able to knit the
-  demo file when creating a new Rmd in RStudio)
-- install the packages {faux}, {afex}, {broom} and {tidyverse} from CRAN
-- download the file
+- Install R packages from CRAN: `tidyverse`, `afex`, `faux`, and `broom`
+- Download files:
   [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd)
 
-<!--
-&#10;### Data Simulation with {faux}
-&#10;When: Wednesday, January 18 12:00 - 13:00 (GMT)  
-Where: Methods & MetaScience, University of Glasgow
-&#10;This session will cover the basics of simulation using {faux}. We will simulate data with factorial designs by specifying the within and between-subjects factor structure, each cell mean and standard deviation, and correlations between cells where appropriate. This can be used to create simulated data sets to be used in preparing the analysis code for pre-registrations or registered reports. We will also create data sets for simulation-based power analyses. Students will need to have very basic knowledge of R and R Markdown, and have installed {faux}, {afex}, {broom} and {tidyverse}.
-&#10;#### Prep
-&#10;* Install R packages from CRAN: `tidyverse`, `afex`, `faux`, and `broom`
-* Download files:  [faux-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd)
-&#10;
 ### Data simulation for mixed designs
-&#10;This session will cover simulating data for a mixed design, where trials are crossed with subjects. We will learn how to analyse this using {lme4}, with a focus on understanding how the simulation parameters correspond to the output. Finally, we will learn how to use simulation to calculate power. Students will need to have basic knowledge of R and R Markdown, some familiarity with mixed designs (even if they don't currently analyse them with mixed models) and have installed {faux}, {afex}, {tidyverse}, and {lme4}.
-&#10;#### Prep
-&#10;* Install R packages from CRAN: `tidyverse`, `afex`, `lme4`, `broom`, `broom.mixed`, `faux`
-* Download files: [mixed-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/mixed-stub.Rmd)
--->
+
+This session will cover simulating data for a mixed design, where trials
+are crossed with subjects. We will learn how to analyse this using
+{lme4}, with a focus on understanding how the simulation parameters
+correspond to the output. Finally, we will learn how to use simulation
+to calculate power. Students will need to have basic knowledge of R and
+R Markdown, some familiarity with mixed designs (even if they don’t
+currently analyse them with mixed models) and have installed {faux},
+{afex}, {tidyverse}, and {lme4}.
+
+#### Prep
+
+- Install R packages from CRAN: `tidyverse`, `afex`, `lme4`, `broom`,
+  `broom.mixed`, `faux`
+- Download files:
+  [mixed-stub.Rmd](https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/mixed-stub.Rmd)
 
 ## Resources
 
-- [Faux Shiny App](https://shiny.psy.gla.ac.uk/debruine/fauxapp/)
+- [Faux Shiny App](https://rstudio-connect.psy.gla.ac.uk/faux/)
 - [Data Skills for Reproducible
   Research](https://psyteachr.github.io/reprores/) open source textbook
   introducing tidyverse for psychologists
 - [Understanding mixed effects models through data
   simulation](https://osf.io/3cz2e/) (preprint, code, and shiny apps)
 - [Simulate Basic
-  Distributions](https://shiny.psy.gla.ac.uk/debruine/simulate/)
+  Distributions](https://rstudio-connect.psy.gla.ac.uk/simulate/)
 
 ## Past Workshops
+
+- Vrije Universiteit Amsterdam, NL Fake It Until You Make It: How and
+  why to simulate research data 2023 September 20
 
 - Max Planck Institute for Evolutionary Anthropology, Leipzig, Germany  
   Simulating data with {faux}  
