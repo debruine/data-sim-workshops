@@ -23,7 +23,8 @@ Imports:
     afex,
     broom,
     broom.mixed,
-    MASS
+    MASS,
+    emmeans
 Suggests:
     testthat (>= 2.1.0),
     knitr,
