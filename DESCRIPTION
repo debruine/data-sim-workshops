@@ -24,7 +24,8 @@ Imports:
     broom,
     broom.mixed,
     MASS,
-    emmeans
+    emmeans,
+    patchwork
 Suggests:
     testthat (>= 2.1.0),
     knitr,
