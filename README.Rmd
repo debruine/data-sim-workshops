@@ -92,7 +92,7 @@ Being able to simulate data allows you to prep analysis scripts for pre-registra
 -->
 
 When: 2024 February 1-2 
-Where: [Data Simulation Workshop 2024](https://kogpsy.github.io/datasimulationcourse_24/), Institute of Psychology, Bern , Switzerland
+Where: [Data Simulation Workshop 2024](https://kogpsy.github.io/datasimulationcourse_24/), Institute of Psychology, Bern, Switzerland
 
 ### Data Simulation with {faux}
 
