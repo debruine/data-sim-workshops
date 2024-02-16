@@ -523,7 +523,7 @@ Create a dataset of 20 observations with 1 within-subject variable ("condition")
 
 ### 2w*2w
 
-Create a dataset with 50 observations of 2 within-subject variables ("W1" and "W2") each having 2 levels. The mean for all cells is 10 and the SD is 2. The dataset should have 20 subjects. The correlations look like this:
+Create a dataset with 50 subjects and 2 within-subject variables ("W1" and "W2") each having 2 levels. The mean for all cells is 10 and the SD is 2. The correlations look like this:
 
 |         | W1a_W2a | W1a_W2b | W1b_W2a | W1b_W2b |
 |:--------|------:|------:|------:|------:|
